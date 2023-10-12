@@ -2,14 +2,17 @@ import pygame
 
 movementWidth = 20
 
+windowWidth = 640
+windowHeight = 480
+
 pygame.init()
 #sets Window Size and Caption
-window = pygame.display.set_mode((640,480))
+window = pygame.display.set_mode((windowWidth,windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
 
-x = 120
-y = 120
+x = windowWidth / 2
+y = windowHeight / 2
 running = True
 
 #movement on button contol
@@ -21,13 +24,17 @@ while running:
         elif event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_RIGHT:
-                    x += movementWidth
+                    if x + movementWidth * 2 < windowWidth:
+                        x += movementWidth
                 case pygame.K_LEFT:
-                    x -= movementWidth
+                    if x - movementWidth / 2 > 0:
+                        x -= movementWidth
                 case pygame.K_DOWN:
-                    y += movementWidth
+                    if y + movementWidth * 2 < windowHeight:
+                        y += movementWidth
                 case pygame.K_UP:
-                    y -= movementWidth
+                    if y - movementWidth / 2 > 0:
+                        y -= movementWidth
 
     #change background color and draw player
     window.fill((0,0,0))
