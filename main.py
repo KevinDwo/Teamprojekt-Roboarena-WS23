@@ -13,9 +13,17 @@ clock = pygame.time.Clock()
 
 x = windowWidth / 2
 y = windowHeight / 2
+
+# initialize player
+player = pygame.Rect(x, y, 40, 40)
+
+# intitialize coin
+coin = pygame.Rect(100, 100, 16, 16)
+coinCollected = True
+
 running = True
 
-# movement on button contol
+# movement on button control
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -35,10 +43,20 @@ while running:
                 case pygame.K_UP:
                     if y - movementWidth / 2 > 0:
                         y -= movementWidth
+        # collect coin
+        elif player.colliderect(coin):
+            coinCollected = False
 
-    # change background color and draw player
+    # change background color
     window.fill((0, 0, 0))
-    pygame.draw.rect(window, (0, 0, 255), (x, y, 40, 40))
+
+    # draw coin
+    if coinCollected:
+        pygame.draw.circle(window, (212, 175, 55), (100, 100), 16)
+
+    # draw player
+    player = pygame.Rect(x, y, 40, 40)
+    pygame.draw.rect(window, (0, 0, 255), player)
 
     # update with 60fps
     pygame.display.update()
