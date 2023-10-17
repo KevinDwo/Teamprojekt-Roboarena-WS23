@@ -1,9 +1,18 @@
 import pygame
+from pygame import Vector2
 
-movementWidth = 20
+
+def clamp(x: int, minimum: int, maximum: int) -> int:
+    """Returns x if x ∊ [minimum, maximum], otherwise minimum if x is smaller and maximum if x is larger than that."""
+    return min(max(x, minimum), maximum)
+
+
+movementWidth = 5
 
 windowWidth = 640
 windowHeight = 480
+
+playerSize = 40
 
 pygame.init()
 # sets Window Size and Caption
@@ -11,8 +20,7 @@ window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
 
-x = windowWidth / 2
-y = windowHeight / 2
+position = Vector2(windowWidth / 2, windowHeight / 2)
 running = True
 
 # movement on button contol
@@ -21,24 +29,26 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             break
-        elif event.type == pygame.KEYDOWN:
-            match event.key:
-                case pygame.K_RIGHT:
-                    if x + movementWidth * 2 < windowWidth:
-                        x += movementWidth
-                case pygame.K_LEFT:
-                    if x - movementWidth / 2 > 0:
-                        x -= movementWidth
-                case pygame.K_DOWN:
-                    if y + movementWidth * 2 < windowHeight:
-                        y += movementWidth
-                case pygame.K_UP:
-                    if y - movementWidth / 2 > 0:
-                        y -= movementWidth
+
+    pressed = pygame.key.get_pressed()
+
+    movement = Vector2(0, 0)
+    if pressed[pygame.K_RIGHT]:
+        movement.x += movementWidth
+    if pressed[pygame.K_LEFT]:
+        movement.x += -movementWidth
+    if pressed[pygame.K_DOWN]:
+        movement.y += movementWidth
+    if pressed[pygame.K_UP]:
+        movement.y += -movementWidth
+
+    position += movement
+    position.x = clamp(position.x, 0, windowWidth - playerSize)
+    position.y = clamp(position.y, 0, windowHeight - playerSize)
 
     # change background color and draw player
     window.fill((0, 0, 0))
-    pygame.draw.rect(window, (0, 0, 255), (x, y, 40, 40))
+    pygame.draw.rect(window, (0, 0, 255), (position.x, position.y, playerSize, playerSize))
 
     # update with 60fps
     pygame.display.update()
