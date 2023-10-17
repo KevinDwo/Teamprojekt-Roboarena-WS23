@@ -1,11 +1,18 @@
 from pygame import Vector2
 import pygame
 
+<<<<<<< HEAD
+=======
+#definition of windowsize aufgrund fehlendes game state
+windowWidth = 1000
+windowHeight = 1000
+>>>>>>> c01c7c3 (added an arena class to store the field)
 
 # The BasicRobot class represents a playable basic robot
 # with a position, radius and direction.
 class BasicRobot():
     def __init__(self) -> None:
+<<<<<<< HEAD
         self.position = Vector2(500, 500)  # Position in coordinates
         self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation in degrees, direction ∊ (-180, 180]
@@ -13,6 +20,16 @@ class BasicRobot():
 
     def move(self, movementVector: Vector2, windowWidth: int, windowHeight: int):
         """Moves the robot by `movementVector` in the given window boundaries"""
+=======
+        self.position = Vector2(500,500)
+        self.radius = 25
+        self.direction = Vector2(self.position.x,self.position.y + self.radius)
+        self.color = (0,0,255)
+        self.line = (self.position, Vector2(self.position,self.position.y + self.radius / 2))
+    
+    # defines movement of robot
+    def move(self, movementVector: Vector2):
+>>>>>>> c01c7c3 (added an arena class to store the field)
         self.position += movementVector
         self.position.x = clamp(self.position.x, 0, windowWidth - self.radius)
         self.position.y = clamp(self.position.y, 0, windowHeight - self.radius)
