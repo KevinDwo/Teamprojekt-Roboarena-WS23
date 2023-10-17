@@ -22,8 +22,10 @@ class Robot():
         self.position.y = clamp(self.position.y, 0, windowHeight - self.radius)
     
     #defines rotation 
-    def rotate(self, rotation: Vector2):
-        self.direction = rotation
+    def rotate(self, mousePosition: Vector2):
+        differenceVector =  mousePosition - self.position
+        norm = differenceVector.normalize()
+        self.direction = self.position + norm * self.radius
     
     #draws robot    
     def draw(self, surface):
