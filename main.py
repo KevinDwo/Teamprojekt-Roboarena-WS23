@@ -1,18 +1,15 @@
 import pygame
 from pygame import Vector2
 
-
-def clamp(x: int, minimum: int, maximum: int) -> int:
-    """Returns x if x ∊ [minimum, maximum], otherwise minimum if x is smaller and maximum if x is larger than that."""
-    return min(max(x, minimum), maximum)
-
+from Robot.robot import Robot
 
 movementWidth = 5
 
 windowWidth = 640
 windowHeight = 480
 
-playerSize = 40
+#initiate Robot
+robot = Robot()
 
 pygame.init()
 # sets Window Size and Caption
@@ -41,14 +38,20 @@ while running:
         movement.y += movementWidth
     if pressed[pygame.K_UP]:
         movement.y += -movementWidth
+    # gets mause position
+    mousePosition = pygame.mouse.get_pos()
+    mousePosition = Vector2(mousePosition[0],mousePosition[1])
+    
+    #moves and rotates the robot
+    robot.move(movement)
+    robot.rotate(mousePosition)
+    
 
-    position += movement
-    position.x = clamp(position.x, 0, windowWidth - playerSize)
-    position.y = clamp(position.y, 0, windowHeight - playerSize)
-
-    # change background color and draw player
+    # change background color
     window.fill((0, 0, 0))
-    pygame.draw.rect(window, (0, 0, 255), (position.x, position.y, playerSize, playerSize))
+    
+    #draws the robot as defined in robot
+    robot.draw(window)
 
     # update with 60fps
     pygame.display.update()
