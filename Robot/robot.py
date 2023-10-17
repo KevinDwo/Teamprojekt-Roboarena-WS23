@@ -2,14 +2,14 @@ from pygame import Vector2
 import pygame
 
 #definition of windowsize aufgrund fehlendes game state
-windowWidth = 640
-windowHeight = 480
+windowWidth = 1000
+windowHeight = 1000
 
 #robot class that defines a new player
 class Robot():
     def __init__(self) -> None:
-        self.position = Vector2(320,240)
-        self.radius = 40
+        self.position = Vector2(500,500)
+        self.radius = 25
         self.direction = Vector2(self.position.x,self.position.y + self.radius)
         self.color = (0,0,255)
         self.line = (self.position, Vector2(self.position,self.position.y + self.radius / 2))
