@@ -2,13 +2,13 @@ from pygame import Vector2
 import pygame
 
 #definition of windowsize aufgrund fehlendes game state
-windowWidth = 1000
-windowHeight = 1000
+
 
 #robot class that defines a new player
 class Robot():
-    def __init__(self) -> None:
-        self.position = Vector2(500,500)
+    def __init__(self, state) -> None:
+        self.state = state
+        self.position = Vector2(state.worldWidth() / 2, state.worldWidth() / 2)
         self.radius = 25
         self.direction = Vector2(self.position.x,self.position.y + self.radius)
         self.color = (0,0,255)
@@ -18,8 +18,8 @@ class Robot():
     def move(self, movementVector: Vector2):
         self.position += movementVector
         self.direction += movementVector
-        self.position.x = clamp(self.position.x, 0, windowWidth - self.radius)
-        self.position.y = clamp(self.position.y, 0, windowHeight - self.radius)
+        self.position.x = clamp(self.position.x, 0, self.state.worldWidth() - self.radius)
+        self.position.y = clamp(self.position.y, 0, self.state.worldHeight() - self.radius)
     
     #defines rotation 
     def rotate(self, mousePosition: Vector2):

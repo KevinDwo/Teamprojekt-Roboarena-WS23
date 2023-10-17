@@ -3,63 +3,61 @@ from pygame import Vector2
 from Arena.arena import Arena
 
 from Robot.robot import Robot
+from State.gameState import GameState
 
-movementWidth = 5
+class UserInterface():
+    def __init__(self) -> None:
+        self.gameState = GameState()
+        self.movementCommand = Vector2(0,0)
+        self.mousePosition = Vector2(0,0)
 
-windowWidth = 1000
-windowHeight = 1000
+        pygame.init()
+        # sets Window Size and Caption
+        self.window = pygame.display.set_mode((self.gameState.worldWidth(), self.gameState.worldHeight()))
+        pygame.display.set_caption('Roboarena')
+        self.clock = pygame.time.Clock()
+        self.running = True
 
-#initiate Robot
-robot = Robot()
-
-arena = Arena()
-
-pygame.init()
-# sets Window Size and Caption
-window = pygame.display.set_mode((windowWidth, windowHeight))
-pygame.display.set_caption('Roboarena')
-clock = pygame.time.Clock()
-
-position = Vector2(windowWidth / 2, windowHeight / 2)
-running = True
-
-# movement on button contol
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            break
-
-    pressed = pygame.key.get_pressed()
-
-    movement = Vector2(0, 0)
-    if pressed[pygame.K_RIGHT]:
-        movement.x += movementWidth
-    if pressed[pygame.K_LEFT]:
-        movement.x += -movementWidth
-    if pressed[pygame.K_DOWN]:
-        movement.y += movementWidth
-    if pressed[pygame.K_UP]:
-        movement.y += -movementWidth
-    # gets mause position
-    mousePosition = pygame.mouse.get_pos()
-    mousePosition = Vector2(mousePosition[0],mousePosition[1])
+    def processInput(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                break
+        pressed = pygame.key.get_pressed()
+        self.movementCommand = Vector2(0, 0)
+        if pressed[pygame.K_RIGHT]:
+            self.movementCommand.x += self.gameState.movementWidth
+        if pressed[pygame.K_LEFT]:
+            self.movementCommand.x += -self.gameState.movementWidth
+        if pressed[pygame.K_DOWN]:
+            self.movementCommand.y += self.gameState.movementWidth
+        if pressed[pygame.K_UP]:
+            self.movementCommand.y += -self.gameState.movementWidth
+            
+        # gets mause position
+        self.mousePosition = pygame.mouse.get_pos()
+        self.mousePosition = Vector2(self.mousePosition[0],self.mousePosition[1])
+        
     
-    #moves and rotates the robot
-    robot.move(movement)
-    robot.rotate(mousePosition)
-    
+    def render(self):
+        # change background color
+        self.window.fill((0, 0, 0))
+        self.gameState.arena.draw(self.window)
+        self.gameState.robot.draw(self.window)
+        
+        pygame.display.update()
+        
+    def update(self):
+        self.gameState.update(self.movementCommand,self.mousePosition)
+        
+    def run(self):
+        while self.running:
+            self.processInput()
+            self.update()
+            self.render()
+            # update with 60fps
+            self.clock.tick(60)
 
-    # change background color
-    window.fill((0, 0, 0))
-    
-    #draw field
-    arena.draw(window)
-    #draws the robot as defined in robot
-    robot.draw(window)
-
-    # update with 60fps
-    pygame.display.update()
-    clock.tick(60)
-
+userInterface = UserInterface()
+userInterface.run()
 pygame.quit()
