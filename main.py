@@ -1,14 +1,17 @@
 import pygame
 from pygame import Vector2
+from Arena.arena import Arena
 from Robot.robot import BasicRobot
 
 movementWidth = 5
 
-windowWidth = 640
-windowHeight = 480
+windowWidth = 1000
+windowHeight = 1000
 
 # Initiate robot
 robot = BasicRobot()
+
+arena = Arena()
 
 pygame.init()
 
@@ -50,6 +53,8 @@ while running:
     # Set the background color
     window.fill((0, 0, 0))
 
+    #draw field
+    arena.draw(window)
     # Draw the robot on the window
     robot.draw(window)
 

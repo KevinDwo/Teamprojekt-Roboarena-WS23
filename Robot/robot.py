@@ -2,11 +2,12 @@ from pygame import Vector2
 import pygame
 
 
-# The BasicRobot class represents a playable basic robot with a position, radius and direction.
+# The BasicRobot class represents a playable basic robot
+# with a position, radius and direction.
 class BasicRobot():
     def __init__(self) -> None:
-        self.position = Vector2(320, 240)  # Position in coordinates
-        self.radius = 40  # Radius in pixels
+        self.position = Vector2(500, 500)  # Position in coordinates
+        self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation in degrees, direction ∊ (-180, 180]
         self.color = (0, 0, 255)  # RGB color of the robot
 
@@ -25,9 +26,14 @@ class BasicRobot():
         pygame.draw.circle(surface, self.color, self.position, self.radius)
 
         lineVector = Vector2.from_polar((self.radius, self.direction))
-        pygame.draw.line(surface, (0, 0, 0), self.position, self.position + lineVector)
+        pygame.draw.line(surface,
+                         (0, 0, 0),
+                         self.position,
+                         self.position + lineVector)
 
 
 def clamp(x: int, minimum: int, maximum: int) -> int:
-    """Returns x if x ∊ [minimum, maximum], otherwise minimum if x is smaller and maximum if x is larger than that."""
+    """Returns x if x ∊ [minimum, maximum],
+    otherwise minimum if x is smaller and maximum
+    if x is larger than that."""
     return min(max(x, minimum), maximum)
