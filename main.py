@@ -45,7 +45,7 @@ while running:
     mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
     # moves and rotates the robot
-    robot.move(movement)
+    robot.move(movement, windowWidth, windowHeight)
     robot.rotate(mousePosition)
 
     # change background color

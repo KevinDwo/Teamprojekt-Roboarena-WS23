@@ -1,9 +1,6 @@
 from pygame import Vector2
 import pygame
 
-# definition of windowsize aufgrund fehlendes game state
-windowWidth = 640
-windowHeight = 480
 
 
 # robot class that defines a new player
@@ -16,7 +13,7 @@ class BasicRobot():
         self.line = (self.position, Vector2(self.position, self.position.y + self.radius / 2))
 
     # defines movement of robot
-    def move(self, movementVector: Vector2):
+    def move(self, movementVector: Vector2, windowWidth: int, windowHeight: int):
         self.position += movementVector
         self.direction += movementVector
         self.position.x = clamp(self.position.x, 0, windowWidth - self.radius)
