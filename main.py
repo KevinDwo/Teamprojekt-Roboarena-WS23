@@ -8,10 +8,11 @@ movementWidth = 5
 windowWidth = 640
 windowHeight = 480
 
-#initiate Robot
+# initiate Robot
 robot = BasicRobot()
 
 pygame.init()
+
 # sets Window Size and Caption
 window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
@@ -38,19 +39,19 @@ while running:
         movement.y += movementWidth
     if pressed[pygame.K_UP]:
         movement.y += -movementWidth
+
     # gets mause position
     mousePosition = pygame.mouse.get_pos()
-    mousePosition = Vector2(mousePosition[0],mousePosition[1])
-    
-    #moves and rotates the robot
+    mousePosition = Vector2(mousePosition[0], mousePosition[1])
+
+    # moves and rotates the robot
     robot.move(movement)
     robot.rotate(mousePosition)
-    
 
     # change background color
     window.fill((0, 0, 0))
-    
-    #draws the robot as defined in robot
+
+    # draws the robot as defined in robot
     robot.draw(window)
 
     # update with 60fps
