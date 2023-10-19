@@ -1,6 +1,5 @@
 import pygame
 from pygame import Vector2
-
 from Robot.robot import BasicRobot
 
 movementWidth = 5
@@ -8,12 +7,12 @@ movementWidth = 5
 windowWidth = 640
 windowHeight = 480
 
-# initiate Robot
+# Initiate robot
 robot = BasicRobot()
 
 pygame.init()
 
-# sets Window Size and Caption
+# Set window size and caption
 window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
@@ -21,7 +20,7 @@ clock = pygame.time.Clock()
 position = Vector2(windowWidth / 2, windowHeight / 2)
 running = True
 
-# movement on button contol
+# Movement on button contol
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -40,21 +39,21 @@ while running:
     if pressed[pygame.K_UP]:
         movement.y += -movementWidth
 
-    # gets mause position
+    # Get the mouse position
     mousePosition = pygame.mouse.get_pos()
     mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
-    # moves and rotates the robot
+    # Move and rotate the robot
     robot.move(movement, windowWidth, windowHeight)
     robot.rotate(mousePosition)
 
-    # change background color
+    # Set the background color
     window.fill((0, 0, 0))
 
-    # draws the robot as defined in robot
+    # Draw the robot on the window
     robot.draw(window)
 
-    # update with 60fps
+    # Update with 60fps
     pygame.display.update()
     clock.tick(60)
 
