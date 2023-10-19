@@ -6,7 +6,7 @@ windowWidth = 640
 windowHeight = 480
 
 #robot class that defines a new player
-class Robot():
+class BasicRobot():
     def __init__(self) -> None:
         self.position = Vector2(320,240)
         self.radius = 40

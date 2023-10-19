@@ -1,7 +1,7 @@
 import pygame
 from pygame import Vector2
 
-from Robot.robot import Robot
+from Robot.robot import BasicRobot
 
 movementWidth = 5
 
@@ -9,7 +9,7 @@ windowWidth = 640
 windowHeight = 480
 
 #initiate Robot
-robot = Robot()
+robot = BasicRobot()
 
 pygame.init()
 # sets Window Size and Caption
