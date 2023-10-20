@@ -1,23 +1,15 @@
 import pygame
 from pygame import Vector2
 from Arena.arena import Arena
-<<<<<<< HEAD
 from Robot.robot import BasicRobot
-=======
-
-from Robot.robot import Robot
->>>>>>> c01c7c3 (added an arena class to store the field)
 
 movementWidth = 5
 
 windowWidth = 1000
 windowHeight = 1000
 
-# Initiate robot
+# Initiate robot and Arena
 robot = BasicRobot()
-
-arena = Arena()
-
 arena = Arena()
 
 pygame.init()
@@ -59,17 +51,9 @@ while running:
 
     # Set the background color
     window.fill((0, 0, 0))
-<<<<<<< HEAD
-
-    #draw field
+    # Draw field
     arena.draw(window)
-    # Draw the robot on the window
-=======
-    
-    #draw field
-    arena.draw(window)
-    #draws the robot as defined in robot
->>>>>>> c01c7c3 (added an arena class to store the field)
+    # Draws the robot as defined in robot
     robot.draw(window)
 
     # Update with 60fps
