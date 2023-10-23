@@ -7,8 +7,6 @@ movementWidth = 5
 
 windowWidth = 1000
 windowHeight = 1000
-windowWidth = 1000
-windowHeight = 1000
 
 # Initiate robot and Arena
 robot = BasicRobot()
