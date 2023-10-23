@@ -1,21 +1,18 @@
 import pygame
 from pygame import Vector2
-
-
-def clamp(x: int, minimum: int, maximum: int) -> int:
-    """Returns x if x ∊ [minimum, maximum], otherwise minimum if x is smaller and maximum if x is larger than that."""
-    return min(max(x, minimum), maximum)
-
+from Robot.robot import BasicRobot
 
 movementWidth = 5
 
 windowWidth = 640
 windowHeight = 480
 
-playerSize = 40
+# Initiate robot
+robot = BasicRobot()
 
 pygame.init()
-# sets Window Size and Caption
+
+# Set window size and caption
 window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
@@ -23,7 +20,7 @@ clock = pygame.time.Clock()
 position = Vector2(windowWidth / 2, windowHeight / 2)
 running = True
 
-# movement on button contol
+# Movement on button contol
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,15 +39,21 @@ while running:
     if pressed[pygame.K_UP]:
         movement.y += -movementWidth
 
-    position += movement
-    position.x = clamp(position.x, 0, windowWidth - playerSize)
-    position.y = clamp(position.y, 0, windowHeight - playerSize)
+    # Get the mouse position
+    mousePosition = pygame.mouse.get_pos()
+    mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
-    # change background color and draw player
+    # Move and rotate the robot
+    robot.move(movement, windowWidth, windowHeight)
+    robot.rotate(mousePosition)
+
+    # Set the background color
     window.fill((0, 0, 0))
-    pygame.draw.rect(window, (0, 0, 255), (position.x, position.y, playerSize, playerSize))
 
-    # update with 60fps
+    # Draw the robot on the window
+    robot.draw(window)
+
+    # Update with 60fps
     pygame.display.update()
     clock.tick(60)
 
