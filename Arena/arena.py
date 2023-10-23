@@ -4,11 +4,10 @@ from Arena.terrain import Grass, Mud, Stone, Water
 
 
 class Arena():
-    def __init__(self) -> None:
-        self.arenaSize = pygame.Vector2(1000, 1000)
-        self.tileSize = pygame.Vector2(50, 50)
-        self.horizontalTiles = int(self.arenaSize.x / self.tileSize.x)
-        self.verticalTiles = int(self.arenaSize.y / self.tileSize.y)
+    def __init__(self, gameState) -> None:
+        self.gameState = gameState
+        self.horizontalTiles = int(self.gameState.worldSize.x / self.gameState.tileSize.x)
+        self.verticalTiles = int(self.gameState.worldSize.y / self.gameState.tileSize.y)
         gr, wa, st, md = Grass(), Water(), Stone(), Mud()
         self.field = [[gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
                       [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
@@ -37,5 +36,5 @@ class Arena():
             for j in range(self.verticalTiles):
                 tile = self.field[j][i]
                 position = pygame.Vector2(i, j)
-                position = position.elementwise() * self.tileSize
-                pygame.draw.rect(surface, tile.color, (position, tile.size))
+                position = position.elementwise() * self.gameState.tileSize
+                pygame.draw.rect(surface, tile.color, (position, self.gameState.tileSize))

@@ -9,8 +9,8 @@ class GameState():
         self.worldSize = Vector2(1000, 1000)
         self.tileSize = Vector2(50, 50)
         self.movementWidth = 5
-        self.arena = Arena()
-        self.robot = BasicRobot()
+        self.arena = Arena(self)
+        self.robot = BasicRobot(self)
 
     def worldWidth(self):
         return self.worldSize.x

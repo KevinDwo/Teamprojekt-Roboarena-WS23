@@ -1,10 +1,8 @@
-from pygame import Vector2
 import pygame
 
 
 class Terrain():
-    def __init__(self) -> None:
-        self.size = Vector2(50, 50)
+    pass
 
 
 class Grass(Terrain):
