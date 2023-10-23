@@ -18,8 +18,8 @@ with a position, radius and direction.'''
         """Moves the robot by `movementVector`
         in the given window boundaries"""
         self.position += movementVector
-        self.position.x = clamp(self.position.x, 0, windowWidth - self.radius)
-        self.position.y = clamp(self.position.y, 0, windowHeight - self.radius)
+        self.position.x = clamp(self.position.x, self.radius, windowWidth - self.radius)
+        self.position.y = clamp(self.position.y, self.radius, windowHeight - self.radius)
 
     def rotate(self, mousePosition: Vector2):
         """Rotates the robot towards `mousePosition`"""
