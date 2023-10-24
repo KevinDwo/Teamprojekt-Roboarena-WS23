@@ -1,12 +1,13 @@
 from pygame import Vector2
 
-from Arena.arena import Arena
-from Robot.robot import BasicRobot
+from constants import windowWidth, windowHeight
+from Game.arena import Arena
+from Game.robot import BasicRobot
 
 
 class GameState():
     def __init__(self) -> None:
-        self.worldSize = Vector2(1000, 1000)
+        self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(50, 50)
         self.movementWidth = 5
         self.arena = Arena(self)
