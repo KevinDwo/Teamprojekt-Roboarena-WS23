@@ -1,23 +1,19 @@
 import pygame
 from pygame import Vector2
-from Robot.robot import BasicRobot
+from State.gameState import GameState
 
-movementWidth = 5
-
-windowWidth = 640
-windowHeight = 480
-
-# Initiate robot
-robot = BasicRobot()
+# Initiate gamestate enclosing robot and area
+gameState = GameState()
 
 pygame.init()
 
 # Set window size and caption
-window = pygame.display.set_mode((windowWidth, windowHeight))
+window = pygame.display.set_mode((gameState.worldWidth(),
+                                  gameState.worldHeight()))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
 
-position = Vector2(windowWidth / 2, windowHeight / 2)
+position = Vector2(gameState.worldWidth() / 2, gameState.worldHeight() / 2)
 running = True
 
 # Movement on button contol
@@ -31,27 +27,29 @@ while running:
 
     movement = Vector2(0, 0)
     if pressed[pygame.K_RIGHT]:
-        movement.x += movementWidth
+        movement.x += gameState.movementWidth
     if pressed[pygame.K_LEFT]:
-        movement.x += -movementWidth
+        movement.x += -gameState.movementWidth
     if pressed[pygame.K_DOWN]:
-        movement.y += movementWidth
+        movement.y += gameState.movementWidth
     if pressed[pygame.K_UP]:
-        movement.y += -movementWidth
+        movement.y += -gameState.movementWidth
 
     # Get the mouse position
     mousePosition = pygame.mouse.get_pos()
     mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
     # Move and rotate the robot
-    robot.move(movement, windowWidth, windowHeight)
-    robot.rotate(mousePosition)
+    gameState.robot.move(movement, gameState.worldWidth(),
+                         gameState.worldHeight())
+    gameState.robot.rotate(mousePosition)
 
     # Set the background color
     window.fill((0, 0, 0))
-
-    # Draw the robot on the window
-    robot.draw(window)
+    # Draw field
+    gameState.arena.draw(window)
+    # Draws the robot as defined in robot
+    gameState.robot.draw(window)
 
     # Update with 60fps
     pygame.display.update()
