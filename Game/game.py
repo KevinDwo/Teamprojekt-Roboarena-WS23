@@ -2,6 +2,7 @@ import pygame
 from pygame import Surface, Vector2
 from pygame.time import Clock
 from Game.gameState import GameState
+from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionQuit
 
 
 class Game():
@@ -12,18 +13,18 @@ class Game():
         # Initiate gamestate enclosing robot and area
         self.gameState = GameState()
 
-    def run(self):
-        running = True
-
-        # Movement on button contol
-        while running:
+    def run(self) -> MenuAction:
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
-                    break
+                    return MenuActionQuit()
 
             pressed = pygame.key.get_pressed()
 
+            if pressed[pygame.K_ESCAPE]:
+                return MenuActionMenu()
+
+            # Movement on button contol
             movement = Vector2(0, 0)
             if pressed[pygame.K_RIGHT]:
                 movement.x += self.gameState.movementWidth
