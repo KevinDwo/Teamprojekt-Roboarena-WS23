@@ -1,6 +1,6 @@
 import pygame
 
-from Arena.terrain import Grass, Mud, Stone, Water
+from Game.terrain import Grass, Mud, Stone, Water
 
 
 class Arena():
