@@ -5,12 +5,12 @@ import pygame
 class BasicRobot():
     '''The BasicRobot class represents a playable basic robot
 with a position, radius and direction.'''
-    def __init__(self, gameState) -> None:
+    def __init__(self, gameState, x, y, color) -> None:
         self.gameState = gameState
-        self.position = Vector2(self.gameState.worldWidth() / 2, self.gameState.worldHeight() / 2)  # Position in coordinates
+        self.position = Vector2(x, y)  # Position in coordinates
         self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation, direction ∊ (-180, 180]
-        self.color = (0, 0, 255)  # RGB color of the robot
+        self.color = color  # RGB color of the robot
 
     def move(self,
              movementVector: Vector2,

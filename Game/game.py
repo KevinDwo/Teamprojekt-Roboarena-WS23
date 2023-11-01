@@ -24,6 +24,15 @@ class Game():
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
 
+            if pressed[pygame.K_1]:
+                self.gameState.selectRobot(0)
+            elif pressed[pygame.K_2]:
+                self.gameState.selectRobot(1)
+            elif pressed[pygame.K_3]:
+                self.gameState.selectRobot(2)
+            elif pressed[pygame.K_4]:
+                self.gameState.selectRobot(3)
+
             # Movement on button contol
             movement = Vector2(0, 0)
             if pressed[pygame.K_RIGHT]:
