@@ -40,16 +40,10 @@ class Game():
             mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
             # Move and rotate the robot
-            self.gameState.robot.move(movement, self.gameState.worldWidth(),
-                                      self.gameState.worldHeight())
-            self.gameState.robot.rotate(mousePosition)
+            self.gameState.update(movement, mousePosition)
 
-            # Set the background color
-            self.window.fill((0, 0, 0))
-            # Draw field
-            self.gameState.arena.draw(self.window)
-            # Draws the robot as defined in robot
-            self.gameState.robot.draw(self.window)
+            # Draw everything to the screen
+            self.gameState.draw(self.window)
 
             # Update with 60fps
             pygame.display.update()

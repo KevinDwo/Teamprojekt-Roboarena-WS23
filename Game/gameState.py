@@ -22,6 +22,11 @@ class GameState():
     def getMovementWidth(self):
         return self.movementWidth
 
-    def update(self, movementVector, mousePosition):
-        self.robot.move(movementVector)
+    def update(self, movementVector: Vector2, mousePosition: Vector2):
+        self.robot.move(movementVector, self.worldWidth(), self.worldHeight())
         self.robot.rotate(mousePosition)
+
+    def draw(self, window):
+        window.fill((0, 0, 0))
+        self.arena.draw(window)
+        self.robot.draw(window)
