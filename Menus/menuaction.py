@@ -6,12 +6,12 @@ class MenuActionMenu:
         pass
 
 
-class MenuActionPlay():
+class MenuActionPlay:
     def __init__(self):
         pass
 
 
-class MenuActionQuit():
+class MenuActionQuit:
     def __init__(self):
         pass
 

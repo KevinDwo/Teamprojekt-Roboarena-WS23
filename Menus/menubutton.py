@@ -19,5 +19,5 @@ class MenuButton:
         window.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
 
     def isOver(self, pos: Tuple[int, int]) -> bool:
-        return self.x <= pos[0] and self.x + self.width >= pos[0] and \
-               self.y <= pos[1] and self.y + self.height >= pos[1]
+        return self.x <= pos[0] <= self.x + self.width and \
+               self.y <= pos[1] <= self.y + self.height
