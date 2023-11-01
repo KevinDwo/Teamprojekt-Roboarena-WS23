@@ -20,9 +20,9 @@ class Arena():
                       [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
                       [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
                       [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, st, st, st],
                       ]
 
     def draw(self, surface):
