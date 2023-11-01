@@ -9,26 +9,20 @@ class Arena():
         self.horizontalTiles = int(self.gameState.worldSize.x / self.gameState.tileSize.x)
         self.verticalTiles = int(self.gameState.worldSize.y / self.gameState.tileSize.y)
         gr, wa, st, md = Grass(), Water(), Stone(), Mud()
-        self.field = [[gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, md, md, md, md, md, md, md, md, md, md, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, wa, wa, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, gr, gr, wa, wa, wa, wa, wa, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, gr, gr, wa, wa, wa, wa, wa, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, gr, gr, wa, wa, wa, wa, wa, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, gr, gr, wa, wa, wa, wa, wa, gr, gr],
-                      [gr, gr, gr, gr, gr, st, st, st, st, st, st, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+        # 15 x 13 tiles
+        self.field = [[gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, md, md, md, md, md, md, md, md, md, md, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
+                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, st, st, st],
                       ]
 
     def draw(self, surface):

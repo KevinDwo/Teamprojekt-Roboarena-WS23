@@ -1,2 +1,2 @@
-windowWidth = 1000
-windowHeight = 1000
+windowWidth = 750
+windowHeight = 650
