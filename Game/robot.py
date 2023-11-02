@@ -1,4 +1,4 @@
-from pygame import Vector2
+from pygame import Vector2, Surface
 import pygame
 
 
@@ -30,9 +30,11 @@ with a position, radius and direction.'''
         """Rotates the robot towards `mousePosition`"""
         self.direction = (mousePosition - self.position).as_polar()[1]
 
-    def draw(self, surface):
+    def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""
         pygame.draw.circle(surface, self.color, self.position, self.radius)
+        if selected:
+            pygame.draw.circle(surface, 'blue', self.position, self.radius, 5)
 
         lineVector = Vector2.from_polar((self.radius, self.direction))
         pygame.draw.line(surface,

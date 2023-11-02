@@ -34,8 +34,10 @@ class GameState():
     def draw(self, window):
         window.fill((0, 0, 0))
         self.arena.draw(window)
-        for robot in self.robots:
-            robot.draw(window)
+        for i in range(len(self.robots)):
+            robot = self.robots[i]
+            selected = i == self.activeRobot
+            robot.draw(window, selected)
 
     def selectRobot(self, robotNo: int):
         self.activeRobot = robotNo
