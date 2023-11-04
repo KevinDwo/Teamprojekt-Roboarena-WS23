@@ -27,3 +27,9 @@ class Mud(Terrain):
     def __init__(self) -> None:
         super().__init__()
         self.color = pygame.Color('#795548')
+
+
+class Default(Terrain):
+    def __init__(self) -> None:
+        super().__init__()
+        self.color = pygame.Color('#FFFFFF')
