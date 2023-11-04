@@ -18,13 +18,14 @@ class Arena():
                 position = pygame.Vector2(i, j)
                 position = position.elementwise() * self.gameState.tileSize
                 pygame.draw.rect(surface, tile.color, (position, self.gameState.tileSize))
-    
+
     def loadArena(self):
-        
+
         # Choose Arena File
-        path = 'Arena/Layouts/arena1.txt'
+        path = 'Arena/Layouts/arena2.txt'
 
         self.field = [[Default()] * self.horizontalTiles for i in range(self.verticalTiles)]
+
         with open(path, 'r') as file:
             for i, line in enumerate(file):
                 if i >= self.verticalTiles:
