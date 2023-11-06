@@ -8,7 +8,7 @@ from Game.robot import BasicRobot
 class GameState():
     def __init__(self) -> None:
         self.worldSize = Vector2(windowWidth, windowHeight)
-        self.tileSize = Vector2(50, 50)
+        self.tileSize = Vector2(32, 32)
         self.movementWidth = 5
         self.arena = Arena(self)
         self.robot = BasicRobot(self)

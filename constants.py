@@ -1,2 +1,2 @@
-windowWidth = 750
-windowHeight = 650
+windowWidth = 32 * 20
+windowHeight = 32 * 15

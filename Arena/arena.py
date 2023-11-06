@@ -1,6 +1,6 @@
 import pygame
 
-from Arena.terrain import Grass, Mud, Stone, Water, Default
+from Arena.terrain import Acid, EastWall, Ground, Default, NorthWall, SouthWall, WestWall
 
 
 class Arena():
@@ -17,7 +17,9 @@ class Arena():
                 tile = self.field[j][i]
                 position = pygame.Vector2(i, j)
                 position = position.elementwise() * self.gameState.tileSize
-                pygame.draw.rect(surface, tile.color, (position, self.gameState.tileSize))
+                tilePosition = tile.tilePosition.elementwise() * self.gameState.tileSize
+                rect = pygame.Rect(tilePosition,self.gameState.tileSize)
+                surface.blit(tile.texture,position,rect)
 
     def loadArena(self):
 
@@ -35,7 +37,9 @@ class Arena():
                     if j >= self.horizontalTiles:
                         continue
                     match symbol:
-                        case 'w': self.field[i][j] = Water()
-                        case 'g': self.field[i][j] = Grass()
-                        case 's': self.field[i][j] = Stone()
-                        case 'm': self.field[i][j] = Mud()
+                        case 'n': self.field[i][j] = NorthWall()
+                        case 's': self.field[i][j] = SouthWall()
+                        case 'e': self.field[i][j] = EastWall()
+                        case 'w': self.field[i][j] = WestWall()
+                        case 'g': self.field[i][j] = Ground()
+                        case 'a': self.field[i][j] = Acid()
