@@ -1,6 +1,6 @@
 import pygame
 
-from Arena.terrain import Acid, EastWall, Ground, Default, NorthWall, SouthWall, WestWall
+from Game.Arena.terrain import Acid, EastWall, Ground, Default, NorthWall, SouthWall, WestWall
 
 
 class Arena():
@@ -24,7 +24,7 @@ class Arena():
     def loadArena(self):
 
         # Choose Arena File
-        path = 'Arena/Layouts/arena2.txt'
+        path = 'Game/Arena/Layouts/arena2.txt'
 
         self.field = [[Default()] * self.horizontalTiles for i in range(self.verticalTiles)]
 

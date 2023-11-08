@@ -1,7 +1,7 @@
 from pygame import Vector2
 
 from constants import windowWidth, windowHeight
-from Arena.arena import Arena
+from Game.Arena.arena import Arena
 from Game.robot import BasicRobot
 
 
