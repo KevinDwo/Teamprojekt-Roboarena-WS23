@@ -1,2 +1,2 @@
-windowWidth = 32*32 
+windowWidth = 32*32
 windowHeight = 32*24
