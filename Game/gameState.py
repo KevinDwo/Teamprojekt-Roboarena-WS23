@@ -6,11 +6,12 @@ from Game.robot import BasicRobot
 
 
 class GameState():
-    def __init__(self) -> None:
+    def __init__(self, level: str) -> None:
+        self.level = level
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
         self.movementWidth = 3
-        self.arena = Arena(self)
+        self.arena = Arena(self, level)
 
         self.robots = [BasicRobot(self,
                                   windowWidth / 4, windowHeight / 4,

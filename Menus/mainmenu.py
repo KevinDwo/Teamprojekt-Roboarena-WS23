@@ -1,8 +1,9 @@
 import pygame
 from pygame import Surface
 from pygame.time import Clock
+
 from constants import windowWidth
-from Menus.menuaction import MenuAction, MenuActionPlay, MenuActionQuit
+from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel
 from Menus.menubutton import MenuButton
 
 
@@ -27,7 +28,7 @@ class MainMenu:
                 if event.type == pygame.MOUSEBUTTONUP:
                     mousePosition = pygame.mouse.get_pos()
                     if playBtn.isOver(mousePosition):
-                        return MenuActionPlay()
+                        return MenuActionSelectLevel()
 
                     if exitBtn.isOver(mousePosition):
                         return MenuActionQuit()
