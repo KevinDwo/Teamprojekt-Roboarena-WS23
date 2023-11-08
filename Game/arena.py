@@ -1,6 +1,4 @@
-import pygame
-
-from Game.terrain import Grass, Mud, Stone, Water
+from pytmx import load_pygame
 
 
 class Arena():
@@ -8,27 +6,11 @@ class Arena():
         self.gameState = gameState
         self.horizontalTiles = int(self.gameState.worldSize.x / self.gameState.tileSize.x)
         self.verticalTiles = int(self.gameState.worldSize.y / self.gameState.tileSize.y)
-        gr, wa, st, md = Grass(), Water(), Stone(), Mud()
-        # 15 x 13 tiles
-        self.field = [[gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, md, md, md, md, md, md, md, md, md, md, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, wa, wa, wa, st],
-                      [gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, st, st, st, st],
-                      ]
+        self.tmxdata = load_pygame("Assets\Maps\level1.tmx")
 
     def draw(self, surface):
-        for i in range(self.horizontalTiles):
-            for j in range(self.verticalTiles):
-                tile = self.field[j][i]
-                position = pygame.Vector2(i, j)
-                position = position.elementwise() * self.gameState.tileSize
-                pygame.draw.rect(surface, tile.color, (position, self.gameState.tileSize))
+        for layer in self.tmxdata.visible_layers:
+            for x, y, gid, in layer:
+                tile = self.tmxdata.get_tile_image_by_gid(gid)
+                if(tile != None):
+                    surface.blit(tile, (x * self.tmxdata.tilewidth, y * self.tmxdata.tileheight))
