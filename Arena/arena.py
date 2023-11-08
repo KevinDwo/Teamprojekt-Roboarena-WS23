@@ -18,8 +18,8 @@ class Arena():
                 position = pygame.Vector2(i, j)
                 position = position.elementwise() * self.gameState.tileSize
                 tilePosition = tile.tilePosition.elementwise() * self.gameState.tileSize
-                rect = pygame.Rect(tilePosition,self.gameState.tileSize)
-                surface.blit(tile.texture,position,rect)
+                rect = pygame.Rect(tilePosition, self.gameState.tileSize)
+                surface.blit(tile.texture, position, rect)
 
     def loadArena(self):
 
