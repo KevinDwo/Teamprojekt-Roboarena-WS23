@@ -13,6 +13,31 @@ class Game():
         # Initiate gamestate enclosing robot and area
         self.gameState = GameState()
 
+    def checkKeyPresses(self, pressed) -> Vector2:
+        """Handle game relevant key presses, returns the movement vector for the
+           current game loop iteration."""
+        if pressed[pygame.K_1]:
+            self.gameState.selectRobot(0)
+        elif pressed[pygame.K_2]:
+            self.gameState.selectRobot(1)
+        elif pressed[pygame.K_3]:
+            self.gameState.selectRobot(2)
+        elif pressed[pygame.K_4]:
+            self.gameState.selectRobot(3)
+
+        # Movement on button contol
+        movement = Vector2(0, 0)
+        if pressed[pygame.K_RIGHT]:
+            movement.x += self.gameState.movementWidth
+        if pressed[pygame.K_LEFT]:
+            movement.x += -self.gameState.movementWidth
+        if pressed[pygame.K_DOWN]:
+            movement.y += self.gameState.movementWidth
+        if pressed[pygame.K_UP]:
+            movement.y += -self.gameState.movementWidth
+
+        return movement
+
     def run(self) -> MenuAction:
         while True:
             for event in pygame.event.get():
@@ -24,32 +49,17 @@ class Game():
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
 
-            # Movement on button contol
-            movement = Vector2(0, 0)
-            if pressed[pygame.K_RIGHT]:
-                movement.x += self.gameState.movementWidth
-            if pressed[pygame.K_LEFT]:
-                movement.x += -self.gameState.movementWidth
-            if pressed[pygame.K_DOWN]:
-                movement.y += self.gameState.movementWidth
-            if pressed[pygame.K_UP]:
-                movement.y += -self.gameState.movementWidth
+            movement = self.checkKeyPresses(pressed)
 
             # Get the mouse position
             mousePosition = pygame.mouse.get_pos()
             mousePosition = Vector2(mousePosition[0], mousePosition[1])
 
             # Move and rotate the robot
-            self.gameState.robot.move(movement, self.gameState.worldWidth(),
-                                      self.gameState.worldHeight())
-            self.gameState.robot.rotate(mousePosition)
+            self.gameState.update(movement, mousePosition)
 
-            # Set the background color
-            self.window.fill((0, 0, 0))
-            # Draw field
-            self.gameState.arena.draw(self.window)
-            # Draws the robot as defined in robot
-            self.gameState.robot.draw(self.window)
+            # Draw everything to the screen
+            self.gameState.draw(self.window)
 
             # Update with 60fps
             pygame.display.update()

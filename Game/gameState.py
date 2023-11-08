@@ -11,7 +11,12 @@ class GameState():
         self.tileSize = Vector2(50, 50)
         self.movementWidth = 5
         self.arena = Arena(self)
-        self.robot = BasicRobot(self)
+
+        self.robots = [BasicRobot(self, windowWidth / 4, windowHeight / 4, 'cyan'),
+                       BasicRobot(self, 3 * windowWidth / 4, windowHeight / 4, 'yellow'),
+                       BasicRobot(self, windowWidth / 4, 3 * windowHeight / 4, 'gray50'),
+                       BasicRobot(self, 3 * windowWidth / 4, 3 * windowHeight / 4, 'indianred')]
+        self.activeRobot = 0
 
     def worldWidth(self):
         return self.worldSize.x
@@ -22,6 +27,17 @@ class GameState():
     def getMovementWidth(self):
         return self.movementWidth
 
-    def update(self, movementVector, mousePosition):
-        self.robot.move(movementVector)
-        self.robot.rotate(mousePosition)
+    def update(self, movementVector: Vector2, mousePosition: Vector2):
+        self.robots[self.activeRobot].move(movementVector, self.worldWidth(), self.worldHeight())
+        self.robots[self.activeRobot].rotate(mousePosition)
+
+    def draw(self, window):
+        window.fill((0, 0, 0))
+        self.arena.draw(window)
+        for i in range(len(self.robots)):
+            robot = self.robots[i]
+            selected = i == self.activeRobot
+            robot.draw(window, selected)
+
+    def selectRobot(self, robotNo: int):
+        self.activeRobot = robotNo
