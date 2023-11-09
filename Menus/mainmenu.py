@@ -13,12 +13,18 @@ class MainMenu:
         self.clock = clock
 
     def show(self) -> MenuAction:
-        buttonWidth = 500
-        buttonHeight = 70
+        titleHeight = 100
+        btnWidth = 500
+        btnHeight = 70
+        btnSpace = 20
 
-        title = MenuButton(20, 20, windowWidth - 40, 100, 'white', 'ROBOARENA')
-        playBtn = MenuButton((windowWidth - buttonWidth) / 2, 150, buttonWidth, buttonHeight, 'green', 'Play')
-        exitBtn = MenuButton((windowWidth - buttonWidth) / 2, 240, buttonWidth, buttonHeight, 'yellow', 'Exit')
+        title = MenuButton(btnSpace, btnSpace, windowWidth - 2 * btnSpace, titleHeight, 'white', 'ROBOARENA')
+
+        playBtn = MenuButton((windowWidth - btnWidth) / 2, titleHeight + 2 * btnSpace,
+                             btnWidth, btnHeight, 'green', 'Play')
+
+        exitBtn = MenuButton((windowWidth - btnWidth) / 2, titleHeight + btnHeight + 3 * btnSpace,
+                             btnWidth, btnHeight, 'yellow', 'Exit')
 
         while True:
             for event in pygame.event.get():
