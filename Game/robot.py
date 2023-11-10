@@ -29,11 +29,11 @@ with a position, radius and direction.'''
 
     def rotate(self, mousePosition: Vector2):
         """Rotates the robot towards `mousePosition`"""
-        self.direction = (mousePosition - self.position).as_polar()[1]
+        self.direction = (mousePosition - self.position).as_polar()[1] + 90
 
     def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""
-        texturePoint = Vector2(0, 8).elementwise()*self.cellSize
+        texturePoint = Vector2(0, 0).elementwise()*self.cellSize
         textureRect = pygame.Rect(int(texturePoint.x),
                                   int(texturePoint.y),
                                   int(self.cellSize.x),

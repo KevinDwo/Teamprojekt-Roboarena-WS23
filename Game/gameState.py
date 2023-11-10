@@ -14,16 +14,16 @@ class GameState():
 
         self.robots = [BasicRobot(self,
                                   windowWidth / 4, windowHeight / 4,
-                                  "Assets/player/playersbluex1.png"),
+                                  "Assets/player/anotherRed.png"),
                        BasicRobot(self,
                                   3 * windowWidth / 4, windowHeight / 4,
-                                  "Assets/player/playersgreenx1.png"),
+                                  "Assets/player/blue.png"),
                        BasicRobot(self,
                                   windowWidth / 4, 3 * windowHeight / 4,
-                                  "Assets/player/playersgreyx1.png"),
+                                  "Assets/player/deepblue.png"),
                        BasicRobot(self,
                                   3 * windowWidth / 4, 3 * windowHeight / 4,
-                                  "Assets/player/playersredx1.png")]
+                                  "Assets/player/gray.png")]
         self.activeRobot = 0
 
     def worldWidth(self):
