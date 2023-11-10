@@ -27,13 +27,13 @@ class Game():
 
         # Movement on button contol
         movement = Vector2(0, 0)
-        if pressed[pygame.K_RIGHT]:
+        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
             movement.x += self.gameState.movementWidth
-        if pressed[pygame.K_LEFT]:
+        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
             movement.x += -self.gameState.movementWidth
-        if pressed[pygame.K_DOWN]:
+        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
             movement.y += self.gameState.movementWidth
-        if pressed[pygame.K_UP]:
+        if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             movement.y += -self.gameState.movementWidth
 
         return movement

@@ -9,7 +9,7 @@ class GameState():
     def __init__(self) -> None:
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
-        self.movementWidth = 5
+        self.movementWidth = 3
         self.arena = Arena(self)
 
         self.robots = [BasicRobot(self,

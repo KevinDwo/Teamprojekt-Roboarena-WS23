@@ -11,7 +11,7 @@ with a position, radius and direction.'''
         self.position = Vector2(x, y)  # Position in coordinates
         self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation, direction ∊ (-180, 180]
-        self.image = pygame.image.load(image)  # RGB color of the robot
+        self.texture = pygame.image.load(image)  # RGB color of the robot
 
     def move(self,
              movementVector: Vector2,
@@ -33,20 +33,19 @@ with a position, radius and direction.'''
 
     def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""
-        spritePoint = self.position
-        texturePoint = Vector2(0, 0).elementwise()*self.cellSize
+        texturePoint = Vector2(0, 8).elementwise()*self.cellSize
         textureRect = pygame.Rect(int(texturePoint.x),
                                   int(texturePoint.y),
                                   int(self.cellSize.x),
                                   int(self.cellSize.y))
-        image = self.image.subsurface(textureRect)
-        if self.direction == 0:
-            surface.blit(image, spritePoint)
-        else:
-            rotatedImage = pygame.transform.rotate(image, -self.direction)
-            spritePoint.x -= (image.get_width() - image.get_width()) // 2
-            spritePoint.y -= (image.get_height() - image.get_height()) // 2
-            surface.blit(rotatedImage, spritePoint)
+        textureTile = pygame.Surface(self.cellSize, pygame.SRCALPHA)
+        textureTile.blit(self.texture, (0, 0), textureRect)
+        rect = textureTile.get_rect()
+        rect.center = self.position + (self.cellSize / 2)
+        rotatedImage = pygame.transform.rotate(textureTile, -self.direction)
+        rotatedRect = rotatedImage.get_rect()
+        rotatedRect.center = rect.center
+        surface.blit(rotatedImage, rotatedRect)
         if selected:
             pygame.draw.circle(surface, 'red', self.position, 2, 5)
 
