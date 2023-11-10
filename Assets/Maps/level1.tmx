@@ -4,7 +4,7 @@
   <image source="tilesetx1.png" width="1184" height="736"/>
  </tileset>
  <tileset firstgid="852" name="obstacles" tilewidth="32" tileheight="32" tilecount="528" columns="24">
-  <image source="props and items x1.png" width="768" height="704"/>
+  <image source="propsanditemsx1.png" width="768" height="704"/>
  </tileset>
  <layer id="3" name="Ground" width="32" height="24">
   <data encoding="csv">

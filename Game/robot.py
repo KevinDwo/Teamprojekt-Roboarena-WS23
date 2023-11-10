@@ -1,6 +1,5 @@
 from pygame import Vector2, Surface
 import pygame
-import math
 
 
 class BasicRobot():
@@ -36,13 +35,16 @@ with a position, radius and direction.'''
         """Draws the robot on the `surface`"""
         spritePoint = self.position
         texturePoint = Vector2(0, 0).elementwise()*self.cellSize
-        textureRect = pygame.Rect(int(texturePoint.x), int(texturePoint.y), int(self.cellSize.x),int(self.cellSize.y))
+        textureRect = pygame.Rect(int(texturePoint.x),
+                                  int(texturePoint.y),
+                                  int(self.cellSize.x),
+                                  int(self.cellSize.y))
         image = self.image.subsurface(textureRect)
         if self.direction == 0:
             surface.blit(image, spritePoint)
         else:
             rotatedImage = pygame.transform.rotate(image, -self.direction)
-            spritePoint.x += (image.get_width() - image.get_width()) // 2
+            spritePoint.x -= (image.get_width() - image.get_width()) // 2
             spritePoint.y -= (image.get_height() - image.get_height()) // 2
             surface.blit(rotatedImage, spritePoint)
         if selected:

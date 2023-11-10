@@ -12,10 +12,18 @@ class GameState():
         self.movementWidth = 5
         self.arena = Arena(self)
 
-        self.robots = [BasicRobot(self, windowWidth / 4, windowHeight / 4, "Assets/player/players blue x1.png"),
-                       BasicRobot(self, 3 * windowWidth / 4, windowHeight / 4, "Assets/player/players green x1.png"),
-                       BasicRobot(self, windowWidth / 4, 3 * windowHeight / 4, "Assets/player/players grey x1.png"),
-                       BasicRobot(self, 3 * windowWidth / 4, 3 * windowHeight / 4, "Assets/player/players red x1.png")]
+        self.robots = [BasicRobot(self,
+                                  windowWidth / 4, windowHeight / 4,
+                                  "Assets/player/playersbluex1.png"),
+                       BasicRobot(self,
+                                  3 * windowWidth / 4, windowHeight / 4,
+                                  "Assets/player/playersgreenx1.png"),
+                       BasicRobot(self,
+                                  windowWidth / 4, 3 * windowHeight / 4,
+                                  "Assets/player/playersgreyx1.png"),
+                       BasicRobot(self,
+                                  3 * windowWidth / 4, 3 * windowHeight / 4,
+                                  "Assets/player/playersredx1.png")]
         self.activeRobot = 0
 
     def worldWidth(self):
@@ -28,7 +36,9 @@ class GameState():
         return self.movementWidth
 
     def update(self, movementVector: Vector2, mousePosition: Vector2):
-        self.robots[self.activeRobot].move(movementVector, self.worldWidth(), self.worldHeight())
+        self.robots[self.activeRobot].move(movementVector,
+                                           self.worldWidth(),
+                                           self.worldHeight())
         self.robots[self.activeRobot].rotate(mousePosition)
 
     def draw(self, window):
