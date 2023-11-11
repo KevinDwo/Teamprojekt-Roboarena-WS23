@@ -5,7 +5,7 @@ from Game.arena import Arena
 from Game.robot import BasicRobot
 
 
-class GameState():
+class GameState:
     def __init__(self) -> None:
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(50, 50)
@@ -27,9 +27,12 @@ class GameState():
     def getMovementWidth(self):
         return self.movementWidth
 
-    def update(self, movementVector: Vector2, mousePosition: Vector2):
+    def getActiveRobot(self):
+        return self.robots[self.activeRobot]
+
+    def update(self, movementVector: Vector2, direction: int):
         self.robots[self.activeRobot].move(movementVector, self.worldWidth(), self.worldHeight())
-        self.robots[self.activeRobot].rotate(mousePosition)
+        self.robots[self.activeRobot].rotate(direction)
 
     def draw(self, window):
         window.fill((0, 0, 0))

@@ -1,16 +1,26 @@
+import math
+
 from pygame import Vector2, Surface
 import pygame
 
 
-class BasicRobot():
+class BasicRobot:
     '''The BasicRobot class represents a playable basic robot
 with a position, radius and direction.'''
+
     def __init__(self, gameState, x, y, color) -> None:
         self.gameState = gameState
         self.position = Vector2(x, y)  # Position in coordinates
         self.radius = 25  # Radius in pixels
-        self.direction = 0  # Angle of orientation, direction ∊ (-180, 180]
+        self.direction = 0  # Angle of orientation, direction ∊ [0, 360)
         self.color = color  # RGB color of the robot
+
+        self.speed = 2
+        self.speedMax = 20
+        self.acceleration = 2
+        self.rotationalSpeed = 1
+        self.rotationalSpeedMax = 10
+        self.rotationalAcceleration = 1
 
     def move(self,
              movementVector: Vector2,
@@ -26,9 +36,16 @@ with a position, radius and direction.'''
                                 self.radius,
                                 windowHeight - self.radius)
 
-    def rotate(self, mousePosition: Vector2):
-        """Rotates the robot towards `mousePosition`"""
-        self.direction = (mousePosition - self.position).as_polar()[1]
+    def rotate(self, newDirection):
+        """Rotates the robot according to rotationalSpeed"""
+        self.direction = (self.direction + newDirection) % 360
+
+    def computeDirection(self):
+        return self.rotationalSpeed
+
+    def computeMovement(self):
+        return Vector2(self.speed * int(math.cos(math.radians(self.direction))),
+                       self.speed * int(math.sin(math.radians(self.direction))))
 
     def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""
