@@ -5,12 +5,12 @@ import pygame
 class BasicRobot():
     '''The BasicRobot class represents a playable basic robot
 with a position, radius and direction.'''
-    def __init__(self, gameState, x, y, color) -> None:
+    def __init__(self, gameState, x, y, image) -> None:
         self.gameState = gameState
+        self.cellSize = gameState.tileSize
         self.position = Vector2(x, y)  # Position in coordinates
-        self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation, direction ∊ (-180, 180]
-        self.color = color  # RGB color of the robot
+        self.texture = pygame.image.load(image)  # RGB color of the robot
 
     def move(self,
              movementVector: Vector2,
@@ -20,27 +20,33 @@ with a position, radius and direction.'''
         in the given window boundaries"""
         self.position += movementVector
         self.position.x = clamp(self.position.x,
-                                self.radius,
-                                windowWidth - self.radius)
+                                0,
+                                windowWidth - self.cellSize.x)
         self.position.y = clamp(self.position.y,
-                                self.radius,
-                                windowHeight - self.radius)
+                                0,
+                                windowHeight - self.cellSize.y)
 
     def rotate(self, mousePosition: Vector2):
         """Rotates the robot towards `mousePosition`"""
-        self.direction = (mousePosition - self.position).as_polar()[1]
+        self.direction = (mousePosition - self.position).as_polar()[1] + 90
 
     def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""
-        pygame.draw.circle(surface, self.color, self.position, self.radius)
+        texturePoint = Vector2(0, 0).elementwise()*self.cellSize
+        textureRect = pygame.Rect(int(texturePoint.x),
+                                  int(texturePoint.y),
+                                  int(self.cellSize.x),
+                                  int(self.cellSize.y))
+        textureTile = pygame.Surface(self.cellSize, pygame.SRCALPHA)
+        textureTile.blit(self.texture, (0, 0), textureRect)
+        rect = textureTile.get_rect()
+        rect.center = self.position + (self.cellSize / 2)
+        rotatedImage = pygame.transform.rotate(textureTile, -self.direction)
+        rotatedRect = rotatedImage.get_rect()
+        rotatedRect.center = rect.center
+        surface.blit(rotatedImage, rotatedRect)
         if selected:
-            pygame.draw.circle(surface, 'blue', self.position, self.radius, 5)
-
-        lineVector = Vector2.from_polar((self.radius, self.direction))
-        pygame.draw.line(surface,
-                         (0, 0, 0),
-                         self.position,
-                         self.position + lineVector)
+            pygame.draw.circle(surface, 'red', self.position, 2, 5)
 
 
 def clamp(x: int, minimum: int, maximum: int) -> int:
