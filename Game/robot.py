@@ -9,7 +9,6 @@ with a position, radius and direction.'''
         self.gameState = gameState
         self.cellSize = gameState.tileSize
         self.position = Vector2(x, y)  # Position in coordinates
-        self.radius = 25  # Radius in pixels
         self.direction = 0  # Angle of orientation, direction ∊ (-180, 180]
         self.texture = pygame.image.load(image)  # RGB color of the robot
 
@@ -21,11 +20,11 @@ with a position, radius and direction.'''
         in the given window boundaries"""
         self.position += movementVector
         self.position.x = clamp(self.position.x,
-                                self.radius,
-                                windowWidth - self.radius)
+                                0,
+                                windowWidth - self.cellSize.x)
         self.position.y = clamp(self.position.y,
-                                self.radius,
-                                windowHeight - self.radius)
+                                0,
+                                windowHeight - self.cellSize.y)
 
     def rotate(self, mousePosition: Vector2):
         """Rotates the robot towards `mousePosition`"""
@@ -48,12 +47,6 @@ with a position, radius and direction.'''
         surface.blit(rotatedImage, rotatedRect)
         if selected:
             pygame.draw.circle(surface, 'red', self.position, 2, 5)
-
-        """ lineVector = Vector2.from_polar((self.radius, self.direction))
-        pygame.draw.line(surface,
-                        (0, 0, 0),
-                        self.position,
-                        self.position + lineVector) """
 
 
 def clamp(x: int, minimum: int, maximum: int) -> int:
