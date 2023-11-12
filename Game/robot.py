@@ -15,13 +15,6 @@ with a position, radius and direction.'''
         self.direction = 0  # Angle of orientation, direction ∊ [0, 360)
         self.color = color  # RGB color of the robot
 
-        self.speed = 2
-        self.speedMax = 20
-        self.acceleration = 2
-        self.rotationalSpeed = 1
-        self.rotationalSpeedMax = 10
-        self.rotationalAcceleration = 1
-
     def move(self,
              movementVector: Vector2,
              windowWidth: int,
@@ -40,12 +33,9 @@ with a position, radius and direction.'''
         """Rotates the robot according to rotationalSpeed"""
         self.direction = (self.direction + newDirection) % 360
 
-    def computeDirection(self):
-        return self.rotationalSpeed
-
     def computeMovement(self):
-        return Vector2(self.speed * int(math.cos(math.radians(self.direction))),
-                       self.speed * int(math.sin(math.radians(self.direction))))
+        return Vector2(math.cos(math.radians(self.direction)),
+                       math.sin(math.radians(self.direction)))
 
     def draw(self, surface: Surface, selected: bool):
         """Draws the robot on the `surface`"""

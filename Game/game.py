@@ -12,6 +12,14 @@ class Game:
         # Initiate gamestate enclosing robot and area
         self.gameState = GameState()
 
+        # Speed/Acceleration for Robot movement
+        self.currentSpeed = 0
+        self.maxSpeed = 4
+        self.acceleration = 0.05
+        self.currentRotationalSpeed = 0
+        self.maxRotationalSpeed = 1.6
+        self.rotationalAcceleration = 0.02
+
     def checkKeyPresses(self, pressed) -> tuple[Vector2, int]:
         """Handle game relevant key presses, returns the movement vector for the
            current game loop iteration."""
@@ -25,17 +33,20 @@ class Game:
             self.gameState.selectRobot(3)
 
         # Movement on button control
-        movement = Vector2(0, 0)
         direction = 0
         if pressed[pygame.K_RIGHT]:
-            direction += self.gameState.getActiveRobot().computeDirection()
+            self.currentRotationalSpeed = min(self.currentRotationalSpeed + self.rotationalAcceleration,
+                                              self.maxRotationalSpeed)
         if pressed[pygame.K_LEFT]:
-            direction -= self.gameState.getActiveRobot().computeDirection()
+            self.currentRotationalSpeed = max(self.currentRotationalSpeed - self.rotationalAcceleration,
+                                              -self.maxRotationalSpeed)
         if pressed[pygame.K_DOWN]:
-            movement += -self.gameState.getActiveRobot().computeMovement()
+            self.currentSpeed = max(self.currentSpeed - self.acceleration, 0)
         if pressed[pygame.K_UP]:
-            movement += self.gameState.getActiveRobot().computeMovement()
+            self.currentSpeed = min(self.currentSpeed + self.acceleration, self.maxSpeed)
 
+        movement = self.gameState.getActiveRobot().computeMovement() * self.currentSpeed
+        direction += self.currentRotationalSpeed
         return movement, direction
 
     def run(self) -> MenuAction:
@@ -49,8 +60,7 @@ class Game:
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
 
-            movement = self.checkKeyPresses(pressed)[0]
-            direction = self.checkKeyPresses(pressed)[1]
+            movement, direction = self.checkKeyPresses(pressed)
 
             # Move and rotate the robot
             self.gameState.update(movement, direction)
