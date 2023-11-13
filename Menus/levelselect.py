@@ -38,7 +38,7 @@ class LevelSelect:
 
             self.window.fill((0, 0, 0))
             title.draw(self.window)
-            for level in sorted(levelButtons.keys()):
+            for level in levelButtons.keys():
                 levelButtons[level].draw(self.window)
             mainMenuBtn.draw(self.window)
 
@@ -57,7 +57,7 @@ def getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight):
     buttonX = initialButtonX
     buttonY = titleHeight + 2 * btnSpace
 
-    for arena in os.listdir('Assets/Maps'):
+    for arena in sorted(os.listdir('Assets/Maps')):
         m = levelFileRegex.match(arena)
         if m:
             levelNo = m.group(1)
