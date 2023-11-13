@@ -34,15 +34,15 @@ class Game:
 
         # Movement on button control
         direction = 0
-        if pressed[pygame.K_RIGHT]:
+        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
             self.currentRotationalSpeed = min(self.currentRotationalSpeed + self.rotationalAcceleration,
                                               self.maxRotationalSpeed)
-        if pressed[pygame.K_LEFT]:
+        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
             self.currentRotationalSpeed = max(self.currentRotationalSpeed - self.rotationalAcceleration,
                                               -self.maxRotationalSpeed)
-        if pressed[pygame.K_DOWN]:
+        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
             self.currentSpeed = max(self.currentSpeed - self.acceleration, 0)
-        if pressed[pygame.K_UP]:
+        if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             self.currentSpeed = min(self.currentSpeed + self.acceleration, self.maxSpeed)
 
         movement = self.gameState.getActiveRobot().computeMovement() * self.currentSpeed

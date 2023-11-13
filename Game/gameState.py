@@ -8,14 +8,22 @@ from Game.robot import BasicRobot
 class GameState:
     def __init__(self) -> None:
         self.worldSize = Vector2(windowWidth, windowHeight)
-        self.tileSize = Vector2(50, 50)
-        self.movementWidth = 5
+        self.tileSize = Vector2(32, 32)
+        self.movementWidth = 3
         self.arena = Arena(self)
 
-        self.robots = [BasicRobot(self, windowWidth / 4, windowHeight / 4, 'cyan'),
-                       BasicRobot(self, 3 * windowWidth / 4, windowHeight / 4, 'yellow'),
-                       BasicRobot(self, windowWidth / 4, 3 * windowHeight / 4, 'gray50'),
-                       BasicRobot(self, 3 * windowWidth / 4, 3 * windowHeight / 4, 'indianred')]
+        self.robots = [BasicRobot(self,
+                                  windowWidth / 4, windowHeight / 4,
+                                  "Assets/player/anotherRed.png"),
+                       BasicRobot(self,
+                                  3 * windowWidth / 4, windowHeight / 4,
+                                  "Assets/player/blue.png"),
+                       BasicRobot(self,
+                                  windowWidth / 4, 3 * windowHeight / 4,
+                                  "Assets/player/deepblue.png"),
+                       BasicRobot(self,
+                                  3 * windowWidth / 4, 3 * windowHeight / 4,
+                                  "Assets/player/gray.png")]
         self.activeRobot = 0
 
     def worldWidth(self):
