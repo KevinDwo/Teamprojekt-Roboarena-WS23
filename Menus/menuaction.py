@@ -7,6 +7,11 @@ class MenuActionMenu:
 
 
 class MenuActionPlay:
+    def __init__(self, level: str):
+        self.level: str = level
+
+
+class MenuActionSelectLevel:
     def __init__(self):
         pass
 
@@ -16,4 +21,4 @@ class MenuActionQuit:
         pass
 
 
-MenuAction = Union[MenuActionMenu, MenuActionPlay, MenuActionQuit]
+MenuAction = Union[MenuActionMenu, MenuActionPlay, MenuActionSelectLevel, MenuActionQuit]
