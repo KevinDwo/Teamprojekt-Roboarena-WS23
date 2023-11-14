@@ -1,5 +1,4 @@
 from pygame import Vector2
-
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
 from Game.robot import BasicRobot
@@ -36,11 +35,12 @@ class GameState():
     def getMovementWidth(self):
         return self.movementWidth
 
-    def update(self, movementVector: Vector2, mousePosition: Vector2):
-        self.robots[self.activeRobot].move(movementVector,
-                                           self.worldWidth(),
-                                           self.worldHeight())
-        self.robots[self.activeRobot].rotate(mousePosition)
+    def getActiveRobot(self):
+        return self.robots[self.activeRobot]
+
+    def update(self, movementVector: Vector2, direction: int):
+        self.robots[self.activeRobot].move(movementVector, self.worldWidth(), self.worldHeight())
+        self.robots[self.activeRobot].rotate(direction)
 
     def draw(self, window):
         window.fill((0, 0, 0))

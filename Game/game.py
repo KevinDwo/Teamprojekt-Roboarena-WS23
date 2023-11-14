@@ -10,11 +10,18 @@ class Game():
     def __init__(self, window: Surface, clock: Clock, level: str):
         self.window = window
         self.clock = clock
-
         # Initiate gamestate enclosing robot and area
         self.gameState = GameState(level)
 
-    def checkKeyPresses(self, pressed) -> Vector2:
+        # Speed/Acceleration for Robot movement
+        self.currentSpeed = 0
+        self.maxSpeed = 4
+        self.acceleration = 0.05
+        self.currentRotationalSpeed = 0
+        self.maxRotationalSpeed = 1.6
+        self.rotationalAcceleration = 0.02
+
+    def checkKeyPresses(self, pressed) -> tuple[Vector2, int]:
         """Handle game relevant key presses, returns the movement vector for the
            current game loop iteration."""
         if pressed[pygame.K_1]:
@@ -26,18 +33,22 @@ class Game():
         elif pressed[pygame.K_4]:
             self.gameState.selectRobot(3)
 
-        # Movement on button contol
-        movement = Vector2(0, 0)
+        # Movement on button control
+        direction = 0
         if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
-            movement.x += self.gameState.movementWidth
+            self.currentRotationalSpeed = min(self.currentRotationalSpeed + self.rotationalAcceleration,
+                                              self.maxRotationalSpeed)
         if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
-            movement.x += -self.gameState.movementWidth
+            self.currentRotationalSpeed = max(self.currentRotationalSpeed - self.rotationalAcceleration,
+                                              -self.maxRotationalSpeed)
         if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
-            movement.y += self.gameState.movementWidth
+            self.currentSpeed = max(self.currentSpeed - self.acceleration, 0)
         if pressed[pygame.K_UP] or pressed[pygame.K_w]:
-            movement.y += -self.gameState.movementWidth
+            self.currentSpeed = min(self.currentSpeed + self.acceleration, self.maxSpeed)
 
-        return movement
+        movement = self.gameState.getActiveRobot().computeMovement() * self.currentSpeed
+        direction += self.currentRotationalSpeed
+        return movement, direction
 
     def run(self) -> MenuAction:
         while True:
@@ -50,14 +61,10 @@ class Game():
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
 
-            movement = self.checkKeyPresses(pressed)
-
-            # Get the mouse position
-            mousePosition = pygame.mouse.get_pos()
-            mousePosition = Vector2(mousePosition[0], mousePosition[1])
+            movement, direction = self.checkKeyPresses(pressed)
 
             # Move and rotate the robot
-            self.gameState.update(movement, mousePosition)
+            self.gameState.update(movement, direction)
 
             # Draw everything to the screen
             self.gameState.draw(self.window)
