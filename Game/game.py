@@ -6,7 +6,6 @@ from Game.gameState import GameState
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionQuit
 
 
-
 class Game():
     def __init__(self, window: Surface, clock: Clock, level: str):
         self.window = window
