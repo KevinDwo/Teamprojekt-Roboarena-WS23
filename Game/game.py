@@ -1,17 +1,18 @@
 import pygame
 from pygame import Surface, Vector2
 from pygame.time import Clock
+
 from Game.gameState import GameState
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionQuit
 
 
 class Game():
-    def __init__(self, window: Surface, clock: Clock):
+    def __init__(self, window: Surface, clock: Clock, level: str):
         self.window = window
         self.clock = clock
 
         # Initiate gamestate enclosing robot and area
-        self.gameState = GameState()
+        self.gameState = GameState(level)
 
     def checkKeyPresses(self, pressed) -> Vector2:
         """Handle game relevant key presses, returns the movement vector for the
