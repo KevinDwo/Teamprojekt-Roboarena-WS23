@@ -1,7 +1,9 @@
-from pygame import Vector2
+from pygame import Vector2, Surface
+from pygame.key import ScancodeWrapper
+
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
-from Game.robot import BasicRobot
+from Game.Entities.robot import BasicRobot
 
 
 class GameState():
@@ -9,46 +11,29 @@ class GameState():
         self.level = level
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
-        self.movementWidth = 3
         self.arena = Arena(self, level)
 
-        self.robots = [BasicRobot(self,
-                                  windowWidth / 4, windowHeight / 4,
-                                  "Assets/player/anotherRed.png"),
-                       BasicRobot(self,
-                                  3 * windowWidth / 4, windowHeight / 4,
-                                  "Assets/player/blue.png"),
-                       BasicRobot(self,
-                                  windowWidth / 4, 3 * windowHeight / 4,
-                                  "Assets/player/deepblue.png"),
-                       BasicRobot(self,
-                                  3 * windowWidth / 4, 3 * windowHeight / 4,
-                                  "Assets/player/gray.png")]
-        self.activeRobot = 0
+        self.robots = [BasicRobot(self, "Assets/player/anotherRed.png",
+                                  Vector2(self.worldSize.x / 4, self.worldSize.y / 4), 1, True),
+                       BasicRobot(self, "Assets/player/blue.png",
+                                  Vector2(3 * self.worldSize.x / 4, self.worldSize.y / 4), 2, False),
+                       BasicRobot(self, "Assets/player/deepblue.png",
+                                  Vector2(self.worldSize.x / 4, 3 * self.worldSize.y / 4), 3, False),
+                       BasicRobot(self, "Assets/player/gray.png",
+                                  Vector2(3 * self.worldSize.x / 4, 3 * self.worldSize.y / 4), 4, False)]
 
-    def worldWidth(self):
-        return self.worldSize.x
+        self.entities = self.robots
 
-    def worldHeight(self):
-        return self.worldSize.y
+    def handleKeyPresses(self, pressed: ScancodeWrapper):
+        for e in self.entities:
+            e.handleKeyPresses(pressed)
 
-    def getMovementWidth(self):
-        return self.movementWidth
+    def moveEntities(self):
+        for e in self.entities:
+            e.move()
 
-    def getActiveRobot(self):
-        return self.robots[self.activeRobot]
-
-    def update(self, movementVector: Vector2, direction: int):
-        self.robots[self.activeRobot].move(movementVector, self.worldWidth(), self.worldHeight())
-        self.robots[self.activeRobot].rotate(direction)
-
-    def draw(self, window):
+    def draw(self, window: Surface):
         window.fill((0, 0, 0))
         self.arena.draw(window)
-        for i in range(len(self.robots)):
-            robot = self.robots[i]
-            selected = i == self.activeRobot
-            robot.draw(window, selected)
-
-    def selectRobot(self, robotNo: int):
-        self.activeRobot = robotNo
+        for e in self.entities:
+            e.draw(window)
