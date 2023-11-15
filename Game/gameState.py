@@ -5,7 +5,7 @@ from Game.level import decodeUnitsLayer
 
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
-from Game.Entities.robot import BasicRobot
+
 
 class GameState():
     def __init__(self, level: str) -> None:
@@ -13,8 +13,8 @@ class GameState():
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
         self.arena = Arena(self, level)
-        self.robots = decodeUnitsLayer(self,self.level)
-        self.entities = self.robots 
+        self.robots = decodeUnitsLayer(self, self.level)
+        self.entities = self.robots
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         for e in self.entities:
