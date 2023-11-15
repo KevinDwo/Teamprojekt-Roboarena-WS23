@@ -17,7 +17,7 @@ class Game():
         self.currentSpeed = 0
         self.maxSpeed = 2
         self.acceleration = 0.05
-        self.breakAcceleration = 0.1
+        self.brakeAcceleration = 0.1
         self.rotationalSpeed = 3
 
     def checkKeyPresses(self, pressed) -> tuple[Vector2, int]:
@@ -39,7 +39,7 @@ class Game():
         if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
             direction -= self.rotationalSpeed
         if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
-            self.currentSpeed = max(self.currentSpeed - self.breakAcceleration, 0)
+            self.currentSpeed = max(self.currentSpeed - self.brakeAcceleration, 0)
         if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             self.currentSpeed = min(self.currentSpeed + self.acceleration, self.maxSpeed)
 
