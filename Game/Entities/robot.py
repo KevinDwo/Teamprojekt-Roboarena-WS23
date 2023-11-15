@@ -18,7 +18,7 @@ class BasicRobot(Actor):
     selected: bool
     """Indicates whether this robot is currently selected to play with"""
 
-    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, number: int, selected: bool):
+    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, tile: Vector2, number: int, selected: bool):
         texture = pygame.image.load(texturePath)
         direction = 0
         currentSpeed = 0
@@ -31,6 +31,7 @@ class BasicRobot(Actor):
                          acceleration, brakeAcceleration, rotationalSpeed, hp)
         self.number = number
         self.selected = selected
+        self.tile = tile
 
     def draw(self, surface: Surface):
         """Draws the robot on the `surface`"""
@@ -39,7 +40,7 @@ class BasicRobot(Actor):
             pygame.draw.circle(surface, 'red', self.position, 2, 5)
 
     def updateSelected(self, pressed: ScancodeWrapper):
-        keys = {1: pygame.K_1, 2: pygame.K_2, 3: pygame.K_3, 4: pygame.K_4}
+        keys = {1: pygame.K_1, 2: pygame.K_2}
 
         # This robot is being selected,
         # but if multiple selection keys are pressed, select only the one with the smallest number
