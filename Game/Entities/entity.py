@@ -34,7 +34,7 @@ class Entity(ABC):
     height: int
     """Height of the entity (for its hitbox)"""
 
-    def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2, direction: Vector2, currentSpeed: int):
+    def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2, direction: float, currentSpeed: float):
         self.gameState = gameState
         self.isAlive = True
         self.texture = texture
