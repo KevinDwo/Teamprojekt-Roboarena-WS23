@@ -15,11 +15,10 @@ class Game():
 
         # Speed/Acceleration for Robot movement
         self.currentSpeed = 0
-        self.maxSpeed = 4
+        self.maxSpeed = 2
         self.acceleration = 0.05
-        self.currentRotationalSpeed = 0
-        self.maxRotationalSpeed = 1.6
-        self.rotationalAcceleration = 0.02
+        self.brakeAcceleration = 0.1
+        self.rotationalSpeed = 3
 
     def checkKeyPresses(self, pressed) -> tuple[Vector2, int]:
         """Handle game relevant key presses, returns the movement vector for the
@@ -36,18 +35,15 @@ class Game():
         # Movement on button control
         direction = 0
         if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
-            self.currentRotationalSpeed = min(self.currentRotationalSpeed + self.rotationalAcceleration,
-                                              self.maxRotationalSpeed)
+            direction += self.rotationalSpeed
         if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
-            self.currentRotationalSpeed = max(self.currentRotationalSpeed - self.rotationalAcceleration,
-                                              -self.maxRotationalSpeed)
+            direction -= self.rotationalSpeed
         if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
-            self.currentSpeed = max(self.currentSpeed - self.acceleration, 0)
+            self.currentSpeed = max(self.currentSpeed - self.brakeAcceleration, 0)
         if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             self.currentSpeed = min(self.currentSpeed + self.acceleration, self.maxSpeed)
 
         movement = self.gameState.getActiveRobot().computeMovement() * self.currentSpeed
-        direction += self.currentRotationalSpeed
         return movement, direction
 
     def run(self) -> MenuAction:
