@@ -18,7 +18,11 @@ class BasicRobot(Actor):
     selected: bool
     """Indicates whether this robot is currently selected to play with"""
 
-    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, tile: Vector2, number: int, selected: bool):
+    def __init__(self,
+                 gameState: 'GameState',
+                 texturePath: str, position: Vector2,
+                 tile: Vector2,
+                 number: int, selected: bool):
         texture = pygame.image.load(texturePath)
         direction = 0
         currentSpeed = 0
