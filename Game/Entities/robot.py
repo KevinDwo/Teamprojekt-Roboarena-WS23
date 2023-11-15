@@ -65,9 +65,9 @@ class BasicRobot(Actor):
             return
 
         if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
-            self.rotate(self.rotationalSpeed)
+            self.rotateRight()
         if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
-            self.rotate(-self.rotationalSpeed)
+            self.rotateLeft()
         if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
             self.brake()
         if pressed[pygame.K_UP] or pressed[pygame.K_w]:

@@ -44,3 +44,9 @@ class Actor(Entity):
 
     def brake(self):
         self.currentSpeed = max(self.currentSpeed - self.brakeAcceleration, 0)
+
+    def rotateRight(self):
+        self.rotate(self.rotationalSpeed)
+
+    def rotateLeft(self):
+        self.rotate(-self.rotationalSpeed)
