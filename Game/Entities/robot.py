@@ -34,17 +34,7 @@ class BasicRobot(Actor):
 
     def draw(self, surface: Surface):
         """Draws the robot on the `surface`"""
-        cellSize = Vector2(self.width, self.height)
-        texturePoint = Vector2(0, 0).elementwise() * cellSize
-        textureRect = pygame.Rect(int(texturePoint.x), int(texturePoint.y), int(cellSize.x), int(cellSize.y))
-        textureTile = pygame.Surface(cellSize, pygame.SRCALPHA)
-        textureTile.blit(self.texture, (0, 0), textureRect)
-        rect = textureTile.get_rect()
-        rect.center = self.position + (cellSize / 2)
-        rotatedImage = pygame.transform.rotate(textureTile, -self.direction)
-        rotatedRect = rotatedImage.get_rect()
-        rotatedRect.center = rect.center
-        surface.blit(rotatedImage, rotatedRect)
+        super().draw(surface)
         if self.selected:
             pygame.draw.circle(surface, 'red', self.position, 2, 5)
 

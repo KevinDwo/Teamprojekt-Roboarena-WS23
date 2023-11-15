@@ -1,16 +1,15 @@
-from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
+import pygame
 from pygame import Surface, Vector2
 from pygame.key import ScancodeWrapper
 
 from utils import clamp, degreesToUnitVector
 
 
-# Entity is an Abstract Base Class (ABC), that requires subclasses to provide implementations for abstract methods.
-class Entity(ABC):
+class Entity:
     """Interface for all entities that can move on the screen"""
 
     isAlive: bool
@@ -28,11 +27,8 @@ class Entity(ABC):
     currentSpeed: float
     """Indicates by how much the entity moves per frame (velocity)"""
 
-    width: int
-    """Width of the entity (for its hitbox)"""
-
-    height: int
-    """Height of the entity (for its hitbox)"""
+    size: Vector2
+    """Size (width = x, height = y) of the entity"""
 
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2, direction: float, currentSpeed: float):
         self.gameState = gameState
@@ -41,19 +37,21 @@ class Entity(ABC):
         self.position = position
         self.direction = direction
         self.currentSpeed = currentSpeed
-        self.width = texture.get_width()
-        self.height = texture.get_height()
+        self.size = Vector2(texture.get_size())
 
-    @abstractmethod
     def draw(self, surface: Surface):
-        """Draws the entity to the screen. This method must be overridden by subclasses!"""
+        """Draws the entity to the screen."""
+        rotatedImage = pygame.transform.rotate(self.texture, -self.direction)
+        rotatedRect = rotatedImage.get_rect()
+        rotatedRect.center = self.position + (self.size / 2)
+        surface.blit(rotatedImage, rotatedRect)
 
     def move(self):
         """Moves the entity based on its current direction and speed"""
         movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
         newPosition = self.position + movementVector
-        newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.texture.get_width())
-        newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.texture.get_height())
+        newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
+        newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
         self.position = newPosition
 
     def rotate(self, rotateBy: int):
