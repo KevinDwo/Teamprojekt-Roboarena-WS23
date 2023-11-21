@@ -15,10 +15,7 @@ class BasicRobot(Actor):
     number: int
     """The number identifier (1, 2, ...) of this robot"""
 
-    selected: bool
-    """Indicates whether this robot is currently selected to play with"""
-
-    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, number: int, selected: bool):
+    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, number: int):
         texture = pygame.image.load(texturePath)
         direction = 0
         currentSpeed = 0
@@ -30,7 +27,6 @@ class BasicRobot(Actor):
         super().__init__(gameState, texture, position, direction, currentSpeed, maxSpeed,
                          acceleration, brakeAcceleration, rotationalSpeed, hp)
         self.number = number
-        self.selected = selected
 
     def draw(self, surface: Surface):
         """Draws the robot on the `surface`"""
@@ -45,34 +41,19 @@ class BasicRobot(Actor):
         rotatedRect = rotatedImage.get_rect()
         rotatedRect.center = rect.center
         surface.blit(rotatedImage, rotatedRect)
-        if self.selected:
-            pygame.draw.circle(surface, 'red', self.position, 2, 5)
-
-    def updateSelected(self, pressed: ScancodeWrapper):
-        keys = {1: pygame.K_1, 2: pygame.K_2, 3: pygame.K_3, 4: pygame.K_4}
-
-        # This robot is being selected,
-        # but if multiple selection keys are pressed, select only the one with the smallest number
-        if pressed[keys[self.number]] and not any(pressed[keys[x]] for x in keys if x < self.number):
-            self.selected = True
-
-        # Another robot is being selected, unselect this one
-        elif any(pressed[keys[x]] for x in keys if x != self.number):
-            self.selected = False
 
     def updateMovement(self, pressed: ScancodeWrapper):
-        if not self.selected:
-            return
+        keys = {1: [pygame.K_w,  pygame.K_a,    pygame.K_s,    pygame.K_d],
+                2: [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT]}
 
-        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
+        if pressed[keys[self.number][3]]:  # Right
             self.rotateRight()
-        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
+        if pressed[keys[self.number][1]]:  # Left
             self.rotateLeft()
-        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
+        if pressed[keys[self.number][2]]:  # Down
             self.brake()
-        if pressed[pygame.K_UP] or pressed[pygame.K_w]:
+        if pressed[keys[self.number][0]]:  # Up
             self.accelerate()
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
-        self.updateSelected(pressed)
         self.updateMovement(pressed)
