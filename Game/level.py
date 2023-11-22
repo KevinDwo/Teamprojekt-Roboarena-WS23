@@ -47,5 +47,4 @@ def decodeUnitsLayer(state, tileMap):
                     if selected:
                         selected = False
                     units.append(unit)
-
-        return units
+    return units
