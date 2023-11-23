@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
-from pygame import Vector2, Surface
+from pygame import Vector2
 from pygame.key import ScancodeWrapper
 import pygame
 
@@ -27,20 +27,6 @@ class BasicRobot(Actor):
         super().__init__(gameState, texture, position, direction, currentSpeed, maxSpeed,
                          acceleration, brakeAcceleration, rotationalSpeed, hp)
         self.number = number
-
-    def draw(self, surface: Surface):
-        """Draws the robot on the `surface`"""
-        cellSize = Vector2(self.width, self.height)
-        texturePoint = Vector2(0, 0).elementwise() * cellSize
-        textureRect = pygame.Rect(int(texturePoint.x), int(texturePoint.y), int(cellSize.x), int(cellSize.y))
-        textureTile = pygame.Surface(cellSize, pygame.SRCALPHA)
-        textureTile.blit(self.texture, (0, 0), textureRect)
-        rect = textureTile.get_rect()
-        rect.center = self.position + (cellSize / 2)
-        rotatedImage = pygame.transform.rotate(textureTile, -self.direction)
-        rotatedRect = rotatedImage.get_rect()
-        rotatedRect.center = rect.center
-        surface.blit(rotatedImage, rotatedRect)
 
     def updateMovement(self, pressed: ScancodeWrapper):
         keys = {1: [pygame.K_w,  pygame.K_a,    pygame.K_s,    pygame.K_d],
