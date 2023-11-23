@@ -15,7 +15,7 @@ class BasicRobot(Actor):
     number: int
     """The number identifier (1, 2, ...) of this robot"""
 
-    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, tile: Vector2, number: int):
+    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, number: int):
         texture = pygame.image.load(texturePath)
         direction = 0
         currentSpeed = 0
@@ -27,7 +27,6 @@ class BasicRobot(Actor):
         super().__init__(gameState, texture, position, direction, currentSpeed, maxSpeed,
                          acceleration, brakeAcceleration, rotationalSpeed, hp)
         self.number = number
-        self.tile = tile
 
     def updateMovement(self, pressed: ScancodeWrapper):
         keys = {1: [pygame.K_w,  pygame.K_a,    pygame.K_s,    pygame.K_d],

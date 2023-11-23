@@ -13,7 +13,7 @@ def decodeLayer(tileMap, layer):
     else:
         tileset = None
         for t in tileMap.tilesets:
-            if gid >= t.firstgid and gid < t.firstgid+t.tilecount:
+            if gid >= t.firstgid and gid < t.firstgid + t.tilecount:
                 tileset = t
                 break
         return tileset
@@ -28,18 +28,17 @@ def decodeUnitsLayer(state, tileMap):
             source = tileset.image.source
             for y in range(tileMap.height):
                 for x in range(tileMap.width):
-                    tile = layer.tiles[x + y*tileMap.width]
+                    tile = layer.tiles[x + y * tileMap.width]
                     if tile.gid == 0:
                         continue
-                    lid = tile.gid - tileset.firstgid
-                    tileX = lid % tileset.columns
-                    tileY = lid // tileset.columns
+                    # This is how tileX and tileY can be calculated. They are not used so far.
+                    # lid = tile.gid - tileset.firstgid
+                    # tileX = lid % tileset.columns
+                    # tileY = lid // tileset.columns
                     unit = BasicRobot(state,
                                       source,
-                                      Vector2(x*tileMap.height,
-                                              y*tileMap.width),
-                                      Vector2(tileX,
-                                              tileY),
+                                      Vector2(x * tileMap.height,
+                                              y * tileMap.width),
                                       count)
                     count += 1
                     units.append(unit)
