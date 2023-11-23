@@ -21,7 +21,6 @@ def decodeLayer(tileMap, layer):
 
 def decodeUnitsLayer(state, tileMap):
     units = []
-    selected = True
     count = 1
     for layer in tileMap.layers:
         if layer.name == "Player1" or layer.name == "Player2":
@@ -41,10 +40,7 @@ def decodeUnitsLayer(state, tileMap):
                                               y*tileMap.width),
                                       Vector2(tileX,
                                               tileY),
-                                      count,
-                                      selected)
+                                      count)
                     count += 1
-                    if selected:
-                        selected = False
                     units.append(unit)
     return units
