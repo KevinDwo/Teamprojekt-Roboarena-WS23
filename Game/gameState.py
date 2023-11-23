@@ -14,13 +14,9 @@ class GameState():
         self.arena = Arena(self, level)
 
         self.robots = [BasicRobot(self, "Assets/player/anotherRed.png",
-                                  Vector2(self.worldSize.x / 4, self.worldSize.y / 4), 1, True),
+                                  Vector2(self.worldSize.x / 4, self.worldSize.y / 4), 1),
                        BasicRobot(self, "Assets/player/blue.png",
-                                  Vector2(3 * self.worldSize.x / 4, self.worldSize.y / 4), 2, False),
-                       BasicRobot(self, "Assets/player/deepblue.png",
-                                  Vector2(self.worldSize.x / 4, 3 * self.worldSize.y / 4), 3, False),
-                       BasicRobot(self, "Assets/player/gray.png",
-                                  Vector2(3 * self.worldSize.x / 4, 3 * self.worldSize.y / 4), 4, False)]
+                                  Vector2(3 * self.worldSize.x / 4, self.worldSize.y / 4), 2)]
 
         self.entities = self.robots
 
