@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
@@ -12,12 +13,21 @@ class Bullet(Entity):
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
                  direction: int, currentSpeed: float, maxLifetime: int):
         super().__init__(gameState, texture, position, direction, currentSpeed)
-        self.maxLifetime = maxLifetime
+        self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.lifetime = 0
 
     def update(self):
         """Update the bullet state."""
         self.move()
         self.lifetime += 1
+        self.outOfBounds()
+        self.checkRange()
+
+    def outOfBounds(self):
+        if not (0 <= self.position.x <= self.gameState.worldSize.x and
+                0 <= self.position.y <= self.gameState.worldSize.y):
+            self.isAlive = False
+
+    def checkRange(self):
         if self.lifetime >= self.maxLifetime:
             self.isAlive = False
