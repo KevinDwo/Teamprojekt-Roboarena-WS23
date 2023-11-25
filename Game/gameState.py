@@ -7,7 +7,7 @@ from constants import windowWidth, windowHeight
 from Game.arena import Arena
 
 
-class GameState():
+class GameState:
     def __init__(self, level: str) -> None:
         self.level = tmx.TileMap.load(f"Assets/Maps/level{level}.tmx")
         self.worldSize = Vector2(windowWidth, windowHeight)
