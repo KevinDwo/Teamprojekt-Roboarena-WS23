@@ -6,6 +6,11 @@ from pygame import Vector2, Surface
 
 from Game.Entities.entity import Entity
 
+import pygame
+
+from Game.Entities.bullet import Bullet
+from utils import degreesToUnitVector
+
 
 class Actor(Entity):
     """An actor is an entity that can actively move, shoot, etc: A robot or an enemy."""
@@ -50,3 +55,12 @@ class Actor(Entity):
 
     def rotateLeft(self):
         self.rotate(-self.rotationalSpeed)
+
+    def shoot(self):
+        """Create and return a bullet entity based on the current state of the actor."""
+        bulletTexture = pygame.Surface((5, 5))  # Adjust the size of the bullet
+        bulletTexture.fill((255, 0, 0))  # Red color for the bullet, you can change it
+        bulletPosition = self.position + (self.size / 2)
+        bulletDirection = self.direction
+        bulletSpeed = 5  # Adjust the speed of the bullet
+        return Bullet(self.gameState, bulletTexture, bulletPosition, bulletDirection, bulletSpeed, maxLifetime=60)

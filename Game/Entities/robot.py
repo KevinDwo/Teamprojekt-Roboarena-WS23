@@ -29,8 +29,8 @@ class BasicRobot(Actor):
         self.number = number
 
     def updateMovement(self, pressed: ScancodeWrapper):
-        keys = {1: [pygame.K_w,  pygame.K_a,    pygame.K_s,    pygame.K_d],
-                2: [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT]}
+        keys = {1: [pygame.K_w,  pygame.K_a,    pygame.K_s,    pygame.K_d,     pygame.K_SPACE],
+                2: [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_SPACE]}
 
         if pressed[keys[self.number][3]]:  # Right
             self.rotateRight()
@@ -40,6 +40,9 @@ class BasicRobot(Actor):
             self.brake()
         if pressed[keys[self.number][0]]:  # Up
             self.accelerate()
+        if pressed[keys[self.number][4]]:  # Shooting
+            bullet = self.shoot()
+            self.gameState.entities.append(bullet)
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)
