@@ -46,17 +46,23 @@ class Entity:
         rotatedRect.center = self.position + (self.size / 2)
         surface.blit(rotatedImage, rotatedRect)
 
-    def move(self):
+    def move(self, clamping=True):
         """Moves the entity based on its current direction and speed"""
         movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
         newPosition = self.position + movementVector
-        newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
-        newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
+        if clamping:
+            newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
+            newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
         self.position = newPosition
 
     def rotate(self, rotateBy: int):
         """Rotates the entity by rotateBy degrees"""
         self.direction = (self.direction + rotateBy) % 360
+
+    def kill(self):
+        """Kills the entity: Removes it from the currently active entities"""
+        self.isAlive = False
+        self.gameState.entities.remove(self)
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         """This method can be overridden by subclasses to handle keys that are pressed down"""
