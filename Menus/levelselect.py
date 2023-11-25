@@ -1,17 +1,20 @@
 import re
 import os
-from typing import Optional
 import pygame
+from Menus.Panel import Title
 
 from constants import windowHeight, windowWidth
-from Menus.menubutton import MenuButton
+from Menus.buttons import LevelButton, MenuButton
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionPlay, MenuActionQuit
+from pygame import Vector2
 
 
 class LevelSelect:
     def __init__(self, window, clock):
         self.window = window
         self.clock = clock
+        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground2.jpg'),
+                                                      window.get_size())
 
     def show(self) -> MenuAction:
         titleHeight = 100
@@ -20,26 +23,33 @@ class LevelSelect:
         btnHeight = 70
         btnSpace = 20
 
-        title = MenuButton(btnSpace, btnSpace, windowWidth - 2 * btnSpace, titleHeight, 'white', 'Select Level')
-        mainMenuBtn = MenuButton((windowWidth - mainMenuBtnWidth) / 2, windowHeight - btnHeight - btnSpace,
-                                 mainMenuBtnWidth, btnHeight, 'yellow', 'Main Menu')
+        title = Title()
+        mainMenuBtn = MenuButton(Vector2((windowWidth - mainMenuBtnWidth) / 2,
+                                         windowHeight - btnHeight - btnSpace),
+                                 'Main Menu',
+                                 MenuActionMenu())
 
-        levelButtons = getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight)
-
+        self.buttons = getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight)
+        self.buttons['mainMenu'] = mainMenuBtn
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
+            for button in self.buttons.values():
+                button.setState('normal')
+            mousePosition = pygame.mouse.get_pos()
+            for button in self.buttons.values():
+                if button.isOver(mousePosition):
+                    button.setState('hover')
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        pygame.mixer.music.load('Assets/Sounds/gameMusic1.wav')
+                        pygame.mixer.music.play(-1)
+                        return button.onClick
 
-                if event.type == pygame.MOUSEBUTTONUP:
-                    action = checkMouseClick(event, mainMenuBtn, levelButtons)
-                    if action:
-                        return action
-
-            self.window.fill((0, 0, 0))
+            self.window.blit(self.backgroundImage, (0, 0))
             title.draw(self.window)
-            for level in levelButtons.keys():
-                levelButtons[level].draw(self.window)
+            for level in self.buttons.keys():
+                self.buttons[level].draw(self.window)
             mainMenuBtn.draw(self.window)
 
             pygame.display.update()
@@ -61,22 +71,10 @@ def getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight):
         m = levelFileRegex.match(arena)
         if m:
             levelNo = m.group(1)
-            levelButtons[levelNo] = MenuButton(buttonX, buttonY, btnWidth, btnHeight, 'orange', levelNo.lstrip('0'))
+            levelButtons[levelNo] = LevelButton(Vector2(buttonX, buttonY), levelNo.lstrip('0'), MenuActionPlay(levelNo))
             buttonX += btnWidth + btnSpace
             if buttonX + btnWidth + btnSpace > windowWidth:
                 buttonX = initialButtonX
                 buttonY += btnHeight + btnSpace
 
     return levelButtons
-
-
-def checkMouseClick(event, mainMenuBtn, levelButtons) -> Optional[MenuAction]:
-    mousePosition = pygame.mouse.get_pos()
-
-    if mainMenuBtn.isOver(mousePosition):
-        return MenuActionMenu()
-
-    for level in levelButtons:
-        btn = levelButtons[level]
-        if btn.isOver(mousePosition):
-            return MenuActionPlay(level)

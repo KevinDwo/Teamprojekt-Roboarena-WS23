@@ -18,7 +18,7 @@ while True:
     match action:
         case MenuActionMenu():
             mainMenu = MainMenu(window, clock)
-            action = mainMenu.show()
+            action = mainMenu.process()
 
         case MenuActionSelectLevel():
             levelSelect = LevelSelect(window, clock)

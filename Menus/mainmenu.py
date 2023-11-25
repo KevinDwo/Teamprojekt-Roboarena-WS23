@@ -1,48 +1,51 @@
 import pygame
-from pygame import Surface
+from pygame import Surface, Vector2
 from pygame.time import Clock
+from Menus.Panel import Title
 
-from constants import windowWidth
+from constants import windowWidth, windowHeight
 from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel
-from Menus.menubutton import MenuButton
+from Menus.buttons import MenuButton
 
 
 class MainMenu:
     def __init__(self, window: Surface, clock: Clock):
         self.window = window
         self.clock = clock
+        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground1.jpg'),
+                                                      window.get_size())
+        self.title = Title()
+        self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', MenuActionSelectLevel()),
+                        MenuButton(self.getButtonPosition(2), 'Quit', MenuActionQuit())]
 
-    def show(self) -> MenuAction:
-        titleHeight = 100
-        btnWidth = 500
-        btnHeight = 70
-        btnSpace = 20
-
-        title = MenuButton(btnSpace, btnSpace, windowWidth - 2 * btnSpace, titleHeight, 'white', 'ROBOARENA')
-
-        playBtn = MenuButton((windowWidth - btnWidth) / 2, titleHeight + 2 * btnSpace,
-                             btnWidth, btnHeight, 'green', 'Play')
-
-        exitBtn = MenuButton((windowWidth - btnWidth) / 2, titleHeight + btnHeight + 3 * btnSpace,
-                             btnWidth, btnHeight, 'yellow', 'Exit')
-
+    def process(self) -> MenuAction:
+        pygame.mixer.music.load('Assets/Sounds/awesomeness.wav')
+        pygame.mixer.music.play(-1)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
+                for button in self.buttons:
+                    button.setState('normal')
+                mousePosition = pygame.mouse.get_pos()
+                for button in self.buttons:
+                    if button.isOver(mousePosition):
+                        button.setState('hover')
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            return button.onClick
 
-                if event.type == pygame.MOUSEBUTTONUP:
-                    mousePosition = pygame.mouse.get_pos()
-                    if playBtn.isOver(mousePosition):
-                        return MenuActionSelectLevel()
-
-                    if exitBtn.isOver(mousePosition):
-                        return MenuActionQuit()
-
-            self.window.fill((0, 0, 0))
-            title.draw(self.window)
-            playBtn.draw(self.window)
-            exitBtn.draw(self.window)
+            self.window.blit(self.backgroundImage, (0, 0))
+            self.title.draw(self.window)
+            self.buttons[0].draw(self.window)
+            self.buttons[1].draw(self.window)
 
             pygame.display.update()
             self.clock.tick(60)
+
+    def getButtonPosition(self, index: int) -> Vector2:
+        buttonHeight = windowHeight / 10
+        buttonWidth = windowWidth / 2
+        space = 20
+        y = self.title.height + index * (buttonHeight + space)
+        x = (windowWidth - buttonWidth) / 2
+        return Vector2(x, y)
