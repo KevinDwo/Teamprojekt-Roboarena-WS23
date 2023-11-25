@@ -46,12 +46,13 @@ class Entity:
         rotatedRect.center = self.position + (self.size / 2)
         surface.blit(rotatedImage, rotatedRect)
 
-    def move(self):
+    def move(self, clamping=True):
         """Moves the entity based on its current direction and speed"""
         movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
         newPosition = self.position + movementVector
-        newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
-        newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
+        if clamping:
+            newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
+            newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
         self.position = newPosition
 
     def rotate(self, rotateBy: int):
