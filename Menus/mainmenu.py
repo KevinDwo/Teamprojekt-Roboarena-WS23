@@ -19,6 +19,8 @@ class MainMenu:
                         MenuButton(self.getButtonPosition(2), 'Quit', MenuActionQuit())]
 
     def process(self) -> MenuAction:
+        pygame.mixer.music.load('Assets/Sounds/awesomeness.wav')
+        pygame.mixer.music.play(-1)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

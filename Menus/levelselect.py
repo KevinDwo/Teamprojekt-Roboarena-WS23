@@ -31,7 +31,6 @@ class LevelSelect:
 
         self.buttons = getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight)
         self.buttons['mainMenu'] = mainMenuBtn
-
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
