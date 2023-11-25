@@ -12,7 +12,7 @@ class MainMenu:
     def __init__(self, window: Surface, clock: Clock):
         self.window = window
         self.clock = clock
-        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground1.png'),
+        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground1.jpg'),
                                                       window.get_size())
         self.title = Title()
         self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', MenuActionSelectLevel()),
@@ -25,14 +25,14 @@ class MainMenu:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
-            for button in self.buttons:
-                button.setState('normal')
-            mousePosition = pygame.mouse.get_pos()
-            for button in self.buttons:
-                if button.isOver(mousePosition):
-                    button.setState('hover')
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        return button.onClick
+                for button in self.buttons:
+                    button.setState('normal')
+                mousePosition = pygame.mouse.get_pos()
+                for button in self.buttons:
+                    if button.isOver(mousePosition):
+                        button.setState('hover')
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            return button.onClick
 
             self.window.blit(self.backgroundImage, (0, 0))
             self.title.draw(self.window)

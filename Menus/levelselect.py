@@ -13,7 +13,7 @@ class LevelSelect:
     def __init__(self, window, clock):
         self.window = window
         self.clock = clock
-        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground2.png'),
+        self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground2.jpg'),
                                                       window.get_size())
 
     def show(self) -> MenuAction:
