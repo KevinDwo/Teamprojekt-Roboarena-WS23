@@ -25,7 +25,6 @@ class GameState:
             e.move()
 
     def draw(self, window: Surface):
-        self.entities = [e for e in self.entities if e.isAlive]  # Not working like I expected
         window.fill((0, 0, 0))
         self.arena.draw(window)
         for e in self.entities:

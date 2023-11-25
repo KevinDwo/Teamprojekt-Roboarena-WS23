@@ -58,5 +58,10 @@ class Entity:
         """Rotates the entity by rotateBy degrees"""
         self.direction = (self.direction + rotateBy) % 360
 
+    def kill(self):
+        """Kills the entity: Removes it from the currently active entities"""
+        self.isAlive = False
+        self.gameState.entities.remove(self)
+
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         """This method can be overridden by subclasses to handle keys that are pressed down"""

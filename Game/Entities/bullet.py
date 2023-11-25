@@ -26,8 +26,8 @@ class Bullet(Entity):
     def outOfBounds(self):
         if not (0 <= self.position.x <= self.gameState.worldSize.x and
                 0 <= self.position.y <= self.gameState.worldSize.y):
-            self.isAlive = False
+            self.kill()
 
     def checkRange(self):
         if self.lifetime >= self.maxLifetime:
-            self.isAlive = False
+            self.kill()
