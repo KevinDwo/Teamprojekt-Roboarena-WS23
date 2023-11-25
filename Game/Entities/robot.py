@@ -26,7 +26,7 @@ class BasicRobot(Actor):
         rotationalSpeed = 3
         bulletSpeed = 5
         shootCooldown = 500
-        shootRange = 50
+        shootRange = 200
         super().__init__(gameState, texture, position, direction, currentSpeed, maxSpeed, acceleration,
                          brakeAcceleration, rotationalSpeed, hp, bulletSpeed, shootCooldown, shootRange)
         self.number = number

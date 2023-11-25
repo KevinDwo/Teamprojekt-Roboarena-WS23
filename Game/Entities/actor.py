@@ -71,7 +71,7 @@ class Actor(Entity):
         self.rotate(-self.rotationalSpeed)
 
     def shoot(self):
-        """Create and return a bullet entity based on the current state of the cooldown."""
+        """Create and return a bullet entity or None based on the current state of the cooldown."""
         if self.updateShootCooldown():
             bulletTexture = pygame.Surface((5, 5))
             bulletTexture.fill((255, 0, 0))  # Do we have some textures for the bullets?

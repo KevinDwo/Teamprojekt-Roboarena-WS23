@@ -8,7 +8,7 @@ from Game.Entities.entity import Entity
 
 
 class Bullet(Entity):
-    """A bullet is an entity that can move: Can be shot by robot and enemies."""
+    """A bullet is an entity that can move: Can be shot by Actors."""
 
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
                  direction: int, currentSpeed: float, maxLifetime: int):
@@ -16,9 +16,9 @@ class Bullet(Entity):
         self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.lifetime = 0
 
-    def update(self):
+    def move(self):
         """Update the bullet state."""
-        self.move()
+        super().move()
         self.lifetime += 1
         self.outOfBounds()
         self.checkRange()
