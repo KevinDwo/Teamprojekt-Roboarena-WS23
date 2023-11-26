@@ -7,6 +7,7 @@ from pygame.key import ScancodeWrapper
 import pygame
 
 from Game.Entities.actor import Actor
+from utils import collisionDetection
 
 
 class BasicRobot(Actor):
@@ -48,5 +49,25 @@ class BasicRobot(Actor):
             if bullet:
                 self.gameState.entities.append(bullet)
 
+    def move(self):
+        super().move()
+        for deadlyObstacle in self.gameState.deadlyObstacles:
+            if collisionDetection(self.position, deadlyObstacle):
+                self.kill()
+
+        for otherRobot in self.gameState.robots:
+            if otherRobot.number == self.number:
+                continue
+            if (not otherRobot.isAlive) and collisionDetection(self.position, otherRobot.position):
+                otherRobot.revive()
+
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)
+
+    def kill(self):
+        """Kills the robot and checks for game over"""
+        super().kill(False)
+        self.gameState.checkGameOver()
+
+    def revive(self):
+        self.isAlive = True

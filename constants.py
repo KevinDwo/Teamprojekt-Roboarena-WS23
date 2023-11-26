@@ -1,2 +1,4 @@
-windowWidth = 32*32
-windowHeight = 32*24
+tileWidth = 32
+tileHeight = 32
+windowWidth = tileWidth*32
+windowHeight = tileHeight*24

@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
-
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
 from pygame import Surface, Vector2
+
 from Game.Entities.entity import Entity
 
 
