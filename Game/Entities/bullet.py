@@ -39,6 +39,7 @@ class Bullet(Entity):
     def checkHit(self):
         for target in self.gameState.robots:    # Add enemies once implemented
             if (collisionDetection(self.position, target.position) and
-               self.initPosition.distance_to(self.position) > 50):  # Problem with collision detection resulting in bullet hitting the Shooter
+               self.initPosition.distance_to(self.position) > 50):  
+                # Problem with collision detection resulting in bullet hitting the Shooter
                 target.hit(10)
                 self.kill()
