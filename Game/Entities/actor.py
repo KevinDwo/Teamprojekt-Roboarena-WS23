@@ -3,11 +3,9 @@ if TYPE_CHECKING:
     from Game.gameState import GameState
 
 from pygame import Vector2, Surface
-
-from Game.Entities.entity import Entity
-
 import pygame
 
+from Game.Entities.entity import Entity
 from Game.Entities.bullet import Bullet
 
 
@@ -72,7 +70,7 @@ class Actor(Entity):
 
     def shoot(self):
         """Create and return a bullet entity or None based on the current state of the cooldown."""
-        if self.updateShootCooldown():
+        if self.isAlive and self.updateShootCooldown():
             bulletTexture = pygame.Surface((5, 5))
             bulletTexture.fill((255, 0, 0))  # Do we have some textures for the bullets?
             bulletPosition = self.position + (self.size / 2)  # Looks best like this
