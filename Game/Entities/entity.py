@@ -51,12 +51,16 @@ class Entity:
         if self.isAlive:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
             newPosition = self.position + movementVector
+
             if clamping:
                 newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
                 newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
+
             for obstacle in self.gameState.obstacles:
-                if collisionDetection(newPosition, obstacle):
-                    newPosition = self.position
+                if collisionDetection(newPosition, obstacle):  # Can't move to new position - get stuck and lose all speed.
+                    self.currentSpeed = 0
+                    return
+
             self.position = newPosition
 
     def rotate(self, rotateBy: int):
@@ -67,6 +71,7 @@ class Entity:
     def kill(self):
         """Kills the entity: Removes it from the currently active entities"""
         self.isAlive = False
+        self.currentSpeed = 0
         self.gameState.entities.remove(self)
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
