@@ -53,7 +53,7 @@ class BasicRobot(Actor):
         super().move()
         for deadlyObstacle in self.gameState.deadlyObstacles:
             if collisionDetection(self.position, deadlyObstacle):
-                self.kill()
+                self.hit(1)
 
         for otherRobot in self.gameState.robots:
             if otherRobot.number == self.number:
@@ -71,3 +71,14 @@ class BasicRobot(Actor):
 
     def revive(self):
         self.isAlive = True
+        self.hp = 100
+        self.hasHealth = (True, 100)
+        super().updateHp(self.hasHealth)
+
+    def hit(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.kill()
+        else:
+            self.hasHealth = (True, self.hp)
+        super().updateHp(self.hasHealth)

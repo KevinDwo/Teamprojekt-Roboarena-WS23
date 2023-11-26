@@ -78,8 +78,12 @@ class Entity:
         """Kills the entity: Removes it from the currently active entities"""
         self.isAlive = False
         self.currentSpeed = 0
+        self.hasHealth = (False, 0)
         if removeFromEntities:
             self.gameState.entities.remove(self)
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         """This method can be overridden by subclasses to handle keys that are pressed down"""
+
+    def updateHp(self, health):
+        self.hasHealth = health
