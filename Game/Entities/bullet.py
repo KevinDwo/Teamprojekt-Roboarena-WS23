@@ -12,7 +12,7 @@ class Bullet(Entity):
 
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
                  direction: int, currentSpeed: float, maxLifetime: int):
-        super().__init__(gameState, texture, position, direction, currentSpeed)
+        super().__init__(gameState, texture, position, direction, currentSpeed, (False, 0))
         self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.lifetime = 0
 

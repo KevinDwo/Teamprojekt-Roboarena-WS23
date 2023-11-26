@@ -43,7 +43,7 @@ class Actor(Entity):
                  direction: Vector2, currentSpeed: float, maxSpeed: float, acceleration: float,
                  brakeAcceleration: float, rotationalSpeed: float, hp: int, bulletSpeed: float,
                  shootCooldown: float, shootRange: int):
-        super().__init__(gameState, texture, position, direction, currentSpeed)
+        super().__init__(gameState, texture, position, direction, currentSpeed, (True, hp))
         self.maxSpeed = maxSpeed
         self.acceleration = acceleration
         self.brakeAcceleration = brakeAcceleration
