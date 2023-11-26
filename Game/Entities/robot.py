@@ -55,12 +55,18 @@ class BasicRobot(Actor):
             if collisionDetection(self.position, deadlyObstacle):
                 self.kill()
 
+        for otherRobot in self.gameState.robots:
+            if otherRobot.number == self.number:
+                continue
+            if (not otherRobot.isAlive) and collisionDetection(self.position, otherRobot.position):
+                otherRobot.revive()
+
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)
 
     def kill(self):
-        """Kills the entity: Removes it from the currently active entities"""
-        self.isAlive = False
+        """Kills the robot and checks for game over"""
+        super().kill(False)
         self.gameState.checkGameOver()
 
     def revive(self):
