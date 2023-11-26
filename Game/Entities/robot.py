@@ -50,3 +50,10 @@ class BasicRobot(Actor):
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)
+
+    def kill(self):
+        """Kills the entity: Removes it from the currently active entities"""
+        self.isAlive = False
+
+    def revive(self):
+        self.isAlive = True

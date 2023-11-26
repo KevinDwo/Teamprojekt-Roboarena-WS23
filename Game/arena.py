@@ -9,7 +9,7 @@ class Arena():
         self.tmxdata = load_pygame(f"Assets/Maps/level{level}.tmx")
 
     def draw(self, surface):
-        for layer in self.tmxdata.layers[:4]:
+        for layer in self.tmxdata.layers[:5]:
             for x, y, gid, in layer:
                 tile = self.tmxdata.get_tile_image_by_gid(gid)
                 if (tile is not None):

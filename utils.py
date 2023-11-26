@@ -1,5 +1,5 @@
 from math import sin, cos, radians
-
+from constants import tileHeight, tileWidth
 from pygame import Vector2
 
 
@@ -11,3 +11,15 @@ def clamp(x: int, minimum: int, maximum: int) -> int:
 def degreesToUnitVector(degrees: int) -> Vector2:
     """Converts the given direction in degrees ∊ [0, 360) to a vector of length 1 facing that direction"""
     return Vector2(cos(radians(degrees)), sin(radians(degrees)))
+
+
+def collisionDetection(playerPosition: Vector2, obstaclePosition: Vector2) -> bool:
+    return playerPosition.x - tileWidth/2 <= obstaclePosition.x <= playerPosition.x + tileWidth/2 and \
+            playerPosition.y - tileWidth/2 <= obstaclePosition.y <= playerPosition.y + tileHeight/2
+
+
+def isPlayerLeft(player) -> bool:
+    for robot in player:
+        if robot.isAlive:
+            return True
+    return False
