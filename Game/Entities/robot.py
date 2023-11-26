@@ -1,6 +1,4 @@
 from typing import TYPE_CHECKING
-
-from utils import clamp, collisionDetection, degreesToUnitVector
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
@@ -9,6 +7,7 @@ from pygame.key import ScancodeWrapper
 import pygame
 
 from Game.Entities.actor import Actor
+from utils import clamp, collisionDetection, degreesToUnitVector
 
 
 class BasicRobot(Actor):

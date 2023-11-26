@@ -1,6 +1,8 @@
 from math import sin, cos, radians
-from constants import tileHeight, tileWidth
+
 from pygame import Vector2
+
+from constants import tileHeight, tileWidth
 
 
 def clamp(x: int, minimum: int, maximum: int) -> int:

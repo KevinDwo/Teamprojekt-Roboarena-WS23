@@ -1,9 +1,9 @@
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 import tmx
+
 from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer
 from Menus.Panel import GameOverScreen
-
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
 from utils import isPlayerLeft

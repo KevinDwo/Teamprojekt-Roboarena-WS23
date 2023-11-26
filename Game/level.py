@@ -1,4 +1,5 @@
 from pygame import Vector2
+
 from Game.Entities.robot import BasicRobot
 
 

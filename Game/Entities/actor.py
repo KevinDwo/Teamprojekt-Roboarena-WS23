@@ -3,11 +3,9 @@ if TYPE_CHECKING:
     from Game.gameState import GameState
 
 from pygame import Vector2, Surface
-
-from Game.Entities.entity import Entity
-
 import pygame
 
+from Game.Entities.entity import Entity
 from Game.Entities.bullet import Bullet
 
 
