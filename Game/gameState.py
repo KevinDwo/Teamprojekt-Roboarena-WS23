@@ -3,7 +3,6 @@ from pygame.key import ScancodeWrapper
 import tmx
 from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer
 from Menus.Panel import GameOverScreen
-from Menus.menuaction import MenuActionMenu
 
 from constants import windowWidth, windowHeight
 from Game.arena import Arena

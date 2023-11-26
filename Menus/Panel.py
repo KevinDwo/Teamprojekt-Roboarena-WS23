@@ -1,5 +1,5 @@
 from Menus.buttons import MenuButton
-from Menus.menuaction import MenuActionMenu, MenuActionQuit, MenuActionSelectLevel
+from Menus.menuaction import MenuActionMenu, MenuActionQuit
 from constants import windowWidth, windowHeight
 import pygame
 from pygame import Surface, Vector2
@@ -54,6 +54,6 @@ class GameOverScreen:
         font = pygame.font.SysFont('arial', 60)
         text = font.render(self.text, 1, (255, 255, 255))
         self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2))
-        #self.buttons[0].draw(self.texture)
-        #self.buttons[1].draw(self.texture)
+        # self.buttons[0].draw(self.texture)
+        # self.buttons[1].draw(self.texture)
         window.blit(self.texture, rect)
