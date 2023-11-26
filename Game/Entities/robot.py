@@ -1,4 +1,6 @@
 from typing import TYPE_CHECKING
+
+from utils import clamp, collisionDetection, degreesToUnitVector
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
@@ -47,6 +49,25 @@ class BasicRobot(Actor):
             bullet = self.shoot()
             if bullet:
                 self.gameState.entities.append(bullet)
+
+    def move(self, clamping=True):
+        """Moves the entity based on its current direction and speed"""
+        if self.isAlive:
+            movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
+            newPosition = self.position + movementVector
+            for player in self.gameState.robots:
+                if type(player) is BasicRobot and collisionDetection(newPosition, player.position):
+                    player.revive()
+            if clamping:
+                newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
+                newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
+            for deadlyObstacle in self.gameState.deadlyObstacles:
+                if collisionDetection(newPosition, deadlyObstacle):
+                    self.kill()
+            for obstacle in self.gameState.obstacles:
+                if collisionDetection(newPosition, obstacle):
+                    newPosition = self.position
+            self.position = newPosition
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)

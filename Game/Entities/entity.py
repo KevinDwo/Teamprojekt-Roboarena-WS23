@@ -51,15 +51,9 @@ class Entity:
         if self.isAlive:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
             newPosition = self.position + movementVector
-            for player in self.gameState.robots:
-                if collisionDetection(newPosition, player.position):
-                    player.revive()
             if clamping:
                 newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
                 newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
-            for deadlyObstacle in self.gameState.deadlyObstacles:
-                if collisionDetection(newPosition, deadlyObstacle):
-                    self.kill()
             for obstacle in self.gameState.obstacles:
                 if collisionDetection(newPosition, obstacle):
                     newPosition = self.position
