@@ -1,4 +1,5 @@
 from pygame import Vector2
+
 from Game.Entities.robot import BasicRobot
 
 
@@ -43,3 +44,33 @@ def decodeUnitsLayer(state, tileMap):
                     count += 1
                     units.append(unit)
     return units
+
+
+def decodeObstacleLayer(tileMap):
+    obstacles = []
+    for layer in tileMap.layers:
+        if layer in tileMap.layers:
+            if layer.name == 'Walls' or layer.name == 'Obstacle':
+                for y in range(tileMap.height):
+                    for x in range(tileMap.width):
+                        tile = layer.tiles[x+y * tileMap.width]
+                        if tile.gid == 0:
+                            continue
+                        tilePosition = Vector2(x, y) * tileMap.width
+                        obstacles.append(tilePosition)
+    return obstacles
+
+
+def decodeDeadlylayer(tileMap):
+    deadly = []
+    for layer in tileMap.layers:
+        if layer in tileMap.layers:
+            if layer.name == 'Deadly':
+                for y in range(tileMap.height):
+                    for x in range(tileMap.width):
+                        tile = layer.tiles[x+y * tileMap.width]
+                        if tile.gid == 0:
+                            continue
+                        tilePosition = Vector2(x, y) * tileMap.width
+                        deadly.append(tilePosition)
+    return deadly

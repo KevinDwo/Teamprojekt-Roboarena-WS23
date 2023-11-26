@@ -1,8 +1,9 @@
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 import tmx
-from Game.level import decodeUnitsLayer
 
+from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer
+from Menus.Panel import GameOverScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
 
@@ -14,7 +15,10 @@ class GameState:
         self.tileSize = Vector2(32, 32)
         self.arena = Arena(self, level)
         self.robots = decodeUnitsLayer(self, self.level)
-        self.entities = self.robots
+        self.obstacles = decodeObstacleLayer(self.level)
+        self.deadlyObstacles = decodeDeadlylayer(self.level)
+        self.entities = self.robots.copy()
+        self.gameRunning = True
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         for e in self.entities:
@@ -25,7 +29,15 @@ class GameState:
             e.move()
 
     def draw(self, window: Surface):
-        window.fill((0, 0, 0))
-        self.arena.draw(window)
-        for e in self.entities:
-            e.draw(window)
+        if self.gameRunning:
+            window.fill((0, 0, 0))
+            self.arena.draw(window)
+            for e in self.entities:
+                e.draw(window)
+        else:
+            gameOverScreen = GameOverScreen()
+            gameOverScreen.draw(window)
+
+    def checkGameOver(self):
+        if not any(x for x in self.robots if x.isAlive):
+            self.gameRunning = False
