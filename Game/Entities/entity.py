@@ -30,7 +30,9 @@ class Entity:
     size: Vector2
     """Size (width = x, height = y) of the entity"""
 
-    def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2, direction: float, currentSpeed: float, hasHealth: (bool, int)):
+    def __init__(self, gameState: 'GameState', texture: Surface,
+                 position: Vector2, direction: float,
+                 currentSpeed: float, hasHealth: (bool, int)):
         self.gameState = gameState
         self.isAlive = True
         self.texture = texture
@@ -48,7 +50,7 @@ class Entity:
         surface.blit(rotatedImage, rotatedRect)
         if (self.hasHealth[0]):
             healthbar = pygame.Surface((self.hasHealth[1] / 2, 2))
-            surface.blit(healthbar, healthbar.fill((50,205,50)).clamp(rotatedRect))
+            surface.blit(healthbar, healthbar.fill((50, 205, 50)).clamp(rotatedRect))
 
     def move(self, clamping=True):
         """Moves the entity based on its current direction and speed"""
