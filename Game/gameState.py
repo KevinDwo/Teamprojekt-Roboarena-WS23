@@ -6,7 +6,6 @@ from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer
 from Menus.Panel import GameOverScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
-from utils import isPlayerLeft
 
 
 class GameState:
@@ -19,6 +18,7 @@ class GameState:
         self.obstacles = decodeObstacleLayer(self.level)
         self.deadlyObstacles = decodeDeadlylayer(self.level)
         self.entities = self.robots
+        self.gameRunning = True
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         for e in self.entities:
@@ -29,7 +29,7 @@ class GameState:
             e.move()
 
     def draw(self, window: Surface):
-        if isPlayerLeft(self.robots):
+        if self.gameRunning:
             window.fill((0, 0, 0))
             self.arena.draw(window)
             for e in self.entities:
@@ -37,3 +37,7 @@ class GameState:
         else:
             gameOverScreen = GameOverScreen()
             gameOverScreen.draw(window)
+
+    def checkGameOver(self):
+        if not any(x for x in self.robots if x.isAlive):
+            self.gameRunning = False

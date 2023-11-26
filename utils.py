@@ -18,10 +18,3 @@ def degreesToUnitVector(degrees: int) -> Vector2:
 def collisionDetection(playerPosition: Vector2, obstaclePosition: Vector2) -> bool:
     return playerPosition.x - tileWidth/2 <= obstaclePosition.x <= playerPosition.x + tileWidth/2 and \
             playerPosition.y - tileWidth/2 <= obstaclePosition.y <= playerPosition.y + tileHeight/2
-
-
-def isPlayerLeft(player) -> bool:
-    for robot in player:
-        if robot.isAlive:
-            return True
-    return False

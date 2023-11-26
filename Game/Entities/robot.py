@@ -74,6 +74,7 @@ class BasicRobot(Actor):
     def kill(self):
         """Kills the entity: Removes it from the currently active entities"""
         self.isAlive = False
+        self.gameState.checkGameOver()
 
     def revive(self):
         self.isAlive = True
