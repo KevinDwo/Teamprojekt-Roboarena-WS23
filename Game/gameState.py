@@ -17,7 +17,7 @@ class GameState:
         self.robots = decodeUnitsLayer(self, self.level)
         self.obstacles = decodeObstacleLayer(self.level)
         self.deadlyObstacles = decodeDeadlylayer(self.level)
-        self.entities = self.robots
+        self.entities = self.robots.copy()
         self.gameRunning = True
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
