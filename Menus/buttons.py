@@ -13,6 +13,14 @@ class Button:
         self.texture = pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
                                               (width, height))
         self.onClick = onClick
+        self.states = {
+            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
+                                             (self.width, self.height)),
+            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
+                                            (self.width, self.height)),
+            'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
+                                              (self.width, self.height))
+        }
 
     def draw(self, window: Surface):
         font = pygame.font.SysFont('arial', 60)
@@ -27,7 +35,7 @@ class Button:
                self.pos.y <= pos[1] <= self.pos.y + self.height
 
     def setState(self, state: str):
-        pass
+        self.texture = self.states[state]
 
 
 class MenuButton(Button):
@@ -44,9 +52,6 @@ class MenuButton(Button):
                                               (self.width, self.height))
         }
 
-    def setState(self, state: str):
-        self.texture = self.states[state]
-
 
 class LevelButton(Button):
     def __init__(self, pos: Vector2, text: str = '', onClick=None):
@@ -62,3 +67,49 @@ class LevelButton(Button):
 
     def setState(self, state: str):
         self.texture = self.states[state]
+
+
+class PlayerSelectionButton(Button):
+    def __init__(self, pos: Vector2, onClick=None):
+        super().__init__(pos, 0, 0, '', onClick)
+        self.height = windowHeight / 10
+        self.width = windowWidth / 5
+        self.selected = False
+        self.text = 'Select'
+        self.states = {
+            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
+                                             (self.width, self.height)),
+            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
+                                            (self.width, self.height)),
+            'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
+                                              (self.width, self.height))
+        }
+
+    def press(self):
+        if self.selected:
+            self.selected = False
+            self.setState('normal')
+        else:
+            self.selected = True
+            self.setState('pressed')
+            self.onClick
+
+
+class ArrowButton(Button):
+    def __init__(self, pos: Vector2, direction: str, onClick=None):
+        super().__init__(pos, 0, 0, '', onClick)
+        self.height = windowHeight / 15
+        self.width = windowWidth / 15
+        self.states = {
+            'right': pygame.transform.scale(pygame.image.load('Assets/Menu/Icons/right.png'),
+                                            (self.width, self.height)),
+            'left': pygame.transform.scale(pygame.image.load('Assets/Menu/Icons/left.png'),
+                                           (self.width, self.height))
+        }
+        if direction == 'right':
+            self.setState('right')
+        elif direction == 'left':
+            self.setState('left')
+
+    def press(self):
+        self.onClick()

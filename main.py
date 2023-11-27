@@ -1,10 +1,11 @@
 import pygame
+from Menus.playerselect import PlayerSelect
 
 from constants import windowWidth, windowHeight
 from Game.game import Game
 from Menus.levelselect import LevelSelect
 from Menus.mainmenu import MainMenu
-from Menus.menuaction import MenuActionMenu, MenuActionPlay, MenuActionQuit, MenuActionSelectLevel
+from Menus.menuaction import MenuActionMenu, MenuActionPlay, MenuActionQuit, MenuActionSelectLevel, MenuPlayerSelect
 
 pygame.init()
 
@@ -27,6 +28,10 @@ while True:
         case MenuActionPlay():
             game = Game(window, clock, action.level)
             action = game.run()
+
+        case MenuPlayerSelect():
+            playerSelect = PlayerSelect(window, clock)
+            action = playerSelect.process()
 
         case MenuActionQuit():
             break

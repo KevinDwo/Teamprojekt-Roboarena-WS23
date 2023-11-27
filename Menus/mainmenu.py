@@ -4,7 +4,7 @@ from pygame.time import Clock
 from Menus.Panel import Title
 
 from constants import windowWidth, windowHeight
-from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel
+from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel, MenuPlayerSelect
 from Menus.buttons import MenuButton
 
 
@@ -16,7 +16,8 @@ class MainMenu:
                                                       window.get_size())
         self.title = Title()
         self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', MenuActionSelectLevel()),
-                        MenuButton(self.getButtonPosition(2), 'Quit', MenuActionQuit())]
+                        MenuButton(self.getButtonPosition(2), 'Select Player', MenuPlayerSelect()),
+                        MenuButton(self.getButtonPosition(3), 'Quit', MenuActionQuit())]
 
     def process(self) -> MenuAction:
         pygame.mixer.music.load('Assets/Sounds/awesomeness.wav')
@@ -38,6 +39,7 @@ class MainMenu:
             self.title.draw(self.window)
             self.buttons[0].draw(self.window)
             self.buttons[1].draw(self.window)
+            self.buttons[2].draw(self.window)
 
             pygame.display.update()
             self.clock.tick(60)
