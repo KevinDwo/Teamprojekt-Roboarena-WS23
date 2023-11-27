@@ -27,19 +27,9 @@ class PlayerSelect:
                     selectionButton = field.buttons['selectionButton']
                     nextButton = field.buttons['nextButton']
                     backButton = field.buttons['backButton']
-                    if not selectionButton.selected:
-                        selectionButton.setState('normal')
-                    if selectionButton.isOver(mousePosition):
-                        if not selectionButton.selected:
-                            selectionButton.setState('hover')
-                        if event.type == pygame.MOUSEBUTTONUP:
-                            selectionButton.press()
-                    if nextButton.isOver(mousePosition):
-                        if event.type == pygame.MOUSEBUTTONUP:
-                            nextButton.press()
-                    if backButton.isOver(mousePosition):
-                        if event.type == pygame.MOUSEBUTTONUP:
-                            backButton.press()
+                    updateSelectionButton(selectionButton, mousePosition, event)
+                    updateNextButton(nextButton, mousePosition, event)
+                    updateBackButton(backButton, mousePosition, event)
             pressed = pygame.key.get_pressed()
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
@@ -51,3 +41,25 @@ class PlayerSelect:
 
             pygame.display.update()
             self.clock.tick(60)
+
+
+def updateSelectionButton(button, mousePosition, event):
+    if not button.selected:
+        button.setState('normal')
+    if button.isOver(mousePosition):
+        if not button.selected:
+            button.setState('hover')
+        if event.type == pygame.MOUSEBUTTONUP:
+            button.press()
+
+
+def updateNextButton(button, mousePosition, event):
+    if button.isOver(mousePosition):
+        if event.type == pygame.MOUSEBUTTONUP:
+            button.press()
+
+
+def updateBackButton(button, mousePosition, event):
+    if button.isOver(mousePosition):
+        if event.type == pygame.MOUSEBUTTONUP:
+            button.press()
