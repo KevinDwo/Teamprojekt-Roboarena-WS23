@@ -1,11 +1,11 @@
 import pygame
 from pygame import Surface, Vector2
 from pygame.time import Clock
-from Menus.Panel import Title
 
 from constants import windowWidth, windowHeight
 from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect
 from Menus.buttons import MenuButton
+from Menus.Panel import Title
 
 
 class MainMenu:

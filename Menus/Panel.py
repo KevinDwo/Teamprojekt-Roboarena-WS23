@@ -1,8 +1,9 @@
+import pygame
+from pygame import Surface, Vector2
+
 from Menus.buttons import MenuButton, PlayerSelectionButton, ArrowButton
 from Menus.menuaction import MenuActionMenu, MenuActionQuit
 from constants import windowWidth, windowHeight, titleHeight, playerTiles
-import pygame
-from pygame import Surface, Vector2
 
 
 class Title:

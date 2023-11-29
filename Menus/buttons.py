@@ -1,7 +1,9 @@
-from constants import windowHeight, windowWidth
+from typing import Tuple
+
 import pygame
 from pygame import Surface, Vector2
-from typing import Tuple
+
+from constants import windowHeight, windowWidth
 
 
 class Button:
