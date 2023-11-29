@@ -4,7 +4,7 @@ from pygame.time import Clock
 from Menus.Panel import Title
 
 from constants import windowWidth, windowHeight
-from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel, MenuPlayerSelect
+from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect
 from Menus.buttons import MenuButton
 
 
@@ -16,7 +16,7 @@ class MainMenu:
                                                       window.get_size())
         self.title = Title()
         self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', MenuActionSelectLevel()),
-                        MenuButton(self.getButtonPosition(2), 'Select Player', MenuPlayerSelect()),
+                        MenuButton(self.getButtonPosition(2), 'Select Player', MenuActionPlayerSelect()),
                         MenuButton(self.getButtonPosition(3), 'Quit', MenuActionQuit())]
 
     def process(self) -> MenuAction:

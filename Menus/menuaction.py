@@ -21,9 +21,9 @@ class MenuActionQuit:
         pass
 
 
-class MenuPlayerSelect:
+class MenuActionPlayerSelect:
     def __init__(self):
         pass
 
 
-MenuAction = Union[MenuActionMenu, MenuActionPlay, MenuActionSelectLevel, MenuActionQuit]
+MenuAction = Union[MenuActionMenu, MenuActionPlay, MenuActionPlayerSelect, MenuActionSelectLevel, MenuActionQuit]
