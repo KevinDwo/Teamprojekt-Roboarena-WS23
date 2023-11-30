@@ -78,6 +78,14 @@ def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:
                             continue
                         tilePosition = Vector2(x, y) * tileMap.width
                         obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth / 4, tileHeight))
+            elif layer.name == 'WallsRightQuarter':
+                for y in range(tileMap.height):
+                    for x in range(tileMap.width):
+                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
+                        if tile.gid == 0:
+                            continue
+                        tilePosition = Vector2(x, y) * tileMap.width
+                        obstacles.append(Rect(tilePosition.x + 3 * tileWidth / 4, tilePosition.y, tileWidth / 4, tileHeight))
     return obstacles
 
 

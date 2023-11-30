@@ -10,7 +10,8 @@ class Arena():
 
     def draw(self, surface):
         for layer in self.tmxdata.layers:
-            if layer.name in ["Decoration", "Obstacles", "Walls", "WallsLowerHalf", "WallsLeftQuarter", "Ground", "Deadly"]:
+            if layer.name in ["Decoration", "Obstacles", "Walls", "WallsLowerHalf", "WallsLeftQuarter", "WallsRightQuarter",
+                              "Ground", "Deadly"]:
                 for x, y, gid, in layer:
                     tile = self.tmxdata.get_tile_image_by_gid(gid)
                     if (tile is not None):
