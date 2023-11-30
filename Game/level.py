@@ -53,39 +53,26 @@ def decodeUnitsLayer(state, tileMap: TileMap):
 def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:
     obstacles = []
     for layer in tileMap.layers:
-        if layer in tileMap.layers:
-            if layer.name == 'Obstacles':
-                for y in range(tileMap.height):
-                    for x in range(tileMap.width):
-                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
-                        if tile.gid == 0:
-                            continue
-                        tilePosition = Vector2(x, y) * tileMap.width
-                        obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth, tileHeight))
-            elif layer.name == 'WallsLowerHalf':
-                for y in range(tileMap.height):
-                    for x in range(tileMap.width):
-                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
-                        if tile.gid == 0:
-                            continue
-                        tilePosition = Vector2(x, y) * tileMap.width
-                        obstacles.append(Rect(tilePosition.x, tilePosition.y + tileHeight / 2, tileWidth, tileHeight / 2))
-            elif layer.name == 'WallsLeftQuarter':
-                for y in range(tileMap.height):
-                    for x in range(tileMap.width):
-                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
-                        if tile.gid == 0:
-                            continue
-                        tilePosition = Vector2(x, y) * tileMap.width
-                        obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth / 4, tileHeight))
-            elif layer.name == 'WallsRightQuarter':
-                for y in range(tileMap.height):
-                    for x in range(tileMap.width):
-                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
-                        if tile.gid == 0:
-                            continue
-                        tilePosition = Vector2(x, y) * tileMap.width
-                        obstacles.append(Rect(tilePosition.x + 3 * tileWidth / 4, tilePosition.y, tileWidth / 4, tileHeight))
+        if layer.name not in ['Obstacles', 'WallsLowerHalf', 'WallsLeftQuarter', 'WallsRightQuarter']:
+            continue
+
+        for y in range(tileMap.height):
+            for x in range(tileMap.width):
+                tile: LayerTile = layer.tiles[x+y * tileMap.width]
+                if tile.gid == 0:
+                    continue
+                tilePosition = Vector2(x, y) * tileMap.width
+                match layer.name:
+                    case 'Obstacles':
+                        rect = Rect(tilePosition.x, tilePosition.y, tileWidth, tileHeight)
+                    case 'WallsLowerHalf':
+                        rect = Rect(tilePosition.x, tilePosition.y + tileHeight / 2, tileWidth, tileHeight / 2)
+                    case 'WallsLeftQuarter':
+                        rect = Rect(tilePosition.x, tilePosition.y, tileWidth / 4, tileHeight)
+                    case 'WallsRightQuarter':
+                        rect = Rect(tilePosition.x + 3 * tileWidth / 4, tilePosition.y, tileWidth / 4, tileHeight)
+
+                obstacles.append(rect)
     return obstacles
 
 
