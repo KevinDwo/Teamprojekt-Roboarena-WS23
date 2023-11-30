@@ -21,7 +21,7 @@ class Bullet(Entity):
 
     def move(self):
         """Update the bullet state."""
-        super().move(clamping=False)
+        super().move(clamping=False, stuckOnCollision=True)
         self.lifetime += 1
         self.outOfBounds()
         self.checkRange()

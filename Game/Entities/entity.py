@@ -58,25 +58,33 @@ class Entity:
             healthbar = pygame.Surface((self.hasHealth[1] / 2, 2))
             surface.blit(healthbar, healthbar.fill((50, 205, 50)).clamp(rotatedRect))
 
-    def move(self, clamping=True):
+    def move(self, clamping=True, stuckOnCollision=False):
         """Moves the entity based on its current direction and speed"""
         if self.isAlive:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
-            newPosition = self.position + movementVector
 
-            newHitBox = self.getHitBox().copy()
-            newHitBox.center = newPosition + (self.size / 2)
+            newHitBox = self.getHitBox()
+            newPositions = [self.position + movementVector,   # both horiz. and vert. free, this is where the robot wants to go
+                            self.position + Vector2(movementVector.x, 0),  # if vert. blocked, try to go horiz. by x-component
+                            self.position + Vector2(0, movementVector.y)]  # if horiz. blocked, try to go vert. by y-component
 
             if clamping:
-                newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
-                newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
+                for i in range(len(newPositions)):
+                    newPositions[i].x = clamp(newPositions[i].x, 0, self.gameState.worldSize.x - self.size.x)
+                    newPositions[i].y = clamp(newPositions[i].y, 0, self.gameState.worldSize.y - self.size.y)
 
-            for obstacle in self.gameState.obstacles:
-                if newHitBox.colliderect(obstacle):  # Can't move to new position - get stuck and lose all speed.
-                    self.currentSpeed = 0
+            for newPosition in newPositions:
+                newHitBox.center = newPosition + (self.size / 2)
+
+                for obstacle in self.gameState.obstacles:
+                    if newHitBox.colliderect(obstacle):  # Can't move to that position
+                        if stuckOnCollision:             # Either: Get stuck at this place and stop moving
+                            self.currentSpeed = 0
+                            return
+                        break                            # Or: Try the other positions - sliding along the wall horiz. or vert.
+                else:  # No obstacle collided at that newPosition
+                    self.position = newPosition
                     return
-
-            self.position = newPosition
 
     def rotate(self, rotateBy: int):
         """Rotates the entity by rotateBy degrees"""
