@@ -1,12 +1,13 @@
 from typing import List
 
 from pygame import Vector2, Rect
+from tmx import LayerTile, TileMap, Layer
 
 from constants import tileWidth, tileHeight
 from Game.Entities.robot import BasicRobot
 
 
-def decodeLayer(tileMap, layer):
+def decodeLayer(tileMap: TileMap, layer: Layer):
     gid = None
     for tile in layer.tiles:
         if tile.gid != 0:
@@ -23,7 +24,7 @@ def decodeLayer(tileMap, layer):
         return tileset
 
 
-def decodeUnitsLayer(state, tileMap):
+def decodeUnitsLayer(state, tileMap: TileMap):
     units = []
     count = 1
     for layer in tileMap.layers:
@@ -49,22 +50,38 @@ def decodeUnitsLayer(state, tileMap):
     return units
 
 
-def decodeObstacleLayer(tileMap) -> List[Rect]:
+def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:
     obstacles = []
     for layer in tileMap.layers:
         if layer in tileMap.layers:
-            if layer.name == 'Walls' or layer.name == 'Obstacle':
+            if layer.name == 'Obstacle':
                 for y in range(tileMap.height):
                     for x in range(tileMap.width):
-                        tile = layer.tiles[x+y * tileMap.width]
+                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
                         if tile.gid == 0:
                             continue
                         tilePosition = Vector2(x, y) * tileMap.width
                         obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth, tileHeight))
+            elif layer.name == 'WallsLowerHalf':
+                for y in range(tileMap.height):
+                    for x in range(tileMap.width):
+                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
+                        if tile.gid == 0:
+                            continue
+                        tilePosition = Vector2(x, y) * tileMap.width
+                        obstacles.append(Rect(tilePosition.x, tilePosition.y + tileHeight / 2, tileWidth, tileHeight / 2))
+            elif layer.name == 'WallsLeftQuarter':
+                for y in range(tileMap.height):
+                    for x in range(tileMap.width):
+                        tile: LayerTile = layer.tiles[x+y * tileMap.width]
+                        if tile.gid == 0:
+                            continue
+                        tilePosition = Vector2(x, y) * tileMap.width
+                        obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth / 4, tileHeight))
     return obstacles
 
 
-def decodeDeadlylayer(tileMap) -> List[Rect]:
+def decodeDeadlylayer(tileMap: TileMap) -> List[Rect]:
     deadly = []
     for layer in tileMap.layers:
         if layer in tileMap.layers:
