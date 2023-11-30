@@ -54,9 +54,13 @@ class Entity:
         rotatedRect = rotatedImage.get_rect()
         rotatedRect.center = self.position + (self.size / 2)
         surface.blit(rotatedImage, rotatedRect)
+
+    def drawHealthBar(self, surface: Surface):
+        """Draws the health bar for this entity (if it has one)"""
         if (self.hasHealth[0]):
             healthbar = pygame.Surface((self.hasHealth[1] / 2, 2))
-            surface.blit(healthbar, healthbar.fill((50, 205, 50)).clamp(rotatedRect))
+            healthbar.fill((50, 205, 50))
+            surface.blit(healthbar, self.position + Vector2(-8, -6))
 
     def move(self, clamping=True, stuckOnCollision=False):
         """Moves the entity based on its current direction and speed"""

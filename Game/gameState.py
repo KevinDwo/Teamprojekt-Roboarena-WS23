@@ -35,6 +35,8 @@ class GameState:
             for e in self.entities:
                 e.draw(window)
             self.arena.drawAboveEntities(window)
+            for e in self.entities:
+                e.drawHealthBar(window)
         else:
             gameOverScreen = GameOverScreen()
             gameOverScreen.draw(window)
