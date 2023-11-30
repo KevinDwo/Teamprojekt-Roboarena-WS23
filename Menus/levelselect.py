@@ -1,12 +1,13 @@
 import re
 import os
+
 import pygame
-from Menus.Panel import Title
+from pygame import Vector2
 
 from constants import windowHeight, windowWidth
 from Menus.buttons import LevelButton, MenuButton
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionPlay, MenuActionQuit
-from pygame import Vector2
+from Menus.Panel import Title
 
 
 class LevelSelect:

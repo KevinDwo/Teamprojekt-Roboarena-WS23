@@ -75,7 +75,7 @@ class Actor(Entity):
             bulletTexture.fill((255, 0, 0))  # Do we have some textures for the bullets?
             bulletPosition = self.position + (self.size / 2)  # Looks best like this
             return Bullet(self.gameState, bulletTexture, bulletPosition,
-                          self.direction, self.bulletSpeed, self.shootRange)
+                          self.direction, self.bulletSpeed, self.shootRange, self)
         return None
 
     def updateShootCooldown(self):

@@ -3,10 +3,10 @@ if TYPE_CHECKING:
     from Game.gameState import GameState
 
 import pygame
-from pygame import Surface, Vector2
+from pygame import Surface, Vector2, Rect
 from pygame.key import ScancodeWrapper
 
-from utils import clamp, collisionDetection, degreesToUnitVector
+from utils import clamp, degreesToUnitVector
 
 
 class Entity:
@@ -42,6 +42,12 @@ class Entity:
         self.hasHealth = hasHealth
         self.size = Vector2(texture.get_size())
 
+    def getHitBox(self) -> Rect:
+        """Gets the rectangular hitbox of the entity. Can be overridden, defaults to the rect of its texture."""
+        hb = self.texture.get_rect()
+        hb.center = self.position + (self.size / 2)
+        return hb
+
     def draw(self, surface: Surface):
         """Draws the entity to the screen."""
         rotatedImage = pygame.transform.rotate(self.texture, -self.direction)
@@ -58,12 +64,15 @@ class Entity:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
             newPosition = self.position + movementVector
 
+            newHitBox = self.getHitBox().copy()
+            newHitBox.center = newPosition + (self.size / 2)
+
             if clamping:
                 newPosition.x = clamp(newPosition.x, 0, self.gameState.worldSize.x - self.size.x)
                 newPosition.y = clamp(newPosition.y, 0, self.gameState.worldSize.y - self.size.y)
 
             for obstacle in self.gameState.obstacles:
-                if collisionDetection(newPosition, obstacle):  # Can't move to new position - get stuck and lose all speed.
+                if newHitBox.colliderect(obstacle):  # Can't move to new position - get stuck and lose all speed.
                     self.currentSpeed = 0
                     return
 

@@ -1,5 +1,8 @@
-from pygame import Vector2
+from typing import List
 
+from pygame import Vector2, Rect
+
+from constants import tileWidth, tileHeight
 from Game.Entities.robot import BasicRobot
 
 
@@ -46,7 +49,7 @@ def decodeUnitsLayer(state, tileMap):
     return units
 
 
-def decodeObstacleLayer(tileMap):
+def decodeObstacleLayer(tileMap) -> List[Rect]:
     obstacles = []
     for layer in tileMap.layers:
         if layer in tileMap.layers:
@@ -57,11 +60,11 @@ def decodeObstacleLayer(tileMap):
                         if tile.gid == 0:
                             continue
                         tilePosition = Vector2(x, y) * tileMap.width
-                        obstacles.append(tilePosition)
+                        obstacles.append(Rect(tilePosition.x, tilePosition.y, tileWidth, tileHeight))
     return obstacles
 
 
-def decodeDeadlylayer(tileMap):
+def decodeDeadlylayer(tileMap) -> List[Rect]:
     deadly = []
     for layer in tileMap.layers:
         if layer in tileMap.layers:
@@ -72,5 +75,5 @@ def decodeDeadlylayer(tileMap):
                         if tile.gid == 0:
                             continue
                         tilePosition = Vector2(x, y) * tileMap.width
-                        deadly.append(tilePosition)
+                        deadly.append(Rect(tilePosition.x, tilePosition.y, tileWidth, tileHeight))
     return deadly
