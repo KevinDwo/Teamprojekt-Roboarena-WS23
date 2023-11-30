@@ -54,7 +54,7 @@ def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:
     obstacles = []
     for layer in tileMap.layers:
         if layer in tileMap.layers:
-            if layer.name == 'Obstacle':
+            if layer.name == 'Obstacles':
                 for y in range(tileMap.height):
                     for x in range(tileMap.width):
                         tile: LayerTile = layer.tiles[x+y * tileMap.width]
