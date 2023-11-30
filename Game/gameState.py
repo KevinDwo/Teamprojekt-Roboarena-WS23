@@ -31,9 +31,10 @@ class GameState:
     def draw(self, window: Surface):
         if self.gameRunning:
             window.fill((0, 0, 0))
-            self.arena.draw(window)
+            self.arena.drawBelowEntities(window)
             for e in self.entities:
                 e.draw(window)
+            self.arena.drawAboveEntities(window)
         else:
             gameOverScreen = GameOverScreen()
             gameOverScreen.draw(window)
