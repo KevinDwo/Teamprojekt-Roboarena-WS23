@@ -18,7 +18,7 @@ def decodeLayer(tileMap: TileMap, layer: Layer):
     else:
         tileset = None
         for t in tileMap.tilesets:
-            if gid >= t.firstgid and gid < t.firstgid + t.tilecount:
+            if t.firstgid <= gid < t.firstgid + t.tilecount:
                 tileset = t
                 break
         return tileset

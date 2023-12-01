@@ -20,6 +20,6 @@ class Arena():
                 if layer.name == layerName:
                     for x, y, gid, in layer:
                         tile = self.tmxdata.get_tile_image_by_gid(gid)
-                        if (tile is not None):
+                        if tile is not None:
                             surface.blit(tile, (x * self.tmxdata.tilewidth,
                                                 y * self.tmxdata.tileheight))
