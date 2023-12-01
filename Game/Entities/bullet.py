@@ -1,27 +1,27 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Game.gameState import GameState
+    from Game.Entities.actor import Actor
 
 from pygame import Surface, Vector2
 
 from Game.Entities.entity import Entity
-
-from utils import collisionDetection
 
 
 class Bullet(Entity):
     """A bullet is an entity that can move: Can be shot by Actors."""
 
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
-                 direction: int, currentSpeed: float, maxLifetime: int):
+                 direction: int, currentSpeed: float, maxLifetime: int, shooter: 'Actor'):
         super().__init__(gameState, texture, position, direction, currentSpeed, (False, 0))
         self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.initPosition = position
         self.lifetime = 0
+        self.shooter = shooter
 
     def move(self):
         """Update the bullet state."""
-        super().move(clamping=False)
+        super().move(clamping=False, stuckOnCollision=True)
         self.lifetime += 1
         self.outOfBounds()
         self.checkRange()
@@ -38,8 +38,6 @@ class Bullet(Entity):
 
     def checkHit(self):
         for target in self.gameState.robots:    # Add enemies once implemented
-            if (collisionDetection(self.position, target.position) and
-               self.initPosition.distance_to(self.position) > 50):
-                # Problem with collision detection resulting in bullet hitting the Shooter
+            if target != self.shooter and self.getHitBox().colliderect(target.getHitBox()):
                 target.hit(10)
                 self.kill()
