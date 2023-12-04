@@ -2,7 +2,7 @@ from typing import List
 
 from pygame import Vector2, Rect
 from tmx import LayerTile, TileMap, Layer
-from Game.Entities.enemie import Enemie
+from Game.Entities.enemy import Enemy
 
 from constants import tileWidth, tileHeight
 from Game.Entities.robot import BasicRobot
@@ -66,10 +66,10 @@ def decodeEnemyLayer(state, tileMap: TileMap):
                     # lid = tile.gid - tileset.firstgid
                     # tileX = lid % tileset.columns
                     # tileY = lid // tileset.columns
-                    unit = Enemie(state,
-                                  source,
-                                  Vector2(x * tileMap.height,
-                                          y * tileMap.width))
+                    unit = Enemy(state,
+                                 source,
+                                 Vector2(x * tileMap.height,
+                                         y * tileMap.width))
                     Enemies.append(unit)
     return Enemies
 
