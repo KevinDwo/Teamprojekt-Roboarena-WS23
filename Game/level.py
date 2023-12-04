@@ -2,6 +2,7 @@ from typing import List
 
 from pygame import Vector2, Rect
 from tmx import LayerTile, TileMap, Layer
+from Game.Entities.enemie import Enemie
 
 from constants import tileWidth, tileHeight
 from Game.Entities.robot import BasicRobot
@@ -48,6 +49,29 @@ def decodeUnitsLayer(state, tileMap: TileMap):
                     count += 1
                     units.append(unit)
     return units
+
+
+def decodeEnemyLayer(state, tileMap: TileMap):
+    Enemies = []
+    for layer in tileMap.layers:
+        if layer.name == "Enemies":
+            tileset = decodeLayer(tileMap, layer)
+            source = tileset.image.source
+            for y in range(tileMap.height):
+                for x in range(tileMap.width):
+                    tile = layer.tiles[x + y * tileMap.width]
+                    if tile.gid == 0:
+                        continue
+                    # This is how tileX and tileY can be calculated. They are not used so far.
+                    # lid = tile.gid - tileset.firstgid
+                    # tileX = lid % tileset.columns
+                    # tileY = lid // tileset.columns
+                    unit = Enemie(state,
+                                  source,
+                                  Vector2(x * tileMap.height,
+                                          y * tileMap.width))
+                    Enemies.append(unit)
+    return Enemies
 
 
 def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:

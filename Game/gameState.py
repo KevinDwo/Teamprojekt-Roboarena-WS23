@@ -2,7 +2,7 @@ from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 import tmx
 
-from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer
+from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer, decodeEnemyLayer
 from Menus.Panel import GameOverScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
@@ -17,7 +17,8 @@ class GameState:
         self.robots = decodeUnitsLayer(self, self.level)
         self.obstacles = decodeObstacleLayer(self.level)
         self.deadlyObstacles = decodeDeadlylayer(self.level)
-        self.entities = self.robots.copy()
+        self.Enemies = decodeEnemyLayer(self, self.level)
+        self.entities = self.robots.copy() + self.Enemies.copy()
         self.gameRunning = True
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
