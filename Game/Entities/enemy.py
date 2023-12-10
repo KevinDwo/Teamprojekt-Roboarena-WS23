@@ -26,8 +26,8 @@ class Enemy(Actor):
                          brakeAcceleration, rotationalSpeed, hp, bulletSpeed, shootCooldown, shootRange)
 
     def move(self):
-        if self.isAlive:
-            finalAngle = pygame.Vector2.angle_to(pygame.Vector2(0, 0), self.gameState.robots[0].position - self.position) % 360  # Implement 2 player Support
+        if self.isAlive:                                                             # Implement 2 player Support
+            finalAngle = pygame.Vector2.angle_to(pygame.Vector2(0, 0), self.gameState.robots[0].position - self.position) % 360
             self.direction = finalAngle
             """" Fix me: Smooth turning
             if finalAngle - self.direction < - self.rotationalSpeed:
