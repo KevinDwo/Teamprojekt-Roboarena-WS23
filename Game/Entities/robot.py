@@ -71,13 +71,3 @@ class BasicRobot(Actor):
     def revive(self):
         self.isAlive = True
         self.hp = 100
-        self.hasHealth = (True, 100)
-        super().updateHp(self.hasHealth)
-
-    def hit(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
-            self.kill()
-        else:
-            self.hasHealth = (True, self.hp)
-        super().updateHp(self.hasHealth)

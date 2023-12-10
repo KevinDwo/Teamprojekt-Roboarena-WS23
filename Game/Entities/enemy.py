@@ -60,11 +60,3 @@ class Enemy(Actor):
 
     def kill(self):
         super().kill(False)
-
-    def hit(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
-            self.kill()
-        else:
-            self.hasHealth = (True, self.hp)
-        super().updateHp(self.hasHealth)

@@ -13,7 +13,7 @@ class Bullet(Entity):
 
     def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
                  direction: int, currentSpeed: float, maxLifetime: int, shooter: 'Actor'):
-        super().__init__(gameState, texture, position, direction, currentSpeed, (False, 0))
+        super().__init__(gameState, texture, position, direction, currentSpeed)
         self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.initPosition = position
         self.lifetime = 0
@@ -37,10 +37,13 @@ class Bullet(Entity):
             self.kill()
 
     def checkHit(self):
-        for target in self.gameState.robots + self.gameState.Enemies:
-            if target != self.shooter and self.getHitBox().colliderect(target.getHitBox()):
-                target.hit(10)
-                self.kill()
+        for target in self.gameState.entities:
+            if target != self and target != self.shooter and self.getHitBox().colliderect(target.getHitBox()):
+                # Bullets destroy each other unless shot by the same shooter - in that case, they ignore each other.
+                if type(target) is not Bullet or target.shooter != self.shooter:
+                    target.hit(10)
+                    self.kill()
 
-    def hit(self, damage):
-        return
+    def hit(self, damage: int):
+        super().hit(damage)
+        self.kill()

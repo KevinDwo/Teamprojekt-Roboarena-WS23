@@ -6,6 +6,7 @@ from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer,
 from Menus.Panel import GameOverScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
+from Game.Entities.actor import Actor
 
 
 class GameState:
@@ -17,8 +18,8 @@ class GameState:
         self.robots = decodeUnitsLayer(self, self.level)
         self.obstacles = decodeObstacleLayer(self.level)
         self.deadlyObstacles = decodeDeadlylayer(self.level)
-        self.Enemies = decodeEnemyLayer(self, self.level)
-        self.entities = self.robots.copy() + self.Enemies.copy()
+        self.enemies = decodeEnemyLayer(self, self.level)
+        self.entities = self.robots.copy() + self.enemies.copy()
         self.gameRunning = True
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
@@ -37,7 +38,8 @@ class GameState:
                 e.draw(window)
             self.arena.drawAboveEntities(window)
             for e in self.entities:
-                e.drawHealthBar(window)
+                if isinstance(e, Actor):
+                    e.drawHealthBar(window)
         else:
             gameOverScreen = GameOverScreen()
             gameOverScreen.draw(window)

@@ -43,7 +43,7 @@ class Actor(Entity):
                  direction: Vector2, currentSpeed: float, maxSpeed: float, acceleration: float,
                  brakeAcceleration: float, rotationalSpeed: float, hp: int, bulletSpeed: float,
                  shootCooldown: float, shootRange: int):
-        super().__init__(gameState, texture, position, direction, currentSpeed, (True, hp))
+        super().__init__(gameState, texture, position, direction, currentSpeed)
         self.maxSpeed = maxSpeed
         self.acceleration = acceleration
         self.brakeAcceleration = brakeAcceleration
@@ -85,3 +85,16 @@ class Actor(Entity):
             self.lastShotTime = current_time
             return True
         return False
+
+    def hit(self, damage):
+        super().hit(damage)
+        self.hp -= damage
+        if self.hp <= 0:
+            self.kill()
+
+    def drawHealthBar(self, surface: Surface):
+        """Draws the health bar for this actor"""
+        if self.hp > 0:
+            healthbar = pygame.Surface((self.hp / 2, 2))
+            healthbar.fill((50, 205, 50))
+            surface.blit(healthbar, self.position + Vector2(-8, -6))
