@@ -37,7 +37,10 @@ class Bullet(Entity):
             self.kill()
 
     def checkHit(self):
-        for target in self.gameState.robots:    # Add enemies once implemented
+        for target in self.gameState.robots + self.gameState.Enemies:
             if target != self.shooter and self.getHitBox().colliderect(target.getHitBox()):
                 target.hit(10)
                 self.kill()
+
+    def hit(self, damage):
+        return
