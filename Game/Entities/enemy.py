@@ -45,9 +45,7 @@ class Enemy(Actor):
             else:
                 self.accelerate()
             """
-            bullet = self.shoot()
-            if bullet:
-                self.gameState.entities.append(bullet)
+            self.shoot()
         super().move()
         """"
         for deadlyObstacle in self.gameState.deadlyObstacles:

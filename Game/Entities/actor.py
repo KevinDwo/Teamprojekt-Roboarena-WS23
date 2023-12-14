@@ -74,8 +74,10 @@ class Actor(Entity):
             bulletTexture = pygame.Surface((5, 5))
             bulletTexture.fill((255, 0, 0))  # Do we have some textures for the bullets?
             bulletPosition = self.position + (self.size / 2)  # Looks best like this
-            return Bullet(self.gameState, bulletTexture, bulletPosition,
-                          self.direction, self.bulletSpeed, self.shootRange, self)
+            bullet = Bullet(self.gameState, bulletTexture, bulletPosition,
+                            self.direction, self.bulletSpeed, self.shootRange, self)
+            self.gameState.entities.append(bullet)
+            return bullet
         return None
 
     def updateShootCooldown(self):

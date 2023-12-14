@@ -44,9 +44,7 @@ class BasicRobot(Actor):
         if pressed[keys[self.number][0]]:  # Up
             self.accelerate()
         if pressed[keys[self.number][4]]:  # Shooting
-            bullet = self.shoot()
-            if bullet:
-                self.gameState.entities.append(bullet)
+            self.shoot()
 
     def move(self):
         super().move()
