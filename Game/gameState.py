@@ -3,7 +3,7 @@ from pygame.key import ScancodeWrapper
 import tmx
 
 from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer, decodeEnemyLayer
-from Menus.Panel import GameOverScreen
+from Menus.Panel import GameOverScreen, VictoryScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
 from Game.Entities.actor import Actor
@@ -40,10 +40,13 @@ class GameState:
             for e in self.entities:
                 if isinstance(e, Actor):
                     e.drawHealthBar(window)
+        elif any(x.isAlive for x in self.robots):
+            victoryScreen = VictoryScreen()
+            victoryScreen.draw(window)
         else:
             gameOverScreen = GameOverScreen()
             gameOverScreen.draw(window)
 
     def checkGameOver(self):
-        if not any(x for x in self.robots if x.isAlive):
+        if not any(x for x in self.robots if x.isAlive) or not any(x for x in self.enemies if x.isAlive):
             self.gameRunning = False
