@@ -21,7 +21,7 @@ class Bullet(Entity):
 
     def move(self):
         """Update the bullet state."""
-        super().move(stuckOnCollision=True)
+        super().move(clamping=False, stuckOnCollision=True)
         self.lifetime += 1
         self.outOfBounds()
         self.checkRange()
@@ -40,9 +40,16 @@ class Bullet(Entity):
         for target in self.gameState.entities:
             if target != self and target != self.shooter and self.getHitBox().colliderect(target.getHitBox()):
                 # Bullets destroy each other unless shot by the same shooter - in that case, they ignore each other.
-                if type(target) is not Bullet or target.shooter != self.shooter:
-                    target.hit(10)
+                if type(target) is Bullet and target.shooter == self.shooter:
+                    return
+
+                # No friendly fire among enemies - they are too likely to kill each other, lol
+                if target in self.gameState.enemies and self.shooter in self.gameState.enemies:
                     self.kill()
+                    return
+
+                target.hit(10)
+                self.kill()
 
     def hit(self, damage: int):
         super().hit(damage)

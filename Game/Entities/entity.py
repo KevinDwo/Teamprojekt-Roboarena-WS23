@@ -6,7 +6,7 @@ import pygame
 from pygame import Surface, Vector2, Rect
 from pygame.key import ScancodeWrapper
 
-from utils import degreesToUnitVector
+from utils import clamp, degreesToUnitVector
 
 
 class Entity:
@@ -54,7 +54,7 @@ class Entity:
         rotatedRect.center = self.position + (self.size / 2)
         surface.blit(rotatedImage, rotatedRect)
 
-    def move(self, stuckOnCollision=False):
+    def move(self, clamping=True, stuckOnCollision=False):
         """Moves the entity based on its current direction and speed"""
         if self.isAlive:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
@@ -63,6 +63,11 @@ class Entity:
             newPositions = [self.position + movementVector,   # both horiz. and vert. free, this is where the robot wants to go
                             self.position + Vector2(movementVector.x, 0),  # if vert. blocked, try to go horiz. by x-component
                             self.position + Vector2(0, movementVector.y)]  # if horiz. blocked, try to go vert. by y-component
+
+            if clamping:
+                for i in range(len(newPositions)):
+                    newPositions[i].x = clamp(newPositions[i].x, 0, self.gameState.worldSize.x - self.size.x)
+                    newPositions[i].y = clamp(newPositions[i].y, 0, self.gameState.worldSize.y - self.size.y)
 
             for newPosition in newPositions:
                 newHitBox.center = newPosition + (self.size / 2)
