@@ -50,7 +50,7 @@ class Enemy(Actor):
             else:
                 self.brake()
 
-            if random.randint(0, 100) < enemyShootChance:
+            if random.randint(0, 99) < enemyShootChance:
                 self.shoot()
 
     def kill(self):
@@ -58,7 +58,7 @@ class Enemy(Actor):
         self.gameState.checkGameOver()
 
     def chooseTarget(self):
-        if (not self.target) or (random.randint(0, 1000) / 10 < enemyChooseNewTargetChance):
+        if (not self.target) or (random.randint(0, 999) / 10 < enemyChooseNewTargetChance):
             targets = [x for x in self.gameState.robots if x.isAlive]
             targets.sort(key=lambda x: (x.position - self.position).length())
             if not targets:
@@ -76,7 +76,7 @@ class Enemy(Actor):
 
             if self.lastChoosePosition and (self.position - self.lastChoosePosition).length() < 1 and self.currentSpeed > 0:
                 # enemy is not moving despite trying to move - it's stuck in a wall. Try rotating by 90 degrees.
-                if random.randint(0, 2) == 0:
+                if random.randint(0, 1) == 0:
                     baseDirection = (baseDirection + 90) % 360
                 else:
                     baseDirection = (baseDirection - 90) % 360
