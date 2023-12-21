@@ -24,13 +24,13 @@ class Title:
                         self.y + (self.height/2 - text.get_height()/2)))
 
 
-class GameOverScreen:
-    def __init__(self):
+class EndScreen:
+    def __init__(self, text):
         self.x = windowWidth/2
         self.y = windowHeight/2
         self.width = windowWidth / 2
         self.height = windowHeight / 2
-        self.text = 'Game Over'
+        self.text = text
         self.texture = pygame.transform.scale(pygame.image.load('Assets/Menu/Panels/GameOverScreen.png'),
                                               (self.width, self.height))
         self.rect = self.texture.get_rect()
@@ -58,6 +58,16 @@ class GameOverScreen:
         # self.buttons[0].draw(self.texture)
         # self.buttons[1].draw(self.texture)
         window.blit(self.texture, rect)
+
+
+class GameOverScreen(EndScreen):
+    def __init__(self):
+        super().__init__('Game Over')
+
+
+class VictoryScreen(EndScreen):
+    def __init__(self):
+        super().__init__('Victory!')
 
 
 class PlayerSelectField:

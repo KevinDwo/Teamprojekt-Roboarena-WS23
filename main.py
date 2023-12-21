@@ -1,11 +1,11 @@
 import pygame
-from Menus.playerselect import PlayerSelect
 
 from constants import windowWidth, windowHeight
 from Game.game import Game
 from Menus.levelselect import LevelSelect
 from Menus.mainmenu import MainMenu
 from Menus.menuaction import MenuActionMenu, MenuActionPlay, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect
+from Menus.playerselect import PlayerSelect
 
 pygame.init()
 

@@ -44,9 +44,7 @@ class BasicRobot(Actor):
         if pressed[keys[self.number][0]]:  # Up
             self.accelerate()
         if pressed[keys[self.number][4]]:  # Shooting
-            bullet = self.shoot()
-            if bullet:
-                self.gameState.entities.append(bullet)
+            self.shoot()
 
     def move(self):
         super().move()
@@ -71,13 +69,3 @@ class BasicRobot(Actor):
     def revive(self):
         self.isAlive = True
         self.hp = 100
-        self.hasHealth = (True, 100)
-        super().updateHp(self.hasHealth)
-
-    def hit(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
-            self.kill()
-        else:
-            self.hasHealth = (True, self.hp)
-        super().updateHp(self.hasHealth)

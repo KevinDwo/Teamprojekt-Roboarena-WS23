@@ -32,14 +32,13 @@ class Entity:
 
     def __init__(self, gameState: 'GameState', texture: Surface,
                  position: Vector2, direction: float,
-                 currentSpeed: float, hasHealth: (bool, int)):
+                 currentSpeed: float):
         self.gameState = gameState
         self.isAlive = True
         self.texture = texture
         self.position = position
         self.direction = direction
         self.currentSpeed = currentSpeed
-        self.hasHealth = hasHealth
         self.size = Vector2(texture.get_size())
 
     def getHitBox(self) -> Rect:
@@ -54,13 +53,6 @@ class Entity:
         rotatedRect = rotatedImage.get_rect()
         rotatedRect.center = self.position + (self.size / 2)
         surface.blit(rotatedImage, rotatedRect)
-
-    def drawHealthBar(self, surface: Surface):
-        """Draws the health bar for this entity (if it has one)"""
-        if (self.hasHealth[0]):
-            healthbar = pygame.Surface((self.hasHealth[1] / 2, 2))
-            healthbar.fill((50, 205, 50))
-            surface.blit(healthbar, self.position + Vector2(-8, -6))
 
     def move(self, clamping=True, stuckOnCollision=False):
         """Moves the entity based on its current direction and speed"""
@@ -97,14 +89,14 @@ class Entity:
 
     def kill(self, removeFromEntities=True):
         """Kills the entity: Removes it from the currently active entities"""
-        self.isAlive = False
-        self.currentSpeed = 0
-        self.hasHealth = (False, 0)
-        if removeFromEntities:
-            self.gameState.entities.remove(self)
+        if self.isAlive:
+            self.isAlive = False
+            self.currentSpeed = 0
+            if removeFromEntities:
+                self.gameState.entities.remove(self)
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         """This method can be overridden by subclasses to handle keys that are pressed down"""
 
-    def updateHp(self, health):
-        self.hasHealth = health
+    def hit(self, strength: int):
+        """Occurs when the entity takes damage. Can be overriden by subclasses."""

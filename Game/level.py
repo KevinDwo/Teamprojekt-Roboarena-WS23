@@ -52,7 +52,7 @@ def decodeUnitsLayer(state, tileMap: TileMap):
 
 
 def decodeEnemyLayer(state, tileMap: TileMap):
-    Enemies = []
+    enemies = []
     for layer in tileMap.layers:
         if layer.name == "Enemies":
             tileset = decodeLayer(tileMap, layer)
@@ -70,8 +70,8 @@ def decodeEnemyLayer(state, tileMap: TileMap):
                                  source,
                                  Vector2(x * tileMap.height,
                                          y * tileMap.width))
-                    Enemies.append(unit)
-    return Enemies
+                    enemies.append(unit)
+    return enemies
 
 
 def decodeObstacleLayer(tileMap: TileMap) -> List[Rect]:
