@@ -5,7 +5,7 @@ from pygame.time import Clock
 from constants import windowWidth, windowHeight
 from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect
 from Menus.buttons import MenuButton
-from Menus.Panel import Title
+from Menus.panel import Title
 
 
 class MainMenu:

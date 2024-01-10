@@ -2,7 +2,7 @@ import pygame
 from pygame import Surface
 from pygame.time import Clock
 
-from Menus.Panel import PlayerSelectField, Title
+from Menus.panel import PlayerSelectField, Title
 from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionMenu
 
 

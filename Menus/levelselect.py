@@ -7,7 +7,7 @@ from pygame import Vector2
 from constants import windowHeight, windowWidth
 from Menus.buttons import LevelButton, MenuButton
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionPlay, MenuActionQuit
-from Menus.Panel import Title
+from Menus.panel import Title
 
 
 class LevelSelect:
