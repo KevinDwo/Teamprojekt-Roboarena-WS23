@@ -6,7 +6,7 @@ class Arena():
         self.gameState = gameState
         self.horizontalTiles = int(self.gameState.worldSize.x / self.gameState.tileSize.x)
         self.verticalTiles = int(self.gameState.worldSize.y / self.gameState.tileSize.y)
-        self.tileMap = tmxhandler.load_level(f"Assets/Maps/level{level}.tmx")
+        self.tileMap = tmxhandler.loadLevel(f"Assets/Maps/level{level}.tmx")
 
     def drawBelowEntities(self, surface):
         self.drawLayers(surface, ["Ground", "Deadly"])

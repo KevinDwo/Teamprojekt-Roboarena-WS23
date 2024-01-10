@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Game.gameState import GameState
 
-from pygame import Vector2
+from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 import pygame
 
@@ -15,8 +15,7 @@ class BasicRobot(Actor):
     number: int
     """The number identifier (1, 2, ...) of this robot"""
 
-    def __init__(self, gameState: 'GameState', texturePath: str, position: Vector2, number: int):
-        texture = pygame.image.load(texturePath)
+    def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2, number: int):
         direction = 0
         currentSpeed = 0
         hp = 100

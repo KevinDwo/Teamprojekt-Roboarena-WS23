@@ -4,6 +4,7 @@ if TYPE_CHECKING:
 import random
 
 import pygame
+from pygame import Surface
 
 from constants import enemyChooseNewTargetChance, enemyShootChance
 from utils import isRightOf
@@ -11,8 +12,7 @@ from Game.Entities.actor import Actor
 
 
 class Enemy(Actor):
-    def __init__(self, gameState: 'GameState', texturePath: str, position: pygame.Vector2):
-        texture = pygame.image.load(texturePath)
+    def __init__(self, gameState: 'GameState', texture: Surface, position: pygame.Vector2):
         direction = 0
         currentSpeed = 0
         hp = 50

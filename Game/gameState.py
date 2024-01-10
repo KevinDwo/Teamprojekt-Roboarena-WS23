@@ -1,8 +1,7 @@
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
-import tmx
 
-from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer, decodeEnemyLayer
+import tmxhandler
 from Menus.Panel import GameOverScreen, VictoryScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
@@ -11,14 +10,13 @@ from Game.Entities.actor import Actor
 
 class GameState:
     def __init__(self, level: str) -> None:
-        self.level = tmx.TileMap.load(f"Assets/Maps/level{level}.tmx")
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
         self.arena = Arena(self, level)
-        self.robots = decodeUnitsLayer(self, self.level)
-        self.obstacles = decodeObstacleLayer(self.level)
-        self.deadlyObstacles = decodeDeadlylayer(self.level)
-        self.enemies = decodeEnemyLayer(self, self.level)
+        self.robots = tmxhandler.decodeRobotsLayers(self)
+        self.obstacles = tmxhandler.decodeObstacleLayer(self)
+        self.deadlyObstacles = tmxhandler.decodeDeadlylayer(self)
+        self.enemies = tmxhandler.decodeEnemyLayer(self)
         self.entities = self.robots.copy() + self.enemies.copy()
         self.gameRunning = True
 
