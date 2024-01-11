@@ -43,8 +43,6 @@ class LevelSelect:
                 if button.isOver(mousePosition):
                     button.setState('hover')
                     if event.type == pygame.MOUSEBUTTONUP:
-                        pygame.mixer.music.load('Assets/Sounds/gameMusic1.wav')
-                        pygame.mixer.music.play(-1)
                         return button.onClick
 
             self.window.blit(self.backgroundImage, (0, 0))
