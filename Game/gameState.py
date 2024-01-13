@@ -1,6 +1,7 @@
 import pygame
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
+from pygame import mixer
 import tmx
 
 from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer, decodeEnemyLayer
@@ -45,12 +46,14 @@ class GameState:
         elif any(x.isAlive for x in self.robots):
             if not endScreen:
                 endScreen = VictoryScreen()
-                pygame.mixer.music.fadeout(120)
+                pygame.mixer.music.fadeout(60)
+                mixer.Sound('Assets/Sounds/victory.wav').play()
             return endScreen.draw(window)
         else:
             if not endScreen:
                 endScreen = GameOverScreen()
-                pygame.mixer.music.fadeout(120)
+                pygame.mixer.music.fadeout(60)
+                mixer.Sound('Assets/Sounds/game_over2.wav').play()
             return endScreen.draw(window)
 
     def checkGameOver(self):
