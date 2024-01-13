@@ -1,3 +1,4 @@
+import pygame
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 import tmx
@@ -44,10 +45,12 @@ class GameState:
         elif any(x.isAlive for x in self.robots):
             if not endScreen:
                 endScreen = VictoryScreen()
+                pygame.mixer.music.fadeout(120)
             return endScreen.draw(window)
         else:
             if not endScreen:
                 endScreen = GameOverScreen()
+                pygame.mixer.music.fadeout(120)
             return endScreen.draw(window)
 
     def checkGameOver(self):
