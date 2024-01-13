@@ -4,6 +4,7 @@ if TYPE_CHECKING:
 
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
+from pygame import mixer
 import pygame
 
 from Game.Entities.actor import Actor
@@ -62,6 +63,8 @@ class BasicRobot(Actor):
 
     def kill(self):
         """Kills the robot and checks for game over"""
+        if self.isAlive:
+            mixer.Sound('Assets/Sounds/explosion.wav').play()
         super().kill(False)
         self.gameState.checkGameOver()
 
