@@ -31,6 +31,7 @@ class GameState:
             e.move()
 
     def draw(self, window: Surface):
+        endScreen = None
         if self.gameRunning:
             window.fill((0, 0, 0))
             self.arena.drawBelowEntities(window)
@@ -41,11 +42,13 @@ class GameState:
                 if isinstance(e, Actor):
                     e.drawHealthBar(window)
         elif any(x.isAlive for x in self.robots):
-            victoryScreen = VictoryScreen()
-            victoryScreen.draw(window)
+            if not endScreen:
+                endScreen = VictoryScreen()
+            return endScreen.draw(window)
         else:
-            gameOverScreen = GameOverScreen()
-            gameOverScreen.draw(window)
+            if not endScreen:
+                endScreen = GameOverScreen()
+            return endScreen.draw(window)
 
     def checkGameOver(self):
         if not any(x for x in self.robots if x.isAlive) or not any(x for x in self.enemies if x.isAlive):

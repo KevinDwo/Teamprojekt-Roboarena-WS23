@@ -1,63 +1,66 @@
 import pygame
 from pygame import Surface, Vector2
 
-from Menus.buttons import MenuButton, PlayerSelectionButton, ArrowButton
+from Menus.buttons import GameEndButton, PlayerSelectionButton, ArrowButton
 from Menus.menuaction import MenuActionMenu, MenuActionQuit
 from constants import windowWidth, windowHeight, titleHeight, playerTiles
 
 
 class Title:
+    TitleTexture = pygame.image.load('Assets/Menu/Panels/Title.png')
+
     def __init__(self):
         self.x = 0
         self.y = 0
-        self.width = windowWidth - 2 * 20
+        self.width = windowWidth - 40
         self.height = titleHeight
-        self.text = 'RoboArena'
-        self.texture = pygame.image.load('Assets/Menu/Panels/Title.png')
+        self.text = 'Roboarena'
 
     def draw(self, window: Surface):
         font = pygame.font.SysFont('arial', 60)
         text = font.render(self.text, 1, (255, 255, 255))
-        window.blit(self.texture, (self.x, self.y, self.width, self.height))
-        window.blit(text,
-                    (self.x + (self.width/2 - text.get_width()/2),
-                        self.y + (self.height/2 - text.get_height()/2)))
+        window.blit(self.TitleTexture, (self.x, self.y, self.width, self.height))
+        window.blit(text, (self.x + (self.width/2 - text.get_width()/2),
+                           self.y + (self.height/2 - text.get_height()/2)))
 
 
 class EndScreen:
     def __init__(self, text):
-        self.x = windowWidth/2
-        self.y = windowHeight/2
+        self.x = windowWidth / 4
+        self.y = windowHeight / 4
         self.width = windowWidth / 2
         self.height = windowHeight / 2
         self.text = text
         self.texture = pygame.transform.scale(pygame.image.load('Assets/Menu/Panels/GameOverScreen.png'),
                                               (self.width, self.height))
         self.rect = self.texture.get_rect()
-        self.rect.center = (self.x, self.y)
-        self.buttons = [MenuButton(Vector2(0,
-                                           self.height / 3), 'Main Menu', MenuActionMenu()),
-                        MenuButton(Vector2(0,
-                                           2*self.height / 3), 'Quit', MenuActionQuit())]
+        self.rect.center = Vector2(windowWidth / 2, windowHeight / 2)
+        self.buttons = [GameEndButton(Vector2(self.x + windowWidth / 12,
+                                              self.y + self.height / 3), 'Main Menu', 40, MenuActionMenu()),
+                        GameEndButton(Vector2(self.x + windowWidth / 12,
+                                              self.y + 3 * self.height / 5), 'Quit', 40, MenuActionQuit())]
 
     def draw(self, window: Surface):
+        mousePosition = pygame.mouse.get_pos()
+        mouseOverButton = next((b for b in self.buttons if b.isOver(mousePosition)), None)
+        for button in self.buttons:
+            if button.isOver(mousePosition):
+                button.state = 'hover' if button is mouseOverButton else 'normal'
+
         for event in pygame.event.get():
-            for button in self.buttons:
-                button.setState('normal')
-            mousePosition = pygame.mouse.get_pos()
-            for button in self.buttons:
-                if button.isOver(mousePosition):
-                    button.setState('hover')
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        return button.onClick
-        rect = self.texture.get_rect()
-        rect.center = window.get_rect().center
+            if event.type == pygame.QUIT:
+                return MenuActionQuit()
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if mouseOverButton:
+                    return mouseOverButton.onClick
+
         font = pygame.font.SysFont('arial', 60)
         text = font.render(self.text, 1, (255, 255, 255))
         self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2))
-        # self.buttons[0].draw(self.texture)
-        # self.buttons[1].draw(self.texture)
-        window.blit(self.texture, rect)
+        window.blit(self.texture, self.rect)
+        self.buttons[0].draw(window)
+        self.buttons[1].draw(window)
 
 
 class GameOverScreen(EndScreen):
@@ -81,7 +84,7 @@ class PlayerSelectField:
                                               (self.width, self.height))
         self.tilePosition = self.getTilePosition(index)
         self.tileIndex = tileIndex
-        self.buttons = {"selectionButton": PlayerSelectionButton(self.getButtonPosition(index), None),
+        self.buttons = {"selectionButton": PlayerSelectionButton(self.getButtonPosition(index)),
                         "nextButton": ArrowButton(self.getNextButtonPosition(index), 'right', self.incrementTile),
                         "backButton": ArrowButton(self.getBackButtonPosition(index), 'left', self.decrementTile)}
 

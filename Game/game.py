@@ -32,7 +32,10 @@ class Game():
             self.gameState.moveEntities()
 
             # Draw everything to the screen
-            self.gameState.draw(self.window)
+            action = self.gameState.draw(self.window)
+            # If an action was returned, stop the game loop and return the action.
+            if action:
+                return action
 
             # Update with 60fps
             pygame.display.update()

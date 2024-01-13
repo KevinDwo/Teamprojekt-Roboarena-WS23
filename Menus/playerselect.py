@@ -46,10 +46,10 @@ class PlayerSelect:
 
 def updateSelectionButton(button, mousePosition, event):
     if not button.selected:
-        button.setState('normal')
+        button.state = 'normal'
     if button.isOver(mousePosition):
         if not button.selected:
-            button.setState('hover')
+            button.state = 'hover'
         if event.type == pygame.MOUSEBUTTONUP:
             button.press()
 
@@ -57,10 +57,10 @@ def updateSelectionButton(button, mousePosition, event):
 def updateNextButton(button, mousePosition, event):
     if button.isOver(mousePosition):
         if event.type == pygame.MOUSEBUTTONUP:
-            button.press()
+            button.onClick()
 
 
 def updateBackButton(button, mousePosition, event):
     if button.isOver(mousePosition):
         if event.type == pygame.MOUSEBUTTONUP:
-            button.press()
+            button.onClick()

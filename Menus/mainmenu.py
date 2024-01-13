@@ -15,9 +15,9 @@ class MainMenu:
         self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground1.jpg'),
                                                       window.get_size())
         self.title = Title()
-        self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', MenuActionSelectLevel()),
-                        MenuButton(self.getButtonPosition(2), 'Select Player', MenuActionPlayerSelect()),
-                        MenuButton(self.getButtonPosition(3), 'Quit', MenuActionQuit())]
+        self.buttons = [MenuButton(self.getButtonPosition(1), 'Play', 60, MenuActionSelectLevel()),
+                        MenuButton(self.getButtonPosition(2), 'Select Player', 60, MenuActionPlayerSelect()),
+                        MenuButton(self.getButtonPosition(3), 'Quit', 60, MenuActionQuit())]
 
     def process(self) -> MenuAction:
         while True:
@@ -25,19 +25,18 @@ class MainMenu:
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
                 for button in self.buttons:
-                    button.setState('normal')
+                    button.state = 'normal'
                 mousePosition = pygame.mouse.get_pos()
                 for button in self.buttons:
                     if button.isOver(mousePosition):
-                        button.setState('hover')
+                        button.state = 'hover'
                         if event.type == pygame.MOUSEBUTTONUP:
                             return button.onClick
 
             self.window.blit(self.backgroundImage, (0, 0))
             self.title.draw(self.window)
-            self.buttons[0].draw(self.window)
-            self.buttons[1].draw(self.window)
-            self.buttons[2].draw(self.window)
+            for b in self.buttons:
+                b.draw(self.window)
 
             pygame.display.update()
             self.clock.tick(60)
