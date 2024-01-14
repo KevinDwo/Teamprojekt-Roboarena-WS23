@@ -2,9 +2,11 @@ import pygame
 
 from constants import windowWidth, windowHeight
 from Game.game import Game
+from Menus.credits import Credits
 from Menus.levelselect import LevelSelect
 from Menus.mainmenu import MainMenu
-from Menus.menuaction import MenuActionMenu, MenuActionPlay, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect
+from Menus.menuaction import MenuActionMenu, MenuActionPlay, MenuActionQuit, MenuActionSelectLevel, MenuActionPlayerSelect, \
+                             MenuActionCredits
 from Menus.playerselect import PlayerSelect
 
 pygame.init()
@@ -39,6 +41,10 @@ while True:
         case MenuActionPlayerSelect():
             playerSelect = PlayerSelect(window, clock)
             action = playerSelect.process()
+
+        case MenuActionCredits():
+            credits = Credits(window, clock)
+            action = credits.show()
 
         case MenuActionQuit():
             break

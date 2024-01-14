@@ -1,4 +1,5 @@
 from typing import Tuple, Dict
+import webbrowser
 
 import pygame
 from pygame import Surface, Vector2
@@ -112,3 +113,20 @@ class ArrowButton(Button):
                                            (width, height))
         }
         super().__init__(pos, width, height, textures, direction, onClick=onClick)
+
+
+class URLButton(Button):
+    def __init__(self, pos: Vector2, text: str, url: str, fontSize: int = 25):
+        width = 230
+        height = 54
+        textures = {
+            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
+                                             (width, height)),
+            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
+                                            (width, height))
+        }
+        super().__init__(pos, width, height, textures, 'normal', text, fontSize)
+        self.url = url
+
+    def click(self):
+        webbrowser.open(self.url, 2, True)
