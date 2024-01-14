@@ -15,3 +15,6 @@ for tile in os.listdir('Assets/Player'):
 # Random chances for enemies, in percent. These are rather low because they occur every frame, i.e. 60 times per second.
 enemyChooseNewTargetChance = 1
 enemyShootChance = 10
+
+gitHubURL = 'https://github.com/Teamprojekt-Roboarena-WS23/Roboarena'
+updateLogUrl = 'https://teamprojekt-roboarena-ws23.github.io'
