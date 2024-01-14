@@ -3,17 +3,21 @@ if TYPE_CHECKING:
     from Game.gameState import GameState
     from Game.Entities.actor import Actor
 
-from pygame import Surface, Vector2
+import pygame
+from pygame import Vector2
 
 from Game.Entities.entity import Entity
+
+
+BulletTexture = pygame.image.load('Assets/Bullet.png')
 
 
 class Bullet(Entity):
     """A bullet is an entity that can move: Can be shot by Actors."""
 
-    def __init__(self, gameState: 'GameState', texture: Surface, position: Vector2,
+    def __init__(self, gameState: 'GameState', position: Vector2,
                  direction: int, currentSpeed: float, maxLifetime: int, shooter: 'Actor'):
-        super().__init__(gameState, texture, position, direction, currentSpeed)
+        super().__init__(gameState, BulletTexture, position, direction, currentSpeed)
         self.maxLifetime = maxLifetime  # Maybe we can use this for later weapons
         self.initPosition = position
         self.lifetime = 0

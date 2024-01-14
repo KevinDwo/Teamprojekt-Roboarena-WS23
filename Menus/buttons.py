@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Dict
 
 import pygame
 from pygame import Surface, Vector2
@@ -7,111 +7,108 @@ from constants import windowHeight, windowWidth
 
 
 class Button:
-    def __init__(self, pos: Vector2, width: int = 1, height: int = 1, text: str = '', onClick=None):
+    def __init__(self, pos: Vector2, width: int, height: int, textures: Dict, initialState: str,
+                 text: str = '', fontSize: int = 60, onClick=None):
         self.pos = pos
         self.width = width
         self.height = height
-        self.text = text
-        self.texture = pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
-                                              (width, height))
+        self.textures = textures
+        self.state = initialState
         self.onClick = onClick
-        self.states = {
-            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
-                                             (self.width, self.height)),
-            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
-                                            (self.width, self.height)),
-            'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
-                                              (self.width, self.height))
-        }
+        self.renderedText = None
+
+        if text:
+            font = pygame.font.SysFont('arial', fontSize)
+            self.renderedText = font.render(text, 1, (255, 255, 255))
 
     def draw(self, window: Surface):
-        font = pygame.font.SysFont('arial', 60)
-        text = font.render(self.text, 1, (255, 255, 255))
-        window.blit(self.texture, (self.pos.x, self.pos.y, self.width, self.height))
-        window.blit(text,
-                    (self.pos.x + (self.width/2 - text.get_width()/2),
-                     self.pos.y + (self.height/2 - text.get_height()/2)))
+        window.blit(self.textures[self.state], (self.pos.x, self.pos.y, self.width, self.height))
+        if self.renderedText:
+            window.blit(self.renderedText,
+                        (self.pos.x + (self.width/2 - self.renderedText.get_width()/2),
+                         self.pos.y + (self.height/2 - self.renderedText.get_height()/2)))
 
     def isOver(self, pos: Tuple[int, int]) -> bool:
         return self.pos.x <= pos[0] <= self.pos.x + self.width and \
                self.pos.y <= pos[1] <= self.pos.y + self.height
 
-    def setState(self, state: str):
-        self.texture = self.states[state]
-
 
 class MenuButton(Button):
-    def __init__(self, pos: Vector2, text: str = '', onClick=None):
-        super().__init__(pos, 0, 0, text, onClick)
-        self.height = windowHeight / 10
-        self.width = windowWidth / 2
-        self.states = {
+    def __init__(self, pos: Vector2, text: str = '', fontSize: int = 60, onClick=None):
+        width = windowWidth / 2
+        height = windowHeight / 10
+        textures = {
             'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
-                                             (self.width, self.height)),
+                                             (width, height)),
             'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
-                                            (self.width, self.height)),
+                                            (width, height)),
             'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
-                                              (self.width, self.height))
+                                              (width, height))
         }
+        super().__init__(pos, width, height, textures, 'normal', text, fontSize, onClick)
+
+
+class GameEndButton(Button):
+    def __init__(self, pos: Vector2, text: str = '', fontSize: int = 60, onClick=None):
+        width = windowWidth / 3
+        height = windowHeight / 10
+        textures = {
+            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
+                                             (width, height)),
+            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
+                                            (width, height)),
+            'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
+                                              (width, height))
+        }
+        super().__init__(pos, width, height, textures, 'normal', text, fontSize, onClick)
 
 
 class LevelButton(Button):
-    def __init__(self, pos: Vector2, text: str = '', onClick=None):
-        super().__init__(pos, 0, 0, text, onClick)
-        self.height = 70
-        self.width = 70
-        self.states = {
+    def __init__(self, pos: Vector2, text: str = '', fontSize: int = 60, onClick=None):
+        width = 70
+        height = 70
+        textures = {
             'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/LevelButtonNormal.png'),
-                                             (self.width, self.height)),
+                                             (width, height)),
             'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/LevelButtonHover.png'),
-                                            (self.width, self.height))
+                                            (width, height))
         }
-
-    def setState(self, state: str):
-        self.texture = self.states[state]
+        super().__init__(pos, width, height, textures, 'normal', text, fontSize, onClick)
 
 
 class PlayerSelectionButton(Button):
     def __init__(self, pos: Vector2, onClick=None):
-        super().__init__(pos, 0, 0, '', onClick)
-        self.height = windowHeight / 10
-        self.width = windowWidth / 5
+        width = windowWidth / 5
+        height = windowHeight / 10
         self.selected = False
-        self.text = 'Select'
-        self.states = {
+        textures = {
             'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
-                                             (self.width, self.height)),
+                                             (width, height)),
             'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
-                                            (self.width, self.height)),
+                                            (width, height)),
             'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
-                                              (self.width, self.height))
+                                              (width, height))
         }
+        super().__init__(pos, width, height, textures, 'normal', 'Select', onClick=onClick)
 
     def press(self):
         if self.selected:
             self.selected = False
-            self.setState('normal')
+            self.state = 'normal'
         else:
             self.selected = True
-            self.setState('pressed')
+            self.state = 'pressed'
             self.onClick
 
 
 class ArrowButton(Button):
     def __init__(self, pos: Vector2, direction: str, onClick=None):
-        super().__init__(pos, 0, 0, '', onClick)
-        self.height = windowHeight / 15
-        self.width = windowWidth / 15
-        self.states = {
+        width = windowWidth / 15
+        height = windowHeight / 15
+        textures = {
             'right': pygame.transform.scale(pygame.image.load('Assets/Menu/Icons/right.png'),
-                                            (self.width, self.height)),
+                                            (width, height)),
             'left': pygame.transform.scale(pygame.image.load('Assets/Menu/Icons/left.png'),
-                                           (self.width, self.height))
+                                           (width, height))
         }
-        if direction == 'right':
-            self.setState('right')
-        elif direction == 'left':
-            self.setState('left')
-
-    def press(self):
-        self.onClick()
+        super().__init__(pos, width, height, textures, direction, onClick=onClick)
