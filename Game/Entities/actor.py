@@ -72,10 +72,8 @@ class Actor(Entity):
     def shoot(self):
         """Create and return a bullet entity or None based on the current state of the cooldown."""
         if self.isAlive and self.updateShootCooldown():
-            bulletTexture = pygame.Surface((5, 5))
-            bulletTexture.fill((255, 0, 0))  # Do we have some textures for the bullets?
             bulletPosition = self.position + (self.size / 2)  # Looks best like this
-            bullet = Bullet(self.gameState, bulletTexture, bulletPosition,
+            bullet = Bullet(self.gameState, bulletPosition,
                             self.direction, self.bulletSpeed, self.shootRange, self)
             self.gameState.entities.append(bullet)
             mixer.Sound('Assets/Sounds/laser_gun_standard.wav').play()
