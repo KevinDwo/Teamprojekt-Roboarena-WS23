@@ -14,6 +14,9 @@ window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()
 
+pygame.mixer.music.load('Assets/Sounds/awesomeness.wav')
+pygame.mixer.music.play(-1)
+
 action = MenuActionMenu()
 while True:
     match action:
@@ -26,8 +29,12 @@ while True:
             action = levelSelect.show()
 
         case MenuActionPlay():
+            pygame.mixer.music.load('Assets/Sounds/gameMusic1.wav')
+            pygame.mixer.music.play(-1)
             game = Game(window, clock, action.level)
             action = game.run()
+            pygame.mixer.music.load('Assets/Sounds/awesomeness.wav')
+            pygame.mixer.music.play(-1)
 
         case MenuActionPlayerSelect():
             playerSelect = PlayerSelect(window, clock)

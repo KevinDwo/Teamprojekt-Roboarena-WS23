@@ -1,10 +1,11 @@
+import pygame
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
 from pygame import mixer
 import tmx
 
 from Game.level import decodeDeadlylayer, decodeObstacleLayer, decodeUnitsLayer, decodeEnemyLayer
-from Menus.Panel import GameOverScreen, VictoryScreen
+from Menus.panel import GameOverScreen, VictoryScreen
 from constants import windowWidth, windowHeight
 from Game.arena import Arena
 from Game.Entities.actor import Actor
@@ -32,6 +33,7 @@ class GameState:
             e.move()
 
     def draw(self, window: Surface):
+        endScreen = None
         if self.gameRunning:
             window.fill((0, 0, 0))
             self.arena.drawBelowEntities(window)
@@ -42,13 +44,17 @@ class GameState:
                 if isinstance(e, Actor):
                     e.drawHealthBar(window)
         elif any(x.isAlive for x in self.robots):
-            victoryScreen = VictoryScreen()
-            victoryScreen.draw(window)
-            mixer.Sound('Assets/Sounds/victory.wav').play()
+            if not endScreen:
+                endScreen = VictoryScreen()
+                pygame.mixer.music.fadeout(60)
+                mixer.Sound('Assets/Sounds/victory.wav').play()
+            return endScreen.draw(window)
         else:
-            gameOverScreen = GameOverScreen()
-            gameOverScreen.draw(window)
-            mixer.Sound('Assets/Sounds/game_over2.wav').play()
+            if not endScreen:
+                endScreen = GameOverScreen()
+                pygame.mixer.music.fadeout(60)
+                mixer.Sound('Assets/Sounds/game_over2.wav').play()
+            return endScreen.draw(window)
 
     def checkGameOver(self):
         if not any(x for x in self.robots if x.isAlive) or not any(x for x in self.enemies if x.isAlive):

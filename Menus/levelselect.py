@@ -7,7 +7,7 @@ from pygame import Vector2
 from constants import windowHeight, windowWidth
 from Menus.buttons import LevelButton, MenuButton
 from Menus.menuaction import MenuAction, MenuActionMenu, MenuActionPlay, MenuActionQuit
-from Menus.Panel import Title
+from Menus.panel import Title
 
 
 class LevelSelect:
@@ -27,25 +27,25 @@ class LevelSelect:
         title = Title()
         mainMenuBtn = MenuButton(Vector2((windowWidth - mainMenuBtnWidth) / 2,
                                          windowHeight - btnHeight - btnSpace),
-                                 'Main Menu',
+                                 'Main Menu', 60,
                                  MenuActionMenu())
 
         self.buttons = getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight)
         self.buttons['mainMenu'] = mainMenuBtn
         while True:
+            mousePosition = pygame.mouse.get_pos()
+            mouseOverButton = next((b for b in self.buttons.values() if b.isOver(mousePosition)), None)
+
+            for button in self.buttons.values():
+                button.state = 'hover' if button is mouseOverButton else 'normal'
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
-            for button in self.buttons.values():
-                button.setState('normal')
-            mousePosition = pygame.mouse.get_pos()
-            for button in self.buttons.values():
-                if button.isOver(mousePosition):
-                    button.setState('hover')
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        pygame.mixer.music.load('Assets/Sounds/gameMusic1.wav')
-                        pygame.mixer.music.play(-1)
-                        return button.onClick
+
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if mouseOverButton:
+                        return mouseOverButton.onClick
 
             self.window.blit(self.backgroundImage, (0, 0))
             title.draw(self.window)
@@ -72,7 +72,7 @@ def getLevelButtons(btnWidth, btnHeight, btnSpace, titleHeight):
         m = levelFileRegex.match(arena)
         if m:
             levelNo = m.group(1)
-            levelButtons[levelNo] = LevelButton(Vector2(buttonX, buttonY), levelNo.lstrip('0'), MenuActionPlay(levelNo))
+            levelButtons[levelNo] = LevelButton(Vector2(buttonX, buttonY), levelNo.lstrip('0'), 60, MenuActionPlay(levelNo))
             buttonX += btnWidth + btnSpace
             if buttonX + btnWidth + btnSpace > windowWidth:
                 buttonX = initialButtonX
