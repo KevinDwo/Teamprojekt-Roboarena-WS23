@@ -60,7 +60,6 @@ class Bullet(Entity):
     def hit(self, damage: int):
         super().hit(damage)
         self.kill()
-        
 
     def kill(self, removeFromEntities=True):
         """Kills the entity: Removes it from the currently active entities"""

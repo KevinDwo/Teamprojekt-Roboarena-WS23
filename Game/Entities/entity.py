@@ -60,7 +60,7 @@ class Entity:
             movementVector = self.currentSpeed * degreesToUnitVector(self.direction)
 
             newHitBox = self.getHitBox()
-            newPositions = [self.position + movementVector,   # both horiz. and vert. free, this is where the robot wants to go
+            newPositions = [self.position + movementVector,  # both horiz. and vert. free, this is where the robot wants to go
                             self.position + Vector2(movementVector.x, 0),  # if vert. blocked, try to go horiz. by x-component
                             self.position + Vector2(0, movementVector.y)]  # if horiz. blocked, try to go vert. by y-component
 
@@ -78,7 +78,7 @@ class Entity:
                             self.currentSpeed = 0
                             self.kill()
                             return
-                        break                            # Or: Try the other positions - sliding along the wall horiz. or vert.
+                        break                # Or: Try the other positions - sliding along the wall horiz. or vert.
                 else:  # No obstacle collided at that newPosition
                     self.position = newPosition
                     return
