@@ -28,8 +28,9 @@ class GameState:
             e.handleKeyPresses(pressed)
 
     def moveEntities(self):
-        for e in self.entities:
-            e.move()
+        if self.gameRunning:
+            for e in self.entities:
+                e.move()
 
     def draw(self, window: Surface):
         endScreen = None
@@ -46,15 +47,18 @@ class GameState:
             if not endScreen:
                 endScreen = VictoryScreen()
                 pygame.mixer.music.fadeout(60)
-                mixer.Sound('Assets/Sounds/victory.wav').play()
             return endScreen.draw(window)
         else:
             if not endScreen:
                 endScreen = GameOverScreen()
                 pygame.mixer.music.fadeout(60)
-                mixer.Sound('Assets/Sounds/game_over2.wav').play()
             return endScreen.draw(window)
 
     def checkGameOver(self):
-        if not any(x for x in self.robots if x.isAlive) or not any(x for x in self.enemies if x.isAlive):
-            self.gameRunning = False
+        if self.gameRunning:
+            if not any(x for x in self.robots if x.isAlive):
+                self.gameRunning = False
+                mixer.Sound('Assets/Sounds/game_over2.wav').play()
+            elif not any(x for x in self.enemies if x.isAlive):
+                self.gameRunning = False
+                mixer.Sound('Assets/Sounds/victory.wav').play()
