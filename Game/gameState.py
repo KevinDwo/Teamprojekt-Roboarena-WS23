@@ -22,6 +22,7 @@ class GameState:
         self.enemies = tmxhandler.decodeEnemyLayer(self)
         self.entities = self.robots.copy() + self.enemies.copy()
         self.gameRunning = True
+        self.animations = []
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         for e in self.entities:
@@ -43,6 +44,8 @@ class GameState:
             for e in self.entities:
                 if isinstance(e, Actor):
                     e.drawHealthBar(window)
+            for a in self.animations:
+                a.draw(window)
         elif any(x.isAlive for x in self.robots):
             if not endScreen:
                 endScreen = VictoryScreen()

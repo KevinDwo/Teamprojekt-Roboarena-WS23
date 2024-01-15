@@ -76,6 +76,7 @@ class Entity:
                     if newHitBox.colliderect(obstacle):  # Can't move to that position
                         if stuckOnCollision:             # Either: Get stuck at this place and stop moving
                             self.currentSpeed = 0
+                            self.kill()
                             return
                         break                            # Or: Try the other positions - sliding along the wall horiz. or vert.
                 else:  # No obstacle collided at that newPosition
