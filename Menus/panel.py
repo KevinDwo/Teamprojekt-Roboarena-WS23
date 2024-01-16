@@ -1,7 +1,7 @@
 import pygame
 from pygame import Surface, Vector2
 
-from Menus.buttons import GameEndButton, PlayerSelectionButton, ArrowButton
+from Menus.buttons import GameEndButton, ArrowButton
 from Menus.menuaction import MenuActionMenu, MenuActionQuit
 from constants import windowWidth, windowHeight, titleHeight, playerTiles
 
@@ -84,14 +84,13 @@ class PlayerSelectField:
                                               (self.width, self.height))
         self.tilePosition = self.getTilePosition(index)
         self.tileIndex = tileIndex
-        self.buttons = {"selectionButton": PlayerSelectionButton(self.getButtonPosition(index)),
-                        "nextButton": ArrowButton(self.getNextButtonPosition(index), 'right', self.incrementTile),
+        self.buttons = {"nextButton": ArrowButton(self.getNextButtonPosition(index), 'right', self.incrementTile),
                         "backButton": ArrowButton(self.getBackButtonPosition(index), 'left', self.decrementTile)}
 
     def draw(self, window: Surface):
-        font = pygame.font.SysFont('arial', 60)
+        font = pygame.font.SysFont('arial', 40)
         text = font.render(self.text, 1, (255, 255, 255))
-        self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2))
+        self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2 + 10))
         window.blit(self.texture, (self.position.x, self.position.y))
         window.blit(scaleTile(getTile(self.tileIndex)), (self.tilePosition.x, self.tilePosition.y))
         for button in self.buttons.values():

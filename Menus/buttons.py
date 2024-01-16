@@ -77,31 +77,6 @@ class LevelButton(Button):
         super().__init__(pos, width, height, textures, 'normal', text, fontSize, onClick)
 
 
-class PlayerSelectionButton(Button):
-    def __init__(self, pos: Vector2, onClick=None):
-        width = windowWidth / 5
-        height = windowHeight / 10
-        self.selected = False
-        textures = {
-            'normal': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonNormal.png'),
-                                             (width, height)),
-            'hover': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonHover.png'),
-                                            (width, height)),
-            'pressed': pygame.transform.scale(pygame.image.load('Assets/Menu/Buttons/MenuButtonActive.png'),
-                                              (width, height))
-        }
-        super().__init__(pos, width, height, textures, 'normal', 'Select', onClick=onClick)
-
-    def press(self):
-        if self.selected:
-            self.selected = False
-            self.state = 'normal'
-        else:
-            self.selected = True
-            self.state = 'pressed'
-            self.onClick
-
-
 class ArrowButton(Button):
     def __init__(self, pos: Vector2, direction: str, onClick=None):
         width = windowWidth / 15
