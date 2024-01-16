@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pygame
 from pygame import Surface, Vector2
 
@@ -9,12 +11,14 @@ from constants import windowWidth, windowHeight, titleHeight, playerTiles
 class Title:
     TitleTexture = pygame.image.load('Assets/Menu/Panels/Title.png')
 
-    def __init__(self):
+    def __init__(self, subtitle: Optional[str] = None):
         self.x = 0
         self.y = 0
         self.width = windowWidth - 40
         self.height = titleHeight
         self.text = 'Roboarena'
+        if subtitle:
+            self.text += ': ' + subtitle
 
     def draw(self, window: Surface):
         font = pygame.font.SysFont('arial', 60)
@@ -99,34 +103,34 @@ class PlayerSelectField:
     def getButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 30
-        x = index * width + space
+        x = index * width + space + windowWidth / 4
         y = 3 * windowHeight / 4 + titleHeight
         return Vector2(x, y)
 
     def getTilePosition(self, index: int) -> Vector2:
         width = windowWidth / 4
-        x = index * width + 20
+        x = index * width + 20 + windowWidth / 4
         y = windowHeight / 2 - titleHeight
         return Vector2(x, y)
 
     def getPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 40
-        x = index * width - space
+        x = index * width - space + windowWidth / 4
         y = titleHeight
         return Vector2(x, y)
 
     def getNextButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 20
-        x = index * width + windowHeight / 5 - space
+        x = index * width + windowHeight / 5 - space + windowWidth / 4
         y = 3 * windowHeight / 4 - space
         return Vector2(x, y)
 
     def getBackButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 20
-        x = index * width + windowHeight / 12 - space
+        x = index * width + windowHeight / 12 - space + windowWidth / 4
         y = 3 * windowHeight / 4 - space
         return Vector2(x, y)
 

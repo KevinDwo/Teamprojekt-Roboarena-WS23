@@ -24,7 +24,7 @@ class LevelSelect:
         btnHeight = 70
         btnSpace = 20
 
-        title = Title()
+        title = Title('Select Level')
         mainMenuBtn = MenuButton(Vector2((windowWidth - mainMenuBtnWidth) / 2,
                                          windowHeight - btnHeight - btnSpace),
                                  'Main Menu', 60,

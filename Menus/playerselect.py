@@ -16,7 +16,7 @@ class PlayerSelect:
         self.clock = clock
         self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground3.jpg'),
                                                       window.get_size())
-        self.title = Title()
+        self.title = Title('Select Player')
         self.playerSelectionFields = [PlayerSelectField(0, 'Player 1', PlayerSelect.SelectedPlayerTiles[0]),
                                       PlayerSelectField(1, 'Player 2', PlayerSelect.SelectedPlayerTiles[1])]
 
