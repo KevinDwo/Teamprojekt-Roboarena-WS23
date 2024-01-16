@@ -52,6 +52,10 @@ class Credits:
                     elif type(mouseOverButton) is URLButton:
                         mouseOverButton.click()
 
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_ESCAPE]:
+                return MenuActionMenu()
+
             self.window.blit(self.backgroundImage, (0, 0))
             self.window.blit(self.uniLogo, (40, 575))
             self.title.draw(self.window)

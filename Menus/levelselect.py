@@ -47,6 +47,10 @@ class LevelSelect:
                     if mouseOverButton:
                         return mouseOverButton.onClick
 
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_ESCAPE]:
+                return MenuActionMenu()
+
             self.window.blit(self.backgroundImage, (0, 0))
             title.draw(self.window)
             for level in self.buttons.keys():
