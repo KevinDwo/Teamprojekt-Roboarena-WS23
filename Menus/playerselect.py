@@ -1,36 +1,52 @@
 import pygame
-from pygame import Surface
+from pygame import Surface, Vector2
 from pygame.time import Clock
 
+from constants import windowHeight, windowWidth
+from Menus.buttons import MenuButton
 from Menus.panel import PlayerSelectField, Title
 from Menus.menuaction import MenuAction, MenuActionQuit, MenuActionMenu
 
 
 class PlayerSelect:
+    SelectedPlayerTiles = [0, 1]
+
     def __init__(self, window: Surface, clock: Clock):
         self.window = window
         self.clock = clock
         self.backgroundImage = pygame.transform.scale(pygame.image.load('Assets/Menu/menuBackground3.jpg'),
                                                       window.get_size())
-        self.title = Title()
-        self.playerSelectionFields = [PlayerSelectField(0, 'Player 1', 0),
-                                      PlayerSelectField(1, 'Player 2', 1),
-                                      PlayerSelectField(2, 'Player 3', 2),
-                                      PlayerSelectField(3, 'Player 4', 3)]
+        self.title = Title('Select Player')
+        self.playerSelectionFields = [PlayerSelectField(0, 'Player 1', PlayerSelect.SelectedPlayerTiles[0]),
+                                      PlayerSelectField(1, 'Player 2', PlayerSelect.SelectedPlayerTiles[1])]
 
     def process(self) -> MenuAction:
+        mainMenuBtnWidth = 500
+        btnHeight = 70
+        btnSpace = 20
+
+        mainMenuButton = MenuButton(Vector2((windowWidth - mainMenuBtnWidth) / 2,
+                                            windowHeight - btnHeight - btnSpace),
+                                    'Main Menu', 60,
+                                    MenuActionMenu())
+
         while True:
+            mousePosition = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return MenuActionQuit()
-                mousePosition = pygame.mouse.get_pos()
                 for field in self.playerSelectionFields:
-                    selectionButton = field.buttons['selectionButton']
                     nextButton = field.buttons['nextButton']
                     backButton = field.buttons['backButton']
-                    updateSelectionButton(selectionButton, mousePosition, event)
                     updateNextButton(nextButton, mousePosition, event)
                     updateBackButton(backButton, mousePosition, event)
+                    returnAction = updateMainMenuButton(mainMenuButton, mousePosition, event)
+                    if returnAction:
+                        return returnAction
+
+            PlayerSelect.SelectedPlayerTiles[0] = self.playerSelectionFields[0].tileIndex
+            PlayerSelect.SelectedPlayerTiles[1] = self.playerSelectionFields[1].tileIndex
+
             pressed = pygame.key.get_pressed()
             if pressed[pygame.K_ESCAPE]:
                 return MenuActionMenu()
@@ -39,19 +55,10 @@ class PlayerSelect:
             self.title.draw(self.window)
             for field in self.playerSelectionFields:
                 field.draw(self.window)
+            mainMenuButton.draw(self.window)
 
             pygame.display.update()
             self.clock.tick(60)
-
-
-def updateSelectionButton(button, mousePosition, event):
-    if not button.selected:
-        button.state = 'normal'
-    if button.isOver(mousePosition):
-        if not button.selected:
-            button.state = 'hover'
-        if event.type == pygame.MOUSEBUTTONUP:
-            button.press()
 
 
 def updateNextButton(button, mousePosition, event):
@@ -64,3 +71,10 @@ def updateBackButton(button, mousePosition, event):
     if button.isOver(mousePosition):
         if event.type == pygame.MOUSEBUTTONUP:
             button.onClick()
+
+
+def updateMainMenuButton(button, mousePosition, event):
+    isOver = button.isOver(mousePosition)
+    button.state = 'hover' if isOver else 'normal'
+    if isOver and (event.type == pygame.MOUSEBUTTONUP):
+        return button.onClick
