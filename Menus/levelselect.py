@@ -24,7 +24,7 @@ class LevelSelect:
         btnHeight = 70
         btnSpace = 20
 
-        title = Title()
+        title = Title('Select Level')
         mainMenuBtn = MenuButton(Vector2((windowWidth - mainMenuBtnWidth) / 2,
                                          windowHeight - btnHeight - btnSpace),
                                  'Main Menu', 60,
@@ -46,6 +46,10 @@ class LevelSelect:
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if mouseOverButton:
                         return mouseOverButton.onClick
+
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_ESCAPE]:
+                return MenuActionMenu()
 
             self.window.blit(self.backgroundImage, (0, 0))
             title.draw(self.window)

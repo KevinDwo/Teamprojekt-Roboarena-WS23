@@ -1,7 +1,9 @@
+from typing import Optional
+
 import pygame
 from pygame import Surface, Vector2
 
-from Menus.buttons import GameEndButton, PlayerSelectionButton, ArrowButton
+from Menus.buttons import GameEndButton, ArrowButton
 from Menus.menuaction import MenuActionMenu, MenuActionQuit
 from constants import windowWidth, windowHeight, titleHeight, playerTiles
 
@@ -9,12 +11,14 @@ from constants import windowWidth, windowHeight, titleHeight, playerTiles
 class Title:
     TitleTexture = pygame.image.load('Assets/Menu/Panels/Title.png')
 
-    def __init__(self):
+    def __init__(self, subtitle: Optional[str] = None):
         self.x = 0
         self.y = 0
         self.width = windowWidth - 40
         self.height = titleHeight
         self.text = 'Roboarena'
+        if subtitle:
+            self.text += ': ' + subtitle
 
     def draw(self, window: Surface):
         font = pygame.font.SysFont('arial', 60)
@@ -84,14 +88,13 @@ class PlayerSelectField:
                                               (self.width, self.height))
         self.tilePosition = self.getTilePosition(index)
         self.tileIndex = tileIndex
-        self.buttons = {"selectionButton": PlayerSelectionButton(self.getButtonPosition(index)),
-                        "nextButton": ArrowButton(self.getNextButtonPosition(index), 'right', self.incrementTile),
+        self.buttons = {"nextButton": ArrowButton(self.getNextButtonPosition(index), 'right', self.incrementTile),
                         "backButton": ArrowButton(self.getBackButtonPosition(index), 'left', self.decrementTile)}
 
     def draw(self, window: Surface):
-        font = pygame.font.SysFont('arial', 60)
+        font = pygame.font.SysFont('arial', 40)
         text = font.render(self.text, 1, (255, 255, 255))
-        self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2))
+        self.texture.blit(text, (self.width/2 - text.get_width() / 2, text.get_height() / 2 + 10))
         window.blit(self.texture, (self.position.x, self.position.y))
         window.blit(scaleTile(getTile(self.tileIndex)), (self.tilePosition.x, self.tilePosition.y))
         for button in self.buttons.values():
@@ -100,34 +103,34 @@ class PlayerSelectField:
     def getButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 30
-        x = index * width + space
+        x = index * width + space + windowWidth / 4
         y = 3 * windowHeight / 4 + titleHeight
         return Vector2(x, y)
 
     def getTilePosition(self, index: int) -> Vector2:
         width = windowWidth / 4
-        x = index * width + 20
+        x = index * width + 20 + windowWidth / 4
         y = windowHeight / 2 - titleHeight
         return Vector2(x, y)
 
     def getPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 40
-        x = index * width - space
+        x = index * width - space + windowWidth / 4
         y = titleHeight
         return Vector2(x, y)
 
     def getNextButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 20
-        x = index * width + windowHeight / 5 - space
+        x = index * width + windowHeight / 5 - space + windowWidth / 4
         y = 3 * windowHeight / 4 - space
         return Vector2(x, y)
 
     def getBackButtonPosition(self, index: int) -> Vector2:
         width = windowWidth / 4
         space = 20
-        x = index * width + windowHeight / 12 - space
+        x = index * width + windowHeight / 12 - space + windowWidth / 4
         y = 3 * windowHeight / 4 - space
         return Vector2(x, y)
 

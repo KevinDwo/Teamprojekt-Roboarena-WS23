@@ -43,14 +43,19 @@ class Credits:
                 button.state = 'hover' if button is mouseOverButton else 'normal'
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return MenuActionQuit()
+                match event.type:
+                    case pygame.QUIT:
+                        return MenuActionQuit()
 
-                if event.type == pygame.MOUSEBUTTONUP:
-                    if mouseOverButton is self.mainMenuButton:
-                        return MenuActionMenu()
-                    elif type(mouseOverButton) is URLButton:
-                        mouseOverButton.click()
+                    case pygame.MOUSEBUTTONUP:
+                        if mouseOverButton is self.mainMenuButton:
+                            return MenuActionMenu()
+                        elif type(mouseOverButton) is URLButton:
+                            mouseOverButton.click()
+
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_ESCAPE]:
+                return MenuActionMenu()
 
             self.window.blit(self.backgroundImage, (0, 0))
             self.window.blit(self.uniLogo, (40, 575))
