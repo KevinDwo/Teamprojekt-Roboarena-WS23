@@ -4,7 +4,7 @@ import pygame
 from pygame import Surface, Vector2
 
 from Menus.buttons import GameEndButton, ArrowButton
-from Menus.menuaction import MenuActionMenu, MenuActionQuit
+from Menus.menuaction import MenuActionMenu, MenuActionQuit, MenuActionPlay
 from constants import windowWidth, windowHeight, titleHeight, playerTiles
 
 
@@ -29,11 +29,11 @@ class Title:
 
 
 class EndScreen:
-    def __init__(self, text):
+    def __init__(self, text, level, button3_text):
         self.x = windowWidth / 4
-        self.y = windowHeight / 4
+        self.y = windowHeight / 6
         self.width = windowWidth / 2
-        self.height = windowHeight / 2
+        self.height = windowHeight / 1.5
         self.text = text
         self.texture = pygame.transform.scale(pygame.image.load('Assets/Menu/Panels/GameOverScreen.png'),
                                               (self.width, self.height))
@@ -42,7 +42,9 @@ class EndScreen:
         self.buttons = [GameEndButton(Vector2(self.x + windowWidth / 12,
                                               self.y + self.height / 3), 'Main Menu', 40, MenuActionMenu()),
                         GameEndButton(Vector2(self.x + windowWidth / 12,
-                                              self.y + 3 * self.height / 5), 'Quit', 40, MenuActionQuit())]
+                                              self.y + 2.6 * self.height / 5), 'Quit', 40, MenuActionQuit()),
+                        GameEndButton(Vector2(self.x + windowWidth / 12,
+                                              self.y + 3.55 * self.height / 5), button3_text, 40, MenuActionPlay(level))]
 
     def draw(self, window: Surface):
         mousePosition = pygame.mouse.get_pos()
@@ -65,16 +67,17 @@ class EndScreen:
         window.blit(self.texture, self.rect)
         self.buttons[0].draw(window)
         self.buttons[1].draw(window)
+        self.buttons[2].draw(window)
 
 
 class GameOverScreen(EndScreen):
-    def __init__(self):
-        super().__init__('Game Over')
+    def __init__(self, level):
+        super().__init__('Game Over', level, 'Try Again')
 
 
 class VictoryScreen(EndScreen):
-    def __init__(self):
-        super().__init__('Victory!')
+    def __init__(self, level):
+        super().__init__('Victory!', level, 'Next Level')
 
 
 class PlayerSelectField:
