@@ -6,9 +6,10 @@ if TYPE_CHECKING:
 from pygame import Rect, Surface
 from pytmx import TiledMap, TiledTileLayer, load_pygame
 
-from constants import tileWidth, tileHeight
+from constants import tileWidth, tileHeight, playerTiles
 from Game.Entities.robot import BasicRobot
 from Game.Entities.enemy import Enemy
+from Menus.playerselect import PlayerSelect
 from utils import tileCoordinatesToPositionVector
 
 
@@ -36,7 +37,8 @@ def decodeRobotsLayers(state: 'GameState') -> List[BasicRobot]:
     robotLayers: List[TiledTileLayer] = [tileMap.get_layer_by_name(name) for name in robotLayerNames]
 
     for i, layer in enumerate(robotLayers):
-        x, y, img = next(layer.tiles())
+        x, y, _ = next(layer.tiles())
+        img = playerTiles[PlayerSelect.SelectedPlayerTiles[i]]
         robots.append(BasicRobot(state, img, tileCoordinatesToPositionVector(x, y), i + 1))
 
     return robots
