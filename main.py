@@ -11,7 +11,7 @@ from Menus.playerselect import PlayerSelect
 
 pygame.init()
 
-# Set window size and caption
+# Set window size and captionssssss
 window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Roboarena')
 clock = pygame.time.Clock()

@@ -1,3 +1,5 @@
+import os
+
 import pygame
 from pygame import Vector2, Surface
 from pygame.key import ScancodeWrapper
@@ -13,6 +15,7 @@ from Game.Entities.actor import Actor
 
 class GameState:
     def __init__(self, level: str) -> None:
+        self.level = level
         self.worldSize = Vector2(windowWidth, windowHeight)
         self.tileSize = Vector2(32, 32)
         self.arena = Arena(self, level)
@@ -45,12 +48,16 @@ class GameState:
                     e.drawHealthBar(window)
         elif any(x.isAlive for x in self.robots):
             if not endScreen:
-                endScreen = VictoryScreen()
-                pygame.mixer.music.fadeout(60)
+                if os.path.isfile(f"Assets/Maps/level{str(int(self.level) + 1)}.tmx"):
+                    endScreen = VictoryScreen(str(int(self.level) + 1))
+                    pygame.mixer.music.fadeout(60)
+                else:
+                    endScreen = VictoryScreen(self.level)
+                    pygame.mixer.music.fadeout(60)
             return endScreen.draw(window)
         else:
             if not endScreen:
-                endScreen = GameOverScreen()
+                endScreen = GameOverScreen(self.level)
                 pygame.mixer.music.fadeout(60)
             return endScreen.draw(window)
 
