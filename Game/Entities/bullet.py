@@ -61,11 +61,9 @@ class Bullet(Entity):
         super().hit(damage)
         self.kill()
 
-    def kill(self, removeFromEntities=True):
-        """Kills the entity: Removes it from the currently active entities"""
+    def kill(self):
+        """Kills the bullet: Display an explosion animation"""
         if self.isAlive:
-            self.isAlive = False
-            self.currentSpeed = 0
-            self.gameState.animations.append(BulletExplosion(self.gameState, self.position))
-            if removeFromEntities:
-                self.gameState.entities.remove(self)
+            self.gameState.animations.append(BulletExplosion(self.gameState,
+                                                             self.position + Vector2(0, -self.gameState.tileSize.y/2)))
+        super().kill(removeFromEntities=True)

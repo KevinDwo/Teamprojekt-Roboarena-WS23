@@ -40,12 +40,12 @@ class GameState:
             self.arena.drawBelowEntities(window)
             for e in self.entities:
                 e.draw(window)
+            for a in self.animations:
+                a.draw(window)
             self.arena.drawAboveEntities(window)
             for e in self.entities:
                 if isinstance(e, Actor):
                     e.drawHealthBar(window)
-            for a in self.animations:
-                a.draw(window)
         elif any(x.isAlive for x in self.robots):
             if not endScreen:
                 endScreen = VictoryScreen()
