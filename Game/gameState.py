@@ -25,6 +25,7 @@ class GameState:
         self.enemies = tmxhandler.decodeEnemyLayer(self)
         self.entities = self.robots.copy() + self.enemies.copy()
         self.gameRunning = True
+        self.animations = []
 
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         for e in self.entities:
@@ -42,6 +43,8 @@ class GameState:
             self.arena.drawBelowEntities(window)
             for e in self.entities:
                 e.draw(window)
+            for a in self.animations:
+                a.draw(window)
             self.arena.drawAboveEntities(window)
             for e in self.entities:
                 if isinstance(e, Actor):

@@ -1,4 +1,6 @@
 from typing import TYPE_CHECKING
+
+from Animation.bulletExplosion import BulletExplosion
 if TYPE_CHECKING:
     from Game.gameState import GameState
     from Game.Entities.actor import Actor
@@ -58,3 +60,10 @@ class Bullet(Entity):
     def hit(self, damage: int):
         super().hit(damage)
         self.kill()
+
+    def kill(self):
+        """Kills the bullet: Display an explosion animation"""
+        if self.isAlive:
+            self.gameState.animations.append(BulletExplosion(self.gameState,
+                                                             self.position + Vector2(0, -self.gameState.tileSize.y/2)))
+        super().kill(removeFromEntities=True)
