@@ -52,12 +52,6 @@ class BasicRobot(Actor):
             if self.getHitBox().colliderect(deadlyObstacle):
                 self.hit(1)
 
-        for otherRobot in self.gameState.robots:
-            if otherRobot.number == self.number:
-                continue
-            if (not otherRobot.isAlive) and self.getHitBox().colliderect(otherRobot.getHitBox()):
-                otherRobot.revive()
-
     def handleKeyPresses(self, pressed: ScancodeWrapper):
         self.updateMovement(pressed)
 
@@ -67,7 +61,3 @@ class BasicRobot(Actor):
             mixer.Sound('Assets/Sounds/explosion.wav').play()
         super().kill(False)
         self.gameState.checkGameOver()
-
-    def revive(self):
-        self.isAlive = True
-        self.hp = 100
